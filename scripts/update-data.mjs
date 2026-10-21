@@ -38,6 +38,17 @@ const BENCHLM_LABELS = {
   mmmu: ["AA-MMMU-Pro"],
 };
 
+// Champs du leaderboard Artificial Analysis utilisés quand BenchLM n'a pas le score.
+// scale = facteur pour passer en pourcentage (AA stocke des fractions 0-1).
+const AA_FALLBACK = {
+  hle: { field: "hle", scale: 100 },
+  gpqa: { field: "gpqa", scale: 100 },
+  lcr: { field: "lcr", scale: 100 },
+  mmmu: { field: "mmmuPro", scale: 100 },
+  omni: { field: "omniscience", scale: 1 },
+};
+const AA_URL = "https://artificialanalysis.ai/leaderboards/models";
+
 async function loadConfig() {
   const code = await readFile(path.join(ROOT, "data.js"), "utf8");
   const ctx = { window: {} };
@@ -133,7 +144,7 @@ async function main() {
   } catch { /* premier lancement */ }
 
   console.log("→ Artificial Analysis…");
-  const aaHtml = await get("https://artificialanalysis.ai/leaderboards/models");
+  const aaHtml = await get(AA_URL);
   const aa = aaHtml ? parseAA(aaHtml) : [];
   console.log(`  ${aa.length} configurations de modèles lues`);
 
@@ -142,20 +153,27 @@ async function main() {
   const failures = [];
 
   for (const m of cfg.models) {
-    const slug = m.benchlm ?? m.id;
+    const slug = m.benchlm === undefined ? m.id : m.benchlm;
     process.stdout.write(`→ ${m.name.padEnd(22)} `);
     const entry = { s: {}, refs: {} };
-    try {
-      const md = await get(`https://benchlm.ai/md/models/${slug}.md`);
-      if (!md) throw new Error("page BenchLM introuvable");
-      const { rows, updated } = parseBenchLM(md);
-      const { scores, refs } = pickScores(rows);
-      Object.assign(entry, { s: scores, refs, benchlmUpdated: updated });
-    } catch (err) {
-      failures.push(`${m.name} : ${err.message}`);
+    if (slug) {
+      try {
+        const md = await get(`https://benchlm.ai/md/models/${slug}.md`);
+        if (!md) throw new Error("page BenchLM introuvable");
+        const { rows, updated } = parseBenchLM(md);
+        const { scores, refs } = pickScores(rows);
+        Object.assign(entry, { s: scores, refs, benchlmUpdated: updated });
+      } catch (err) {
+        failures.push(`${m.name} : ${err.message}`);
+      }
     }
     const rec = matchAA(aa, m.aa ?? m.name);
     if (rec) {
+      for (const [id, { field, scale }] of Object.entries(AA_FALLBACK)) {
+        if (entry.s[id] != null || m.s[id] != null || rec[field] == null) continue;
+        entry.s[id] = Math.round(rec[field] * scale * 10) / 10;
+        entry.refs[id] = AA_URL;
+      }
       entry.aaii = Math.round(rec.intelligenceIndex * 10) / 10;
       if (rec.intelligenceIndexCostPerTask != null) entry.cost = Math.round(rec.intelligenceIndexCostPerTask * 100) / 100;
       if (typeof rec.isOpenWeights === "boolean") entry.open = rec.isOpenWeights;

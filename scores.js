@@ -484,6 +484,202 @@ window.APEX_SCORES = {
       "open": true,
       "aaConfig": "DeepSeek V4.1 Flash 1017 (max)"
     },
+    "muse-wonder-full": {
+      "s": {
+        "hle": 53.6,
+        "gdpval": 1857,
+        "omni": 30.2,
+        "lcr": 83.7
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "gdpval": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 55.8,
+      "open": false,
+      "aaConfig": "Muse Wonder Full (max)"
+    },
+    "step-5-preview": {
+      "s": {
+        "hle": 46.5,
+        "gdpval": 1566,
+        "gpqa": 93.5,
+        "omni": 16.4,
+        "lcr": 88.3,
+        "mmmu": 76.4
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "gdpval": "https://www.stepfun.com/step-5-preview",
+        "gpqa": "https://www.stepfun.com/step-5-preview",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "lcr": "https://www.stepfun.com/step-5-preview",
+        "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 43.7,
+      "cost": 1.03,
+      "open": true,
+      "aaConfig": "Step 5 Preview"
+    },
+    "minimax-m3-1-flash": {
+      "s": {
+        "hle": 48,
+        "osw": 61.7,
+        "gdpval": 1458,
+        "omni": 15.6,
+        "lcr": 79.7,
+        "mmmu": 79.1
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "osw": "https://www.minimax.io/blog/minimax-m31f",
+        "gdpval": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
+        "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 42.7,
+      "cost": 0.22,
+      "open": false,
+      "aaConfig": "MiniMax-M3.1-Flash"
+    },
+    "gpt-5-6-terra": {
+      "s": {
+        "hle": 42.9,
+        "arc2": 83.9,
+        "arc3": 0.8,
+        "fm13": 84.9,
+        "fm4": 68.3,
+        "swepro": 63.4,
+        "tb21": 77.5,
+        "osw": 50.2,
+        "gdpval": 1583,
+        "gpqa": 92.5,
+        "omni": 0.1,
+        "lcr": 83,
+        "mmmu": 80.7
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/models/gpt-5-6-terra",
+        "arc2": "https://arcprize.org/results/openai-gpt-5-6-terra",
+        "arc3": "https://arcprize.org/results/openai-gpt-5-6-terra",
+        "fm13": "https://openai.com/index/gpt-5-6/",
+        "fm4": "https://openai.com/index/gpt-5-6/",
+        "swepro": "https://openai.com/index/gpt-5-6/",
+        "tb21": "https://www.vals.ai/models/openai_gpt-5.6-terra",
+        "osw": "https://openai.com/index/gpt-5-6/",
+        "gdpval": "https://openai.com/index/gpt-5-6/",
+        "gpqa": "https://artificialanalysis.ai/models/gpt-5-6-terra",
+        "omni": "https://artificialanalysis.ai/models/gpt-5-6-terra",
+        "lcr": "https://artificialanalysis.ai/models/gpt-5-6-terra",
+        "mmmu": "https://artificialanalysis.ai/models/gpt-5-6-terra"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 42.1,
+      "cost": 1.4,
+      "open": false,
+      "aaConfig": "GPT-5.6 Terra (max)"
+    },
+    "glm-5-3-flash": {
+      "s": {
+        "hle": 39.9,
+        "fm13": 55.8,
+        "fm4": 17.1,
+        "fswe": 18.1,
+        "tb21": 62.9,
+        "gdpval": 1773,
+        "gpqa": 91.2,
+        "omni": 7.5,
+        "lcr": 80
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
+        "fm4": "https://epoch.ai/benchmarks/frontiermath-tier-4-v2?view=graph&tab=leaderboard",
+        "fswe": "https://www.frontierswe.com/",
+        "tb21": "https://www.vals.ai/models/zai_glm-5.3-flash",
+        "gdpval": "https://z.ai/blog/glm-5.3-flash",
+        "gpqa": "https://artificialanalysis.ai/evaluations/gpqa-diamond",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 41.8,
+      "cost": 0.28,
+      "open": true,
+      "aaConfig": "GLM-5.3-Flash"
+    },
+    "ling-3-1-flash": {
+      "s": {
+        "hle": 39.4,
+        "swepro": 68.7,
+        "gdpval": 1673,
+        "omni": 2.2,
+        "lcr": 83
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/models/ling-3-1-flash",
+        "swepro": "https://huggingface.co/inclusionAI/Ling-3.1-flash/blob/7b864daa2cedb1404e12bc52899def2d151a9719/README.md",
+        "gdpval": "https://huggingface.co/inclusionAI/Ling-3.1-flash/blob/7b864daa2cedb1404e12bc52899def2d151a9719/README.md",
+        "omni": "https://artificialanalysis.ai/models/ling-3-1-flash",
+        "lcr": "https://artificialanalysis.ai/models/ling-3-1-flash"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 41.1,
+      "cost": 1,
+      "open": true,
+      "aaConfig": "Ling 3.1 Flash"
+    },
+    "qwen3-8-flash-next": {
+      "s": {
+        "hle": 38,
+        "swepro": 62.5,
+        "osw": 19.4,
+        "gdpval": 1648,
+        "gpqa": 92.3,
+        "omni": -9.7,
+        "lcr": 79.7,
+        "mmmu": 79.8
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
+        "swepro": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next",
+        "osw": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next",
+        "gdpval": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
+        "gpqa": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
+        "omni": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
+        "lcr": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
+        "mmmu": "https://artificialanalysis.ai/models/qwen3-8-flash-next"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 39.8,
+      "cost": 0.37,
+      "open": true,
+      "aaConfig": "Qwen3.8-Flash-Next"
+    },
+    "qwen3-8-2-4t-a95b": {
+      "s": {
+        "hle": 42.4,
+        "gpqa": 93.5,
+        "lcr": 80.3,
+        "omni": 4.3
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/leaderboards/models",
+        "gpqa": "https://artificialanalysis.ai/leaderboards/models",
+        "lcr": "https://artificialanalysis.ai/leaderboards/models",
+        "omni": "https://artificialanalysis.ai/leaderboards/models"
+      },
+      "aaii": 39.9,
+      "cost": 2.16,
+      "open": true,
+      "aaConfig": "Qwen3.8 2.4T A95B"
+    },
     "qwen3-8-max": {
       "s": {
         "fm13": 74.7,
@@ -492,7 +688,11 @@ window.APEX_SCORES = {
         "fswe": 15.8,
         "tb21": 67.4,
         "osw": 19.4,
-        "gpqa": 92.6
+        "gpqa": 92.6,
+        "hle": 43.1,
+        "lcr": 80.3,
+        "mmmu": 82.8,
+        "omni": 12
       },
       "refs": {
         "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
@@ -501,7 +701,11 @@ window.APEX_SCORES = {
         "fswe": "https://www.frontierswe.com/",
         "tb21": "https://www.vals.ai/models/alibaba_qwen3.8-max",
         "osw": "https://qwen.ai/blog?id=qwen3.8",
-        "gpqa": "https://qwen.ai/blog?id=qwen3.8"
+        "gpqa": "https://qwen.ai/blog?id=qwen3.8",
+        "hle": "https://artificialanalysis.ai/leaderboards/models",
+        "lcr": "https://artificialanalysis.ai/leaderboards/models",
+        "mmmu": "https://artificialanalysis.ai/leaderboards/models",
+        "omni": "https://artificialanalysis.ai/leaderboards/models"
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 45.4,
