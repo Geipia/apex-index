@@ -287,7 +287,7 @@
     $("#drawerBody").innerHTML = `
       <div class="d-head"><div class="org">${esc(m.org)} ${openBadge(m)} · contexte ${esc(m.ctx)}</div><h2 id="drawerTitle">${esc(m.name)}</h2></div>
       <div class="d-kpis">
-        <div><span>Rang APEX</span><b>#${r.rank}</b></div>
+        <div><span>Rang ERAZ</span><b>#${r.rank}</b></div>
         <div><span>Points</span><b>${r.points}</b></div>
         <div><span>Couverture</span><b>${Math.round(r.coverage * 100)} %</b></div>
       </div>

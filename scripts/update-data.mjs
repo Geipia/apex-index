@@ -17,7 +17,7 @@ import vm from "node:vm";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DRY = process.argv.includes("--dry-run");
-const UA = "APEX-Index-updater/1.0 (+https://github.com)";
+const UA = "ERAZ-Index-updater/1.0 (+https://github.com/Geipia/apex-index)";
 
 // Libellés BenchLM acceptés pour chaque benchmark, par ordre de préférence.
 // Les variantes auto-déclarées non indépendantes (ex. « Terminal-Bench 2.1 » sans Vals) sont volontairement exclues.

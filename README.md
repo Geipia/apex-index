@@ -1,4 +1,4 @@
-# APEX Index
+# ERAZ Index
 
 Le classement de référence des IA, calculé à partir des benchmarks les plus exigeants
 (Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench Pro, OSWorld, GDPval…).
