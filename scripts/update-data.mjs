@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Met à jour scores.js à partir des sources publiques :
 //   - BenchLM (pages modèles au format Markdown) : scores par benchmark + lien vers la source originale
-//   - Artificial Analysis (leaderboard) : Intelligence Index, coût par tâche, open weights
+//   - Artificial Analysis (leaderboard) : Intelligence Index, prix par million de tokens, open weights
 //
 // Usage :
 //   node scripts/update-data.mjs            met à jour scores.js
@@ -175,7 +175,8 @@ async function main() {
         entry.refs[id] = AA_URL;
       }
       entry.aaii = Math.round(rec.intelligenceIndex * 10) / 10;
-      if (rec.intelligenceIndexCostPerTask != null) entry.cost = Math.round(rec.intelligenceIndexCostPerTask * 100) / 100;
+      if (rec.price1mInputTokens != null) entry.priceIn = rec.price1mInputTokens;
+      if (rec.price1mOutputTokens != null) entry.priceOut = rec.price1mOutputTokens;
       if (typeof rec.isOpenWeights === "boolean") entry.open = rec.isOpenWeights;
       entry.aaConfig = rec.shortName;
     }

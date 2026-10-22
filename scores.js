@@ -31,7 +31,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 57.6,
-      "cost": 5.98,
+      "priceIn": 4,
+      "priceOut": 20,
       "open": false,
       "aaConfig": "Claude Opus 5.5 (max with fallback)"
     },
@@ -68,7 +69,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 52.7,
-      "cost": 3.26,
+      "priceIn": 10,
+      "priceOut": 50,
       "open": false,
       "aaConfig": "GPT-6 Astra (max)"
     },
@@ -97,7 +99,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 51.8,
-      "cost": 0.72,
+      "priceIn": 2,
+      "priceOut": 10,
       "open": false,
       "aaConfig": "GPT-6.1 Sol (max)"
     },
@@ -132,7 +135,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 53.4,
-      "cost": 7.63,
+      "priceIn": 10,
+      "priceOut": 50,
       "open": false,
       "aaConfig": "Claude Fable 5.1 (max with fallback)"
     },
@@ -163,7 +167,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 52.6,
-      "cost": 1.99,
+      "priceIn": 2,
+      "priceOut": 10,
       "open": false,
       "aaConfig": "Gemini 4 Argon (high)"
     },
@@ -190,7 +195,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 56,
-      "cost": 5.46,
+      "priceIn": 2,
+      "priceOut": 10,
       "open": false,
       "aaConfig": "Claude Sonnet 5.5 (max with fallback)"
     },
@@ -279,7 +285,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 52.4,
-      "cost": 4.52,
+      "priceIn": 4,
+      "priceOut": 20,
       "open": false,
       "aaConfig": "Muse Wonder (max)"
     },
@@ -310,7 +317,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 46.4,
-      "cost": 3.74,
+      "priceIn": 2,
+      "priceOut": 6,
       "open": false,
       "aaConfig": "Grok 4.7 (xhigh)"
     },
@@ -347,7 +355,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 40.9,
-      "cost": 1.24,
+      "priceIn": 0.75,
+      "priceOut": 3.75,
       "open": false,
       "aaConfig": "Gemini 3.8 Flash (high)"
     },
@@ -376,7 +385,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 43.6,
-      "cost": 2,
+      "priceIn": 3,
+      "priceOut": 15,
       "open": true,
       "aaConfig": "Kimi K3 (max)"
     },
@@ -395,7 +405,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 46.3,
-      "cost": 0.13,
+      "priceIn": 0.435,
+      "priceOut": 0.87,
       "open": true,
       "aaConfig": "MiMo-V2.6-Pro"
     },
@@ -424,7 +435,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 44.8,
-      "cost": 2.01,
+      "priceIn": 1.4,
+      "priceOut": 4.4,
       "open": true,
       "aaConfig": "GLM-5.3 (max)"
     },
@@ -453,7 +465,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 43.4,
-      "cost": 0.21,
+      "priceIn": 0.1,
+      "priceOut": 0.5,
       "open": false,
       "aaConfig": "Claude Haiku 5.5 (max)"
     },
@@ -480,7 +493,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 45.1,
-      "cost": 0.26,
+      "priceIn": 0.3,
+      "priceOut": 1.2,
       "open": true,
       "aaConfig": "DeepSeek V4.1 Flash 1017 (max)"
     },
@@ -521,7 +535,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 43.7,
-      "cost": 1.03,
+      "priceIn": 1,
+      "priceOut": 2.7,
       "open": true,
       "aaConfig": "Step 5 Preview"
     },
@@ -544,7 +559,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 42.7,
-      "cost": 0.22,
+      "priceIn": 0.15,
+      "priceOut": 0.6,
       "open": false,
       "aaConfig": "MiniMax-M3.1-Flash"
     },
@@ -581,7 +597,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 42.1,
-      "cost": 1.4,
+      "priceIn": 2,
+      "priceOut": 12,
       "open": false,
       "aaConfig": "GPT-5.6 Terra (max)"
     },
@@ -610,7 +627,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 41.8,
-      "cost": 0.28,
+      "priceIn": 0.15,
+      "priceOut": 0.5,
       "open": true,
       "aaConfig": "GLM-5.3-Flash"
     },
@@ -631,7 +649,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 41.1,
-      "cost": 1,
+      "priceIn": 0.3,
+      "priceOut": 0.9,
       "open": true,
       "aaConfig": "Ling 3.1 Flash"
     },
@@ -658,7 +677,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 39.8,
-      "cost": 0.37,
+      "priceIn": 0.15,
+      "priceOut": 0.47,
       "open": true,
       "aaConfig": "Qwen3.8-Flash-Next"
     },
@@ -676,7 +696,8 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/leaderboards/models"
       },
       "aaii": 39.9,
-      "cost": 2.16,
+      "priceIn": 2,
+      "priceOut": 6,
       "open": true,
       "aaConfig": "Qwen3.8 2.4T A95B"
     },
@@ -709,7 +730,8 @@ window.APEX_SCORES = {
       },
       "benchlmUpdated": "October 20, 2026",
       "aaii": 45.4,
-      "cost": 5.41,
+      "priceIn": 2,
+      "priceOut": 6,
       "open": false,
       "aaConfig": "Qwen3.8 Max (0902)"
     }

@@ -11,7 +11,8 @@
       m.s = { ...m.s, ...e.s };
       m.refs = e.refs || {};
       if (e.aaii != null) m.aaii = e.aaii;
-      if (e.cost != null) m.cost = e.cost;
+      if (e.priceIn != null) m.priceIn = e.priceIn;
+      if (e.priceOut != null) m.priceOut = e.priceOut;
       if (typeof e.open === "boolean") m.open = e.open;
     }
   }
@@ -87,7 +88,7 @@
   // ---------- Formatting ----------
   const fmtScore = (b, v) => (v == null ? "—" : b.unit === "Elo" ? Math.round(v) : (Math.round(v * 10) / 10).toLocaleString("fr-FR"));
   const fmtCat = (v) => (v == null ? '<span class="dash">—</span>' : Math.round(v));
-  const fmtCost = (v) => (v == null ? '<span class="dash">—</span>' : "$" + v.toFixed(2));
+  const fmtPrice = (v) => (v == null ? '<span class="dash">—</span>' : "$" + (v < 1 ? v.toFixed(2).replace(/0$/, "") : v.toFixed(2).replace(/\.00$/, "")));
   const openBadge = (m) => (m.open ? '<span class="badge open">Open</span>' : m.open === false ? '<span class="badge">Propriétaire</span>' : "");
 
   // ---------- Header / hero ----------
@@ -154,7 +155,7 @@
   document.querySelectorAll(".ranking th[data-sort]").forEach((th) => {
     th.addEventListener("click", () => {
       const k = th.dataset.sort;
-      state.sort = state.sort.key === k ? { key: k, dir: -state.sort.dir } : { key: k, dir: k === "cost" ? 1 : -1 };
+      state.sort = state.sort.key === k ? { key: k, dir: -state.sort.dir } : { key: k, dir: (k === "priceIn" || k === "priceOut") ? 1 : -1 };
       render();
     });
   });
@@ -163,7 +164,7 @@
   function sortVal(r, k) {
     if (k === "points" || k === "wins") return r[k];
     if (k === "coverage") return r.coverage;
-    if (k === "aaii" || k === "cost") return r.m[k];
+    if (k === "aaii" || k === "priceIn" || k === "priceOut") return r.m[k];
     return r.cats[k];
   }
 
@@ -188,7 +189,7 @@
 
     const tbody = $("#ranking tbody");
     if (!list.length) {
-      tbody.innerHTML = `<tr><td colspan="11" class="empty">Aucun modèle ne correspond à ces filtres.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="12" class="empty">Aucun modèle ne correspond à ces filtres.</td></tr>`;
       return;
     }
     const max = Math.max(...rows.map((r) => r.points));
@@ -201,7 +202,8 @@
         <td class="c-num">${r.wins || '<span class="dash">0</span>'}</td>
         <td class="c-num">${Math.round(r.coverage * 100)} %</td>
         <td class="c-num hide-sm">${r.m.aaii ?? '<span class="dash">—</span>'}</td>
-        <td class="c-num hide-sm">${fmtCost(r.m.cost)}</td>
+        <td class="c-num hide-sm">${fmtPrice(r.m.priceIn)}</td>
+        <td class="c-num hide-sm">${fmtPrice(r.m.priceOut)}</td>
       </tr>`).join("");
   }
 
@@ -296,7 +298,7 @@
       </div>
       <div class="d-section"><h4>Scores par catégorie (sur 100)</h4>${catBlock}</div>
       <div class="d-section"><h4>Résultats bruts</h4>${benchBlock}</div>
-      <p class="d-src">AA Intelligence Index : ${m.aaii ?? "—"} · Coût par tâche : ${m.cost == null ? "—" : "$" + m.cost.toFixed(2)}<br>
+      <p class="d-src">AA Intelligence Index : ${m.aaii ?? "—"} · Prix par million de tokens : ${m.priceIn == null ? "—" : `${fmtPrice(m.priceIn)} en entrée, ${fmtPrice(m.priceOut)} en sortie`}<br>
       Source des scores : <a href="${m.src}" target="_blank" rel="noopener">fiche du modèle ↗</a> · <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis ↗</a></p>`;
     lastFocus = document.activeElement;
     backdrop.hidden = false;
