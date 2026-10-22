@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="kpis">
           <div class="kpi"><span>Pages vues, au total</span><b>${fmt(num(total.count))}</b><small>depuis l'activation du compteur</small></div>
           <div class="kpi"><span>Visites uniques, au total</span><b>${fmt(num(total.count_unique))}</b><small>une par visiteur et par jour</small></div>
-          <div class="kpi"><span>Page la plus vue</span><b>${esc(rows[0].label)}</b><small>${fmt(rows[0].views)} pages vues</small></div>
+          <div class="kpi"><span>Page la plus vue</span><b>${esc(rows[0].label)}</b><small>${fmt(rows[0].views)} page${rows[0].views > 1 ? "s" : ""} vue${rows[0].views > 1 ? "s" : ""}</small></div>
         </div>
         <article class="cd-card">
           <h3>Pages vues par page</h3>
