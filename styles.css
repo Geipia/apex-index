@@ -163,6 +163,29 @@ select { height: 38px; border: 1px solid var(--border); background: var(--surfac
 .about-link a { color: var(--ink-3); font-size: 13px; }
 .about-link a:hover { color: var(--ink-2); text-decoration: none; }
 .back { margin-top: 32px; font-size: 14px; }
+
+/* Page « À propos » : détail des calculs */
+.cat-detail { display: grid; gap: 16px; margin-top: 20px; }
+.cd-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; min-width: 0; }
+.cd-card header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.cd-card h3 { margin: 0; font-size: 18px; }
+.cd-card header span { font: 500 12.5px var(--mono); color: var(--ink-3); }
+.table-scroll { overflow-x: auto; }
+.cd-table { font-size: 13.5px; }
+.cd-table th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.cd-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.cd-table tr:last-child td { border-bottom: 0; }
+.cd-table .r { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.cd-table .muted-row td { color: var(--ink-3); }
+.cd-formula { font: 13.5px/1.7 var(--mono); background: var(--surface-2); border-radius: 8px; padding: 10px 14px; margin: 12px 0 0; overflow-x: auto; }
+.cd-note { font-size: 13px; color: var(--ink-3); margin: 10px 0 0; }
+#exampleModel { margin: 14px 0 4px; }
+.example { display: grid; gap: 16px; margin-top: 16px; }
+.ex-step { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.ex-step h3 { margin: 2px 0 4px; font-size: 16px; }
+.ex-step p { margin: 0 0 8px; font-size: 14px; color: var(--ink-2); }
+.ex-list { margin: 8px 0 0; padding-left: 18px; font: 13.5px/1.9 var(--mono); }
+@media (max-width: 760px) { .ex-step { grid-template-columns: 1fr; } }
 .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
 .method-grid article { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
 .method-grid h3 { margin: 12px 0 6px; font-size: 16px; color: var(--ink); }

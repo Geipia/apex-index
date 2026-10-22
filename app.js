@@ -298,6 +298,95 @@
     }).join("");
   }
 
+  // ---------- Page « À propos » : le calcul détaillé ----------
+  const n1 = (v) => (Math.round(v * 10) / 10).toLocaleString("fr-FR");
+  const n2 = (v) => (Math.round(v * 100) / 100).toLocaleString("fr-FR");
+  const n3 = (v) => (Math.round(v * 1000) / 1000).toLocaleString("fr-FR");
+  const DEFAULT_W = PRESETS["Équilibré"];
+
+  function renderCatDetail() {
+    if (!$("#catDetail")) return;
+    $("#catDetail").innerHTML = CATS.map((c) => {
+      const benches = D.benchmarks.filter((b) => b.cat === c);
+      const sumW = benches.reduce((a, b) => a + b.weight, 0);
+      const formula = benches.map((b) => `${n2(b.weight)} × ${esc(b.short)}`).join(" + ");
+      return `<article class="cd-card">
+        <header><h3>${D.categories[c].label}</h3><span>poids ×${n2(DEFAULT_W[c])} dans le score global</span></header>
+        <div class="table-scroll"><table class="cd-table">
+          <thead><tr><th>Benchmark</th><th class="r">Poids</th><th class="r">Plancher</th><th class="r">Meilleur score</th><th>Détenu par</th></tr></thead>
+          <tbody>${benches.map((b) => `<tr><td>${esc(b.name)}</td><td class="r">×${n2(b.weight)}</td><td class="r">${n1(b.floor)} ${esc(b.unit)}</td><td class="r">${fmtScore(b, b.best)} ${esc(b.unit)}</td><td>${esc(b.ranking[0].name)}</td></tr>`).join("")}</tbody>
+        </table></div>
+        <p class="cd-formula"><b>Score ${D.categories[c].label}</b> = (${formula}) ÷ ${n2(sumW)}</p>
+        <p class="cd-note">Chaque benchmark entre dans la formule <b>ramené sur 100</b>. Si un modèle n'a pas publié un résultat, ce benchmark est retiré du calcul et du diviseur : la moyenne porte sur les benchmarks disponibles.</p>
+      </article>`;
+    }).join("");
+  }
+
+  function renderExample(id) {
+    if (!$("#example")) return;
+    const rows = rowsWith(DEFAULT_W);
+    const r = rows.find((x) => x.m.id === id) || rows[0];
+    const m = r.m;
+    // Étape 1 : normalisation de chaque score publié.
+    const step1 = D.benchmarks.map((b) => {
+      const v = m.s[b.id];
+      if (v == null) return `<tr class="muted-row"><td>${esc(b.name)}</td><td class="r">—</td><td class="r">${n1(b.floor)}</td><td class="r">${fmtScore(b, b.best)}</td><td class="r">non publié</td></tr>`;
+      return `<tr><td>${esc(b.name)}</td><td class="r">${fmtScore(b, v)}</td><td class="r">${n1(b.floor)}</td><td class="r">${fmtScore(b, b.best)}</td><td class="r">(${fmtScore(b, v)} − ${n1(b.floor)}) ÷ (${fmtScore(b, b.best)} − ${n1(b.floor)}) × 100 = <b>${n1(norm(b, v))}</b></td></tr>`;
+    }).join("");
+    // Étape 2 : moyenne pondérée dans chaque catégorie.
+    const step2 = CATS.map((c) => {
+      const benches = D.benchmarks.filter((b) => b.cat === c && m.s[b.id] != null);
+      if (!benches.length) return `<li><b>${D.categories[c].label}</b> : aucun résultat publié, la catégorie est ignorée.</li>`;
+      const sumW = benches.reduce((a, b) => a + b.weight, 0);
+      const terms = benches.map((b) => `${n2(b.weight)} × ${n1(norm(b, m.s[b.id]))}`).join(" + ");
+      return `<li><b>${D.categories[c].label}</b> = (${terms}) ÷ ${n2(sumW)} = <b>${n1(r.cats[c])}</b></li>`;
+    }).join("");
+    // Étapes 3 et 4 : score global, couverture, points.
+    const present = CATS.filter((c) => r.cats[c] != null);
+    const sumWc = present.reduce((a, c) => a + DEFAULT_W[c], 0);
+    const totalW = CATS.reduce((a, c) => a + DEFAULT_W[c], 0);
+    const g = present.map((c) => `${n2(DEFAULT_W[c])} × ${n1(r.cats[c])}`).join(" + ");
+    const covTerms = CATS.map((c) => {
+      const all = D.benchmarks.filter((b) => b.cat === c);
+      const pub = all.filter((b) => m.s[b.id] != null).reduce((a, b) => a + b.weight, 0);
+      const tot = all.reduce((a, b) => a + b.weight, 0);
+      return { c, pub, tot, part: DEFAULT_W[c] * (pub / tot) };
+    });
+    const factor = 0.75 + 0.25 * r.coverage;
+    $("#example").innerHTML = `
+      <div class="ex-step"><span class="step">1</span><div><h3>Chaque score ramené sur 100</h3>
+        <p>Formule : (score − plancher) ÷ (meilleur − plancher) × 100, plafonné entre 0 et 100.</p>
+        <div class="table-scroll"><table class="cd-table"><thead><tr><th>Benchmark</th><th class="r">Score de ${esc(m.name)}</th><th class="r">Plancher</th><th class="r">Meilleur</th><th class="r">Calcul</th></tr></thead><tbody>${step1}</tbody></table></div></div></div>
+      <div class="ex-step"><span class="step">2</span><div><h3>Les scores de catégorie</h3>
+        <p>Moyenne des scores sur 100, pondérée par le poids de chaque benchmark.</p><ul class="ex-list">${step2}</ul></div></div>
+      <div class="ex-step"><span class="step">3</span><div><h3>Le score global</h3>
+        <p>Moyenne des catégories disponibles, pondérée par le poids de chaque catégorie.</p>
+        <p class="cd-formula">(${g}) ÷ ${n2(sumWc)} = <b>${n2(r.raw)}</b> sur 100</p></div></div>
+      <div class="ex-step"><span class="step">4</span><div><h3>La couverture</h3>
+        <p>Part pondérée des benchmarks publiés : pour chaque catégorie, son poids × (poids des benchmarks publiés ÷ poids de tous ses benchmarks), le tout divisé par la somme des poids des catégories (${n2(totalW)}).</p>
+        <ul class="ex-list">${covTerms.map((t) => `<li>${D.categories[t.c].label} : ${n2(DEFAULT_W[t.c])} × (${n2(t.pub)} ÷ ${n2(t.tot)}) = ${n2(t.part)}</li>`).join("")}</ul>
+        <p class="cd-formula">Couverture = ${n2(covTerms.reduce((a, t) => a + t.part, 0))} ÷ ${n2(totalW)} = <b>${n1(r.coverage * 100)} %</b></p></div></div>
+      <div class="ex-step"><span class="step">5</span><div><h3>Les points ERAZ</h3>
+        <p>Score global × 10, multiplié par un facteur de couverture compris entre 0,75 (aucun benchmark) et 1 (tous les benchmarks).</p>
+        <p class="cd-formula">${n2(r.raw)} × 10 × (0,75 + 0,25 × ${n3(r.coverage)}) = ${n2(r.raw)} × 10 × ${n3(factor)} = <b>${r.points} points</b> (arrondi)</p>
+        <p class="cd-note">${esc(m.name)} est donc ${r.rank === 1 ? "1er" : r.rank + "e"} du classement, avec le profil de pondération par défaut (Équilibré).</p></div></div>`;
+  }
+
+  function rowsWith(weights) {
+    return D.models
+      .map((m) => ({ m, ...score(m, weights) }))
+      .sort((a, b) => b.points - a.points)
+      .map((r, i) => ({ ...r, rank: i + 1 }));
+  }
+
+  if ($("#exampleModel")) {
+    const ranked = rowsWith(DEFAULT_W);
+    $("#exampleModel").innerHTML = ranked.map((r) => `<option value="${r.m.id}">${r.rank}. ${esc(r.m.name)}</option>`).join("");
+    on("#exampleModel", "change", (e) => renderExample(e.target.value));
+    renderCatDetail();
+    renderExample(ranked[0].m.id);
+  }
+
   // ---------- Drawer ----------
   const drawer = $("#drawer"), backdrop = $("#backdrop");
   let lastFocus = null;
