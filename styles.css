@@ -142,16 +142,15 @@ select { height: 38px; border: 1px solid var(--border); background: var(--surfac
 .toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: 0 12px; height: 38px; cursor: pointer; }
 .toggle input { accent-color: var(--accent); }
 
-/* Mot cliquable qui se fond dans le texte : aucun indice visuel avant le survol. */
-.stealth-link { border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: text; }
-.stealth-link:hover { cursor: pointer; }
+/* Mot cliquable qui se fond dans le texte : seul un soulignement pointillé le trahit. */
+.stealth-link { border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
 .stealth-link:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
 .advanced { margin-top: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 14px 16px; display: grid; gap: 14px; }
 .advanced[hidden] { display: none; }
 .weights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px 24px; }
 .weights-grid label { display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); }
 .weights-grid input { accent-color: var(--accent); width: 100%; }
-.about { margin-top: 16px; }
+.about { margin-top: 40px; }
 .about summary { cursor: pointer; color: var(--ink-3); font-size: 13px; list-style: none; width: fit-content; }
 .about summary::-webkit-details-marker { display: none; }
 .about summary:hover { color: var(--ink-2); }
