@@ -463,7 +463,7 @@ const MT = {
     th: ["Benchmark", "Score", "Rang", "Sur 100", "Source"], notPub: "non publié",
     hist: "Évolution des points", histTh: ["Jour", "Points", "Variation"],
     cmp: "Modèles voisins au classement",
-    badge: "Badge à intégrer", badgeSub: (m) => `Affichez le classement de ${m.name} sur votre site ou dans un README. Le badge se met à jour chaque jour.`,
+    badge: "Intégrer ce classement", badgeSub: (m) => `Affichez le classement de ${m.name} sur votre site ou dans un README. Le badge se met à jour chaque jour.`,
     copy: "Copier", copied: "Copié ✓", html: "HTML", md: "Markdown",
     aa: "Artificial Analysis Intelligence Index", src: "Fiche source", back: "← Retour au classement",
     badgeAlt: (r) => `ERAZ Index : n° ${r.rank}, ${r.points} points`,
@@ -480,7 +480,7 @@ const MT = {
     th: ["Benchmark", "Score", "Rank", "Out of 100", "Source"], notPub: "not published",
     hist: "Points over time", histTh: ["Day", "Points", "Change"],
     cmp: "Nearby models in the ranking",
-    badge: "Embeddable badge", badgeSub: (m) => `Show ${m.name}'s ranking on your site or in a README. The badge updates every day.`,
+    badge: "Embed this ranking", badgeSub: (m) => `Show ${m.name}'s ranking on your site or in a README. The badge updates every day.`,
     copy: "Copy", copied: "Copied ✓", html: "HTML", md: "Markdown",
     aa: "Artificial Analysis Intelligence Index", src: "Source page", back: "← Back to the ranking",
     badgeAlt: (r) => `ERAZ Index: #${r.rank}, ${r.points} points`,
@@ -545,16 +545,20 @@ ${benches}
 ${near.map((x) => `          <li><a href="${modelUrl(lang, x.m.id)}"><span class="near-rank">#${x.rank}</span>${esc(x.m.name)}<span class="near-pts">${x.points}</span></a></li>`).join("\n")}
         </ul>
       </article>
-      <article class="cd-card badge-card">
-        <h2>${t.badge}</h2>
-        <p class="cd-note">${t.badgeSub(m)}</p>
-        <p><img src="/badge/${m.id}.svg" alt="${t.badgeAlt(r)}" width="${badgeWidth(r)}" height="28"></p>
-        <label class="code-label">${t.html}<textarea id="badge-html" readonly rows="2">${esc(codeHtml)}</textarea></label>
-        <button class="chip" type="button" data-copy="badge-html" data-done="${t.copied}">${t.copy}</button>
-        <label class="code-label">${t.md}<textarea id="badge-md" readonly rows="2">${esc(codeMd)}</textarea></label>
-        <button class="chip" type="button" data-copy="badge-md" data-done="${t.copied}">${t.copy}</button>
-      </article>
-      <p class="back"><a href="${PAGES.home[lang]}">${t.back}</a></p>
+      <div class="model-foot">
+        <p class="back"><a href="${PAGES.home[lang]}">${t.back}</a></p>
+        <details class="embed">
+          <summary>&lt;/&gt; ${t.badge}</summary>
+          <div class="embed-panel">
+            <p class="cd-note">${t.badgeSub(m)}</p>
+            <p><img src="/badge/${m.id}.svg" alt="${t.badgeAlt(r)}" width="${badgeWidth(r)}" height="28"></p>
+            <label class="code-label">${t.html}<textarea id="badge-html" readonly rows="2">${esc(codeHtml)}</textarea></label>
+            <button class="chip" type="button" data-copy="badge-html" data-done="${t.copied}">${t.copy}</button>
+            <label class="code-label">${t.md}<textarea id="badge-md" readonly rows="2">${esc(codeMd)}</textarea></label>
+            <button class="chip" type="button" data-copy="badge-md" data-done="${t.copied}">${t.copy}</button>
+          </div>
+        </details>
+      </div>
     </section>`;
 }
 
