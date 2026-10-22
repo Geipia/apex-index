@@ -20,12 +20,12 @@ jobs:
         run: node scripts/update-data.mjs
       - name: Publier s'il y a du nouveau
         run: |
-          if git diff --quiet -- scores.js; then
+          if [ -z "$(git status --porcelain -- scores.js history.js)" ]; then
             echo "Aucun changement."
             exit 0
           fi
           git config user.name "eraz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scores.js sitemap.xml
+          git add scores.js sitemap.xml history.js
           git commit -m "Mise à jour des scores ($(date -u +%F))"
           git push

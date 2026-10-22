@@ -170,9 +170,68 @@
     el.innerHTML = svg(W, H, g, "Nombre de modèles par tranche de 50 points");
   }
 
-  window.renderCharts = (rows, D) => {
+  // ---------- 6. Évolution des points du top 5 (lignes, une par modèle) ----------
+  function evolution(rows, history) {
+    const el = $("#chart-evo");
+    const note = $("#evo-note");
+    const top = rows.slice(0, 5);
+    const days = (history || []).filter((h) => top.some((r) => h.points[r.m.id] != null));
+    $("#evo-legend").innerHTML = top.map((r, k) => `<span><i class="sw s${k + 1}"></i>${esc(r.m.name)}</span>`).join("");
+    if (days.length < 2) {
+      el.innerHTML = `<p class="chart-empty">La courbe apparaîtra dès le deuxième jour d'historique.</p>`;
+      note.textContent = "";
+      return;
+    }
+    const W = el.clientWidth, H = W < 560 ? 260 : 320;
+    const m = { l: 44, r: W < 560 ? 12 : 140, t: 14, b: 32 };
+    const t0 = Date.parse(days[0].date), t1 = Date.parse(days[days.length - 1].date);
+    const X = (d) => m.l + ((Date.parse(d) - t0) / (t1 - t0)) * (W - m.l - m.r);
+    const vals = days.flatMap((d) => top.map((r) => d.points[r.m.id])).filter((v) => v != null);
+    const y0 = Math.floor((Math.min(...vals) - 10) / 50) * 50, y1 = Math.ceil((Math.max(...vals) + 10) / 50) * 50;
+    const Y = (v) => H - m.b - ((v - y0) / (y1 - y0)) * (H - m.t - m.b);
+    const day = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+
+    let g = "";
+    const stepY = y1 - y0 > 200 ? 100 : 50;
+    for (let v = y0; v <= y1; v += stepY) {
+      g += `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${m.l - 8}" y="${Y(v)}" text-anchor="end" dominant-baseline="middle">${v}</text>`;
+    }
+    const every = Math.max(1, Math.ceil(days.length / (W < 560 ? 4 : 7)));
+    days.forEach((d, i) => {
+      if (i % every === 0 || i === days.length - 1) g += `<text class="tick" x="${X(d.date)}" y="${H - m.b + 18}" text-anchor="middle">${day(d.date)}</text>`;
+    });
+
+    // Lignes puis points de fin, et étiquettes directes écartées pour ne pas se chevaucher.
+    const ends = [];
+    top.forEach((r, k) => {
+      const series = days.filter((d) => d.points[r.m.id] != null);
+      if (!series.length) return;
+      if (series.length > 1) g += `<polyline class="line s${k + 1}" points="${series.map((d) => `${X(d.date)},${Y(d.points[r.m.id])}`).join(" ")}"/>`;
+      const last = series[series.length - 1];
+      g += `<circle class="dot s${k + 1}" cx="${X(last.date)}" cy="${Y(last.points[r.m.id])}" r="4.5"/>`;
+      ends.push({ r, y: Y(last.points[r.m.id]), x: X(last.date), v: last.points[r.m.id] });
+    });
+    if (m.r > 40) {
+      ends.sort((a, b) => a.y - b.y);
+      for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 15);
+      for (const e of ends) g += `<text class="dlabel" x="${e.x + 10}" y="${e.y}" dominant-baseline="middle">${esc(e.r.m.name)} · ${e.v}</text>`;
+    }
+
+    // Survol : une bande par jour, avec un repère vertical et le détail des 5 modèles.
+    days.forEach((d, i) => {
+      const prev = i ? X(days[i - 1].date) : m.l, next = i < days.length - 1 ? X(days[i + 1].date) : W - m.r;
+      const x = X(d.date), a = (prev + x) / 2, b = (x + next) / 2;
+      const lines = top.map((r) => (d.points[r.m.id] != null ? `${esc(r.m.name)} : ${d.points[r.m.id]}` : null)).filter(Boolean);
+      g += `<g class="band" ${tip(`<b>${day(d.date)}</b><br>${lines.join("<br>")}`)}><line class="guide" x1="${x}" x2="${x}" y1="${m.t}" y2="${H - m.b}"/><rect x="${i ? a : m.l}" y="${m.t}" width="${(i < days.length - 1 ? b : W - m.r) - (i ? a : m.l)}" height="${H - m.t - m.b}" fill="transparent"/></g>`;
+    });
+    el.innerHTML = svg(W, H, g, "Évolution des points ERAZ des cinq premiers");
+    note.textContent = `Historique enregistré depuis le ${day(days[0].date)} ${days[0].date.slice(0, 4)} : un point s'ajoute chaque jour.`;
+  }
+
+  window.renderCharts = (rows, D, history) => {
     if (!$("#analyses")) return;
     kpis(rows);
+    evolution(rows, history);
     scatter(rows);
     labs(rows);
     podium(rows, D);

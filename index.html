@@ -118,6 +118,13 @@
       <div class="kpis" id="kpis"></div>
       <div class="charts">
         <article class="chart-card wide">
+          <h3>Évolution des points</h3>
+          <p class="chart-sub">Points ERAZ des cinq premiers actuels, jour après jour, recalculés avec la même formule.</p>
+          <div class="legend" id="evo-legend"></div>
+          <div class="chart" id="chart-evo"></div>
+          <p class="chart-note" id="evo-note"></p>
+        </article>
+        <article class="chart-card wide">
           <h3>Intelligence et prix</h3>
           <p class="chart-sub">Points ERAZ selon le prix d'un million de tokens générés. La ligne relie les modèles qu'aucun autre ne bat à prix égal ou inférieur.</p>
           <div class="legend"><span><i class="sw s1"></i>Propriétaire</span><span><i class="sw s2"></i>Open weights</span><span><i class="sw s3"></i>Licence non précisée</span><span><i class="line-key"></i>Frontière qualité-prix</span></div>
@@ -221,6 +228,7 @@
 
   <script src="data.js"></script>
   <script src="scores.js"></script>
+  <script src="history.js"></script>
   <script src="charts.js"></script>
   <script src="app.js"></script>
 </body>

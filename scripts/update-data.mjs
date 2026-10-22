@@ -133,6 +133,38 @@ function matchAA(records, aaName) {
   return variants.reduce((a, b) => (b.intelligenceIndex > a.intelligenceIndex ? b : a));
 }
 
+// ---------- Historique ----------
+// Une photo par jour des scores bruts (valeurs manuelles de data.js + valeurs récupérées).
+// Les points sont recalculés dans le navigateur, pour suivre le profil de pondération choisi.
+const HISTORY = path.join(ROOT, "history.js");
+
+async function readHistory() {
+  try {
+    const ctx = { window: {} };
+    vm.runInNewContext(await readFile(HISTORY, "utf8"), ctx);
+    return ctx.window.ERAZ_HISTORY ?? [];
+  } catch { return []; }
+}
+
+function formatHistory(snapshots) {
+  // Une ligne par jour : le fichier grossit lentement et les diffs git restent lisibles.
+  const lines = snapshots.map((s) => "  " + JSON.stringify(s));
+  return `// Fichier généré par scripts/update-data.mjs — une photo des scores bruts par jour.\nwindow.ERAZ_HISTORY = [\n${lines.join(",\n")}\n];\n`;
+}
+
+async function writeHistory(cfg, fetched, date) {
+  const models = {};
+  for (const m of cfg.models) {
+    const s = { ...m.s, ...(fetched[m.id]?.s ?? {}) };
+    if (Object.keys(s).length) models[m.id] = s;
+  }
+  const snapshots = (await readHistory()).filter((s) => s.date !== date);
+  snapshots.push({ date, models });
+  snapshots.sort((a, b) => a.date.localeCompare(b.date));
+  await writeFile(HISTORY, formatHistory(snapshots));
+  console.log(`history.js : ${snapshots.length} jour(s) enregistré(s).`);
+}
+
 // ---------- Main ----------
 async function main() {
   const cfg = await loadConfig();
@@ -222,6 +254,8 @@ async function main() {
   const js = `// Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.\nwindow.APEX_SCORES = ${JSON.stringify(out, null, 2)};\n`;
   await writeFile(path.join(ROOT, "scores.js"), js);
   console.log(`\nscores.js écrit (${out.updated}).`);
+
+  await writeHistory(cfg, models, out.updated);
 
   // Date de dernière modification pour les moteurs de recherche.
   const sitemapPath = path.join(ROOT, "sitemap.xml");

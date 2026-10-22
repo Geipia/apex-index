@@ -46,10 +46,11 @@
     b.best = Math.max(...vals);
     b.ranking = D.models.filter((m) => m.s[b.id] != null).sort((x, y) => y.s[b.id] - x.s[b.id]);
   }
-  const norm = (b, v) => Math.max(0, Math.min(1, (v - b.floor) / (b.best - b.floor))) * 100;
+  const norm = (b, v, best = b.best) => Math.max(0, Math.min(1, (v - b.floor) / (best - b.floor))) * 100;
   const rankOf = (b, m) => b.ranking.findIndex((x) => x.id === m.id) + 1;
 
-  function score(m, weights) {
+  // s = scores bruts d'un modèle ; best = meilleur score par benchmark parmi les modèles comparés.
+  function scoreScores(s, weights, best) {
     const cats = {};
     let num = 0, den = 0, cov = 0, totalW = 0;
     for (const c of CATS) {
@@ -57,9 +58,9 @@
       const allW = benches.reduce((a, b) => a + b.weight, 0);
       let n = 0, d = 0;
       for (const b of benches) {
-        const v = m.s[b.id];
+        const v = s[b.id];
         if (v == null) continue;
-        n += norm(b, v) * b.weight;
+        n += norm(b, v, best ? best[b.id] : b.best) * b.weight;
         d += b.weight;
       }
       const W = weights[c] ?? 0;
@@ -74,8 +75,27 @@
     const raw = den ? num / den : 0;
     const coverage = totalW ? cov / totalW : 0;
     const points = Math.round(raw * 10 * (0.75 + 0.25 * coverage));
+    return { cats, raw, coverage, points };
+  }
+
+  function score(m, weights) {
     const wins = D.benchmarks.filter((b) => b.ranking[0] && b.ranking[0].id === m.id).length;
-    return { cats, raw, coverage, points, wins };
+    return { ...scoreScores(m.s, weights), wins };
+  }
+
+  // Points de chaque modèle pour chaque jour de l'historique, avec la même formule
+  // (le « meilleur » de chaque benchmark est celui du jour concerné).
+  function historyPoints(weights) {
+    return (window.ERAZ_HISTORY || []).map((snap) => {
+      const best = {};
+      for (const b of D.benchmarks) {
+        const vals = Object.values(snap.models).map((s) => s[b.id]).filter((v) => v != null);
+        if (vals.length) best[b.id] = Math.max(...vals);
+      }
+      const points = {};
+      for (const [id, s] of Object.entries(snap.models)) points[id] = scoreScores(s, weights, best).points;
+      return { date: snap.date, points };
+    });
   }
 
   function computeAll() {
@@ -334,7 +354,7 @@
     renderPodium(rows);
     renderTable(rows);
     renderMatrix(rows);
-    if (window.renderCharts) window.renderCharts(rows, D);
+    if (window.renderCharts) window.renderCharts(rows, D, historyPoints(state.weights));
   }
 
   // Les graphiques sont dessinés à la largeur de leur conteneur : on redessine quand elle change.
@@ -343,7 +363,7 @@
     if (innerWidth === lastWidth) return;
     lastWidth = innerWidth;
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => window.renderCharts && window.renderCharts(computeAll(), D), 150);
+    resizeTimer = setTimeout(() => window.renderCharts && window.renderCharts(computeAll(), D, historyPoints(state.weights)), 150);
   });
 
   syncWeights();

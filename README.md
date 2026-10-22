@@ -9,6 +9,7 @@ Site statique : `index.html`, `styles.css`, `app.js` (classement), `charts.js` (
 | Fichier | Rôle |
 |---|---|
 | `data.js` | Configuration : catégories, benchmarks (poids, planchers, liens), modèles suivis, valeurs de base saisies à la main. |
+| `history.js` | **Généré.** Une photo des scores bruts par jour, pour le graphique d'évolution. |
 | `scores.js` | **Généré.** Scores récupérés depuis les sources, avec le lien vers la source de chaque score. Prime sur `data.js`. |
 | `scripts/update-data.mjs` | Récupère les scores depuis BenchLM (pages modèles) et Artificial Analysis (Intelligence Index, coût, open weights). |
 
