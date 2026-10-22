@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>À propos du classement — ERAZ Index</title>
+  <meta name="description" content="Comment sont calculés les points ERAZ : normalisation des scores, pondération des benchmarks et des catégories, couverture, et sources des données.">
+  <meta name="keywords" content="classement IA, meilleure IA, comparatif IA, benchmark IA, classement LLM, LLM leaderboard, GPT, Claude, Gemini, Grok, DeepSeek, Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench">
+  <link rel="canonical" href="https://eraz.ovh/a-propos.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ERAZ Index">
+  <meta property="og:url" content="https://eraz.ovh/a-propos.html">
+  <meta property="og:title" content="À propos du classement — ERAZ Index">
+  <meta property="og:description" content="Comment sont calculés les points ERAZ, et d'où viennent les données.">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>À propos du classement — ERAZ Index</title>
+  <meta name="description" content="Comment sont calculés les points ERAZ : normalisation des scores, pondération des benchmarks et des catégories, couverture, et sources des données.">
+  <meta name="keywords" content="classement IA, meilleure IA, comparatif IA, benchmark IA, classement LLM, LLM leaderboard, GPT, Claude, Gemini, Grok, DeepSeek, Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench">
+  <link rel="canonical" href="https://eraz.ovh/a-propos.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ERAZ Index">
+  <meta property="og:url" content="https://eraz.ovh/a-propos.html">
+  <meta property="og:title" content="À propos du classement — ERAZ Index">
+  <meta property="og:description" content="Comment sont calculés les points ERAZ, et d'où viennent les données.">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./" aria-label="ERAZ Index, accueil">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+        <span>ERAZ<em>Index</em></span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="./">Classement</a>
+        <a href="analyses.html">Analyses</a>
+        <a href="matrice.html">Matrice</a>
+        <a href="benchmarks.html">Benchmarks</a>
+      </nav>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Changer de thème">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="page-head wrap">
+      <p class="eyebrow"><span class="dot"></span> Mis à jour le <span id="updated"></span></p>
+      <h1>À propos du classement</h1>
+      <p class="lede">Comment les points ERAZ sont calculés à partir des résultats publiés, et d'où viennent les données.</p>
+    </section>
+    <section class="wrap section method">
+      <h2>Le calcul des points</h2>
+      <div class="method-grid">
+        <article>
+          <span class="step">1</span>
+          <h3>Normalisation</h3>
+          <p>Pour chaque benchmark, le score est ramené sur 100 : <code>(score − plancher) / (meilleur − plancher)</code>. Le plancher est le niveau du hasard (25 % pour GPQA, 10 % pour MMMU-Pro, 1000 Elo pour GDPval, 0 sinon). Le meilleur modèle suivi obtient 100.</p>
+        </article>
+        <article>
+          <span class="step">2</span>
+          <h3>Catégories</h3>
+          <p>Les 14 benchmarks sont regroupés en 7 catégories. Dans chacune, la moyenne est pondérée : les épreuves les plus discriminantes (HLE, FrontierMath Tier 4, FrontierSWE, GDPval) pèsent 1,5×, ARC-AGI-3 1,25×, les tests saturés (GPQA) 0,5×, les autres 1×.</p>
+        </article>
+        <article>
+          <span class="step">3</span>
+          <h3>Score global</h3>
+          <p>Moyenne pondérée des catégories pour lesquelles le modèle a des résultats. Profil par défaut : Raisonnement, Maths, Code, Agents ×1 ; Connaissances ×0,75 ; Contexte long et Multimodal ×0,5.</p>
+        </article>
+        <article>
+          <span class="step">4</span>
+          <h3>Couverture</h3>
+          <p>Un modèle qui ne publie que ses meilleurs résultats ne doit pas gagner. Les points finaux valent <code>score × (0,75 + 0,25 × couverture) × 10</code>, soit 1000 points au maximum.</p>
+        </article>
+      </div>
+      <div class="callout">
+        <strong>Pourquoi pas SWE-bench Verified, MMLU ou AIME ?</strong>
+        Ces tests sont saturés (plus de 95 % pour les meilleurs modèles) ou contaminés : ils ne distinguent plus les modèles de pointe. L'indice Artificial Analysis est affiché à titre de référence mais exclu du calcul, puisqu'il agrège déjà plusieurs des benchmarks utilisés ici.
+      </div>
+    </section>
+    <section class="wrap section">
+      <h2>Sources</h2>
+      <p class="muted">Chaque score de la fiche d'un modèle renvoie aussi vers sa source d'origine (lien « src »).</p>
+      <ul class="sources" id="sources"></ul>
+      <p class="back"><a href="./">← Retour au classement</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">ERAZ Index — données publiques agrégées, liens vers les sources originales. Les scores reflètent la meilleure configuration publiée de chaque modèle.</div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <button class="icon-btn drawer-close" id="drawerClose" type="button" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="drawerBody"></div>
+  </aside>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="scores.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -158,10 +158,11 @@ select { height: 38px; border: 1px solid var(--border); background: var(--surfac
 .weights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px 24px; }
 .weights-grid label { display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); }
 .weights-grid input { accent-color: var(--accent); width: 100%; }
-.about { margin-top: 40px; }
-.about summary { cursor: pointer; color: var(--ink-3); font-size: 13px; list-style: none; width: fit-content; }
-.about summary::-webkit-details-marker { display: none; }
-.about summary:hover { color: var(--ink-2); }
+/* Lien discret vers la page « À propos », sous le classement */
+.about-link { padding-top: 40px; }
+.about-link a { color: var(--ink-3); font-size: 13px; }
+.about-link a:hover { color: var(--ink-2); text-decoration: none; }
+.back { margin-top: 32px; font-size: 14px; }
 .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
 .method-grid article { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
 .method-grid h3 { margin: 12px 0 6px; font-size: 16px; color: var(--ink); }
