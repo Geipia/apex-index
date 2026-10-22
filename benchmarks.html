@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Les benchmarks d'IA — ERAZ Index</title>
+  <meta name="description" content="Les 14 benchmarks utilisés pour classer les IA : Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench Pro, OSWorld, GDPval… avec le top 5 de chacun.">
+  <meta name="keywords" content="classement IA, meilleure IA, comparatif IA, benchmark IA, classement LLM, LLM leaderboard, GPT, Claude, Gemini, Grok, DeepSeek, Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench">
+  <link rel="canonical" href="https://eraz.ovh/benchmarks.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ERAZ Index">
+  <meta property="og:url" content="https://eraz.ovh/benchmarks.html">
+  <meta property="og:title" content="Les benchmarks d'IA — ERAZ Index">
+  <meta property="og:description" content="Les 14 benchmarks utilisés pour classer les IA : Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench Pro, OSWorld, GDPval… avec le top 5 de chacun.">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./" aria-label="ERAZ Index, accueil">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+        <span>ERAZ<em>Index</em></span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="./">Classement</a>
+        <a href="analyses.html">Analyses</a>
+        <a href="matrice.html">Matrice</a>
+        <a href="benchmarks.html" aria-current="page">Benchmarks</a>
+      </nav>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Changer de thème">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="page-head wrap">
+      <p class="eyebrow"><span class="dot"></span> Mis à jour le <span id="updated"></span></p>
+      <h1>Les benchmarks</h1>
+      <p class="lede">14 épreuves choisies pour leur difficulté, leur indépendance et leur résistance à la contamination.</p>
+    </section>
+    <section id="benchmarks" class="wrap section">
+      <div class="bench-grid" id="benchGrid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">ERAZ Index — données publiques agrégées, liens vers les sources originales. Les scores reflètent la meilleure configuration publiée de chaque modèle.</div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <button class="icon-btn drawer-close" id="drawerClose" type="button" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="drawerBody"></div>
+  </aside>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="scores.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

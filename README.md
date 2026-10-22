@@ -2,7 +2,7 @@
 
 Le classement de référence des IA, calculé à partir des benchmarks les plus exigeants
 (Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench Pro, OSWorld, GDPval…).
-Site statique : `index.html`, `styles.css`, `app.js` (classement), `charts.js` (graphiques de la section Analyses).
+Site statique en 4 pages : `index.html` (classement, réglage des poids, à propos), `analyses.html`, `matrice.html`, `benchmarks.html`. Code commun : `styles.css`, `app.js` ; graphiques : `charts.js`.
 
 ## Données
 

@@ -261,7 +261,7 @@ async function main() {
   const sitemapPath = path.join(ROOT, "sitemap.xml");
   try {
     const sitemap = await readFile(sitemapPath, "utf8");
-    await writeFile(sitemapPath, sitemap.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${out.updated}</lastmod>`));
+    await writeFile(sitemapPath, sitemap.replace(/<lastmod>[^<]*<\/lastmod>/g, `<lastmod>${out.updated}</lastmod>`));
   } catch { /* pas de sitemap : rien à faire */ }
 }
 

@@ -85,6 +85,7 @@ code { font-family: var(--mono); font-size: .86em; background: var(--surface-2);
 .nav { display: flex; gap: 4px; margin-left: auto; }
 .nav a { color: var(--ink-2); padding: 6px 12px; border-radius: 8px; font-weight: 500; font-size: 14px; }
 .nav a:hover { background: var(--surface-2); color: var(--ink); text-decoration: none; }
+.nav a[aria-current="page"] { color: var(--ink); background: var(--surface-2); }
 .icon-btn {
   display: inline-grid; place-items: center; width: 36px; height: 36px;
   border-radius: 10px; border: 1px solid var(--border); background: var(--surface);
@@ -120,6 +121,13 @@ h1 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1.04; letter-spacing: -.0
 .pod .mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
 .pod .mini div { font-size: 11px; color: var(--ink-3); }
 .pod .mini b { display: block; font-family: var(--mono); font-size: 14px; color: var(--ink); font-weight: 500; }
+
+/* En-tête des pages secondaires */
+.page-head { padding: 56px 24px 0; }
+.page-head h1 { font-size: clamp(30px, 4.4vw, 46px); }
+.page-head .lede { margin-top: 14px; }
+.page-head + .section { padding-top: 28px; }
+.section-head:empty { display: none; }
 
 /* Sections */
 .section { padding: 64px 24px 8px; }
@@ -311,8 +319,11 @@ table { border-collapse: collapse; width: 100%; }
   .wrap { padding: 0 16px; }
   .hero { padding: 40px 16px 8px; }
   .section { padding: 48px 16px 8px; }
-  .nav { display: none; }
-  .topbar-inner { justify-content: space-between; }
+  /* Sur mobile, les pages passent sur une deuxième ligne qui défile horizontalement. */
+  .topbar-inner { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 6px; row-gap: 6px; justify-content: space-between; }
+  .nav { order: 3; width: 100%; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
+  .nav a { white-space: nowrap; padding: 6px 8px; font-size: 13.5px; }
+  .page-head { padding: 36px 16px 0; }
   .podium { grid-template-columns: 1fr; }
   .hide-sm { display: none; }
   .c-points { min-width: 170px; }

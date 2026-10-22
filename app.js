@@ -17,6 +17,8 @@
     }
   }
   const $ = (s, r = document) => r.querySelector(s);
+  // Le site a plusieurs pages : chaque bloc ne s'active que si ses éléments sont présents.
+  const on = (sel, ev, fn) => { const el = document.querySelector(sel); if (el) el.addEventListener(ev, fn); };
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   const CATS = Object.keys(D.categories);
@@ -112,9 +114,9 @@
   const openBadge = (m) => (m.open ? '<span class="badge open">Open</span>' : m.open === false ? '<span class="badge">Propriétaire</span>' : "");
 
   // ---------- Header / hero ----------
-  $("#updated").textContent = new Date(D.updated).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  if ($("#updated")) $("#updated").textContent = new Date(D.updated).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
   const nScores = D.models.reduce((a, m) => a + Object.keys(m.s).length, 0);
-  $("#stats").innerHTML = [
+  if ($("#stats")) $("#stats").innerHTML = [
     [D.models.length, "modèles classés"],
     [D.benchmarks.length, "benchmarks"],
     [nScores, "résultats vérifiés"],
@@ -122,6 +124,7 @@
   ].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
 
   function renderPodium(rows) {
+    if (!$("#podium")) return;
     $("#podium").innerHTML = rows.slice(0, 3).map((r, i) => `
       <button class="pod" type="button" data-id="${r.m.id}">
         <div class="pod-top"><span class="medal m${i + 1}">#${i + 1}</span>${openBadge(r.m)}</div>
@@ -133,8 +136,8 @@
   }
 
   // ---------- Controls ----------
-  $("#presets").innerHTML = Object.keys(PRESETS).map((p) => `<button class="chip" type="button" data-preset="${p}" aria-pressed="${p === state.preset}">${p}</button>`).join("");
-  $("#presets").addEventListener("click", (e) => {
+  if ($("#presets")) $("#presets").innerHTML = Object.keys(PRESETS).map((p) => `<button class="chip" type="button" data-preset="${p}" aria-pressed="${p === state.preset}">${p}</button>`).join("");
+  on("#presets", "click", (e) => {
     const btn = e.target.closest("[data-preset]");
     if (!btn) return;
     state.preset = btn.dataset.preset;
@@ -143,15 +146,16 @@
     render();
   });
 
-  $("#weights").innerHTML = CATS.map((c) => `
+  if ($("#weights")) $("#weights").innerHTML = CATS.map((c) => `
     <label>${D.categories[c].label}
       <input type="range" min="0" max="3" step="0.25" id="w-${c}" data-cat="${c}">
     </label>`).join("");
   function syncWeights() {
+    if (!$("#weights")) return;
     for (const c of CATS) $(`#w-${c}`).value = state.weights[c];
     document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.preset === state.preset));
   }
-  $("#weights").addEventListener("input", (e) => {
+  on("#weights", "input", (e) => {
     const c = e.target.dataset.cat;
     if (!c) return;
     state.weights[c] = parseFloat(e.target.value);
@@ -160,17 +164,17 @@
     render();
   });
 
-  $("#advancedToggle").addEventListener("click", (e) => {
+  on("#advancedToggle", "click", (e) => {
     const panel = $("#advanced");
     panel.hidden = !panel.hidden;
     e.currentTarget.setAttribute("aria-expanded", String(!panel.hidden));
   });
 
   const orgs = [...new Set(D.models.map((m) => m.org))].sort();
-  $("#orgFilter").innerHTML = `<option value="">Tous les éditeurs</option>` + orgs.map((o) => `<option>${esc(o)}</option>`).join("");
-  $("#orgFilter").addEventListener("change", (e) => { state.org = e.target.value; render(); });
-  $("#search").addEventListener("input", (e) => { state.query = e.target.value.trim().toLowerCase(); render(); });
-  $("#openOnly").addEventListener("change", (e) => { state.openOnly = e.target.checked; render(); });
+  if ($("#orgFilter")) $("#orgFilter").innerHTML = `<option value="">Tous les éditeurs</option>` + orgs.map((o) => `<option>${esc(o)}</option>`).join("");
+  on("#orgFilter", "change", (e) => { state.org = e.target.value; render(); });
+  on("#search", "input", (e) => { state.query = e.target.value.trim().toLowerCase(); render(); });
+  on("#openOnly", "change", (e) => { state.openOnly = e.target.checked; render(); });
 
   document.querySelectorAll(".ranking th[data-sort]").forEach((th) => {
     th.addEventListener("click", () => {
@@ -189,6 +193,7 @@
   }
 
   function renderTable(rows) {
+    if (!$("#ranking")) return;
     const { key, dir } = state.sort;
     let list = rows.filter((r) =>
       (!state.query || r.m.name.toLowerCase().includes(state.query) || r.m.org.toLowerCase().includes(state.query)) &&
@@ -227,13 +232,13 @@
       </tr>`).join("");
   }
 
-  $("#ranking tbody").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-id]"); if (tr) openDrawer(tr.dataset.id); });
-  $("#ranking tbody").addEventListener("keydown", (e) => {
+  on("#ranking tbody", "click", (e) => { const tr = e.target.closest("tr[data-id]"); if (tr) openDrawer(tr.dataset.id); });
+  on("#ranking tbody", "keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     const tr = e.target.closest("tr[data-id]");
     if (tr) { e.preventDefault(); openDrawer(tr.dataset.id); }
   });
-  $("#podium").addEventListener("click", (e) => { const b = e.target.closest("[data-id]"); if (b) openDrawer(b.dataset.id); });
+  on("#podium", "click", (e) => { const b = e.target.closest("[data-id]"); if (b) openDrawer(b.dataset.id); });
 
   // ---------- Matrix (heatmap séquentielle, une seule teinte) ----------
   const RAMP_LIGHT = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"];
@@ -250,6 +255,7 @@
   }
 
   function renderMatrix(rows) {
+    if (!$("#matrix")) return;
     const byCat = CATS.map((c) => ({ c, benches: D.benchmarks.filter((b) => b.cat === c) })).filter((g) => g.benches.length);
     const head1 = `<tr><th></th>${byCat.map((g) => `<th class="cat-h" colspan="${g.benches.length}">${D.categories[g.c].label}</th>`).join("")}</tr>`;
     const head2 = `<tr><th></th>${byCat.flatMap((g) => g.benches).map((b) => `<th title="${esc(b.name)}">${esc(b.short)}</th>`).join("")}</tr>`;
@@ -264,7 +270,7 @@
   }
 
   const tip = $("#tooltip");
-  $("#matrix").addEventListener("mousemove", (e) => {
+  on("#matrix", "mousemove", (e) => {
     const td = e.target.closest("td[data-b]");
     if (!td) { tip.hidden = true; return; }
     const b = benchById[td.dataset.b], m = D.models.find((x) => x.id === td.dataset.m), v = m.s[b.id];
@@ -276,10 +282,11 @@
     const y = e.clientY + 16 + tip.offsetHeight > innerHeight ? e.clientY - tip.offsetHeight - 12 : e.clientY + 16;
     tip.style.left = x + "px"; tip.style.top = y + "px";
   });
-  $("#matrix").addEventListener("mouseleave", () => (tip.hidden = true));
+  on("#matrix", "mouseleave", () => (tip.hidden = true));
 
   // ---------- Benchmarks ----------
   function renderBenchmarks() {
+    if (!$("#benchGrid")) return;
     $("#benchGrid").innerHTML = D.benchmarks.map((b) => {
       const top = b.ranking.slice(0, 5);
       return `<article class="bench">
@@ -332,13 +339,13 @@
     backdrop.hidden = true;
     if (lastFocus) lastFocus.focus();
   }
-  $("#drawerClose").addEventListener("click", closeDrawer);
-  backdrop.addEventListener("click", closeDrawer);
+  on("#drawerClose", "click", closeDrawer);
+  on("#backdrop", "click", closeDrawer);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer.classList.contains("open")) closeDrawer(); });
 
   // ---------- Theme ----------
   try { const t = localStorage.getItem("apex-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
-  $("#themeToggle").addEventListener("click", () => {
+  on("#themeToggle", "click", () => {
     const next = isDark() ? "light" : "dark";
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("apex-theme", next); } catch {}
@@ -347,7 +354,7 @@
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
 
   // ---------- Sources ----------
-  $("#sources").innerHTML = D.sources.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a></li>`).join("");
+  if ($("#sources")) $("#sources").innerHTML = D.sources.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a></li>`).join("");
 
   function render() {
     const rows = computeAll();
