@@ -145,6 +145,9 @@ window.APEX_DATA = {
     // Pas de page BenchLM : seuls les résultats Artificial Analysis sont utilisés.
     { id: "qwen3-8-2-4t-a95b", name: "Qwen3.8 2.4T A95B", benchlm: null, org: "Alibaba", open: null, ctx: "—", aaii: null,
       src: "https://artificialanalysis.ai/leaderboards/models", s: {} },
+    // Ajouté le 22/10/2026.
+    { id: "mistral-large-4", name: "Mistral Large 4", aa: "Mistral Large 4 Preview", org: "Mistral", open: null, ctx: "1M", aaii: null,
+      src: "https://benchlm.ai/models/mistral-large-4", s: {} },
     { id: "qwen3-8-max", name: "Qwen3.8 Max", org: "Alibaba", open: true, ctx: "1M", aaii: 45,
       src: "https://benchlm.ai/models/qwen3-8-max",
       s: { fm13: 74.7, fm4: 46.3, swepro: 67.7, fswe: 15.8, tb21: 67.4, osw: 19.4 } },

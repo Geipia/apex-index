@@ -701,6 +701,28 @@ window.APEX_SCORES = {
       "open": true,
       "aaConfig": "Qwen3.8 2.4T A95B"
     },
+    "mistral-large-4": {
+      "s": {
+        "hle": 35,
+        "gdpval": 1422,
+        "omni": -5.3,
+        "lcr": 81.3,
+        "mmmu": 76.4
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "gdpval": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
+        "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
+      },
+      "benchlmUpdated": "October 20, 2026",
+      "aaii": 38.4,
+      "priceIn": 1.36,
+      "priceOut": 4.18,
+      "open": false,
+      "aaConfig": "Mistral Large 4 Preview"
+    },
     "qwen3-8-max": {
       "s": {
         "fm13": 74.7,

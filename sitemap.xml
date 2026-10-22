@@ -420,4 +420,18 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/qwen3-8-2-4t-a95b.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/qwen3-8-2-4t-a95b.html"/>
   </url>
+  <url>
+    <loc>https://eraz.ovh/modele/mistral-large-4.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/mistral-large-4.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/mistral-large-4.html"/>
+  </url>
+  <url>
+    <loc>https://eraz.ovh/en/model/mistral-large-4.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/mistral-large-4.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/mistral-large-4.html"/>
+  </url>
 </urlset>
