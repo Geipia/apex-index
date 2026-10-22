@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ERAZ Index — The reference AI leaderboard</title>
+  <meta name="description" content="The reference AI leaderboard: GPT, Claude, Gemini, Grok, DeepSeek… scored on 14 demanding benchmarks with a transparent, sourced points system.">
+  <meta name="keywords" content="AI leaderboard, best AI model, AI ranking, AI benchmarks, LLM leaderboard, LLM ranking, GPT, Claude, Gemini, Grok, DeepSeek, Humanity&#39;s Last Exam, ARC-AGI, FrontierMath, SWE-bench">
+  <link rel="canonical" href="https://eraz.ovh/en/">
+  <link rel="alternate" hreflang="fr" href="https://eraz.ovh/">
+  <link rel="alternate" hreflang="en" href="https://eraz.ovh/en/">
+  <link rel="alternate" hreflang="x-default" href="https://eraz.ovh/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ERAZ Index">
+  <meta property="og:url" content="https://eraz.ovh/en/">
+  <meta property="og:title" content="ERAZ Index — The reference AI leaderboard">
+  <meta property="og:description" content="The reference AI leaderboard: GPT, Claude, Gemini, Grok, DeepSeek… scored on 14 demanding benchmarks with a transparent, sourced points system.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@erazindex">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "ERAZ Index — AI model ranking",
+  "description": "Ranking of AI models (GPT, Claude, Gemini, Grok, DeepSeek…) computed from 14 benchmarks: Humanity's Last Exam, ARC-AGI-2, ARC-AGI-3, FrontierMath, SWE-bench Pro, FrontierSWE, Terminal-Bench, OSWorld, GDPval, GPQA Diamond, AA-Omniscience, AA-LCR, MMMU-Pro.",
+  "url": "https://eraz.ovh/en/",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creditText": "ERAZ Index (eraz.ovh)",
+  "dateModified": "2026-10-22",
+  "keywords": [
+    "AI leaderboard",
+    "AI benchmarks",
+    "LLM leaderboard",
+    "AI ranking"
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "ERAZ Index",
+    "url": "https://eraz.ovh",
+    "sameAs": [
+      "https://x.com/erazindex"
+    ]
+  }
+}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/analytics.js" defer></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/en/" aria-label="ERAZ Index, home">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+        <span>ERAZ<em>Index</em></span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="/en/" aria-current="page">Ranking</a>
+        <a href="/en/analyses.html">Analysis</a>
+        <a href="/en/matrix.html">Matrix</a>
+        <a href="/en/benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="top-tools">
+        <a class="lang-link" href="/" hreflang="fr" lang="fr" aria-label="Version française">FR</a>
+        <a class="icon-btn x-link" href="https://x.com/erazindex" target="_blank" rel="noopener me" aria-label="ERAZ Index on X"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z" fill="currentColor"/></svg></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="ticker" id="ticker" aria-label="Today's ranking and change since yesterday"></div>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="edition"><span id="edition">Edition</span><span class="sep" aria-hidden="true">·</span><span id="updated"></span><span class="sep" aria-hidden="true">·</span><span>Updated daily</span></p>
+      <h1>The reference ranking<br>of <em>artificial intelligence</em>.</h1>
+      <p class="lede">Results from the toughest benchmarks, combined into a single score. Every number is sourced.</p>
+      <div class="stats" id="stats"></div>
+      <div class="podium" id="podium" aria-label="Podium"></div>
+    </section>
+    <section id="classement" class="wrap section">
+      <div class="section-head">
+        <div>
+          <h2>Overall ranking</h2>
+          <p class="muted">ERAZ points out of 1000. Click a model to see its detailed results.</p>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="filters">
+          <label class="search">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="search" type="search" placeholder="Search a model…" aria-label="Search a model">
+          </label>
+          <select id="orgFilter" aria-label="Filter by lab"></select>
+          <label class="toggle"><input type="checkbox" id="openOnly"> <span>Open weights</span></label>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="ranking" id="ranking">
+          <thead>
+            <tr>
+              <th class="c-rank" scope="col">#</th>
+              <th scope="col">Model</th>
+              <th class="c-points" scope="col" data-sort="points">ERAZ points</th>
+              <th class="c-cat" scope="col" data-sort="reasoning">Reas.</th>
+              <th class="c-cat" scope="col" data-sort="math">Math</th>
+              <th class="c-cat" scope="col" data-sort="code">Code</th>
+              <th class="c-cat" scope="col" data-sort="agents">Agents</th>
+              <th class="c-num" scope="col" data-sort="wins" title="Number of benchmarks where the model ranks first">#1</th>
+              <th class="c-num" scope="col" data-sort="coverage" title="Share of benchmarks published">Cov.</th>
+              <th class="c-num hide-sm" scope="col" data-sort="aaii" title="Artificial Analysis Intelligence Index (external reference)">AA Index</th>
+              <th class="c-num hide-sm" scope="col" data-sort="priceIn" title="API price per million tokens sent to the model (Artificial Analysis)">Input /1M</th>
+              <th class="c-num hide-sm" scope="col" data-sort="priceOut" title="API price per million tokens generated by the model (Artificial Analysis)">Output /1M</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="footnote">"—" = result not published or not verified by an independent source. The ranking can also be <button class="stealth-link" id="advancedToggle" type="button" aria-expanded="false" aria-controls="advanced">adjusted</button> to your priorities.</p>
+      <div class="advanced" id="advanced" hidden>
+        <div class="presets" role="group" aria-label="Ranking profile" id="presets"></div>
+        <div class="weights-grid" id="weights"></div>
+      </div>
+    </section>
+    <section class="wrap section model-index">
+      <h2>Model pages</h2>
+      <ul>
+        <li><a href="/en/model/gpt-6-astra.html"><span>1</span>GPT-6 Astra</a></li>
+        <li><a href="/en/model/claude-opus-5-5.html"><span>2</span>Claude Opus 5.5</a></li>
+        <li><a href="/en/model/claude-opus-5.html"><span>3</span>Claude Opus 5</a></li>
+        <li><a href="/en/model/claude-fable-5-1.html"><span>4</span>Claude Fable 5.1</a></li>
+        <li><a href="/en/model/gpt-6-1-sol.html"><span>5</span>GPT-6.1 Sol</a></li>
+        <li><a href="/en/model/gemini-4-argon.html"><span>6</span>Gemini 4 Argon</a></li>
+        <li><a href="/en/model/claude-sonnet-5-5.html"><span>7</span>Claude Sonnet 5.5</a></li>
+        <li><a href="/en/model/gpt-5-6-sol.html"><span>8</span>GPT-5.6 Sol</a></li>
+        <li><a href="/en/model/muse-wonder-full.html"><span>9</span>Muse Wonder Full</a></li>
+        <li><a href="/en/model/gpt-5-6-terra.html"><span>10</span>GPT-5.6 Terra</a></li>
+        <li><a href="/en/model/muse-wonder.html"><span>11</span>Muse Wonder</a></li>
+        <li><a href="/en/model/gemini-3-8-flash.html"><span>12</span>Gemini 3.8 Flash</a></li>
+        <li><a href="/en/model/kimi-k3.html"><span>13</span>Kimi K3</a></li>
+        <li><a href="/en/model/step-5-preview.html"><span>14</span>Step 5 Preview</a></li>
+        <li><a href="/en/model/glm-5-3.html"><span>15</span>GLM-5.3</a></li>
+        <li><a href="/en/model/minimax-m3-1-flash.html"><span>16</span>MiniMax M3.1 Flash</a></li>
+        <li><a href="/en/model/deepseek-v4-1-flash.html"><span>17</span>DeepSeek V4.1 Flash</a></li>
+        <li><a href="/en/model/qwen3-8-flash-next.html"><span>18</span>Qwen3.8-Flash-Next</a></li>
+        <li><a href="/en/model/mimo-v2-6-pro.html"><span>19</span>MiMo-V2.6-Pro</a></li>
+        <li><a href="/en/model/grok-4-7.html"><span>20</span>Grok 4.7</a></li>
+        <li><a href="/en/model/qwen3-8-max.html"><span>21</span>Qwen3.8 Max</a></li>
+        <li><a href="/en/model/glm-5-3-flash.html"><span>22</span>GLM-5.3-Flash</a></li>
+        <li><a href="/en/model/claude-haiku-5-5.html"><span>23</span>Claude Haiku 5.5</a></li>
+        <li><a href="/en/model/ling-3-1-flash.html"><span>24</span>Ling 3.1 Flash</a></li>
+        <li><a href="/en/model/qwen3-8-2-4t-a95b.html"><span>25</span>Qwen3.8 2.4T A95B</a></li>
+      </ul>
+    </section>
+    <section class="wrap section about-link">
+      <a href="/en/about.html">About the ranking</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/en/" aria-label="ERAZ Index, home">
+          <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+          <span>ERAZ<em>Index</em></span>
+        </a>
+        <p>The reference ranking of artificial intelligence, recalculated every day from fourteen independent benchmarks.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site pages">
+        <h4>The index</h4>
+        <a href="/en/">Ranking</a>
+        <a href="/en/analyses.html">Analysis</a>
+        <a href="/en/matrix.html">Matrix</a>
+        <a href="/en/benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="footer-col">
+        <h4>Data</h4>
+        <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis</a>
+        <a href="https://benchlm.ai" target="_blank" rel="noopener">BenchLM</a>
+        <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC Prize</a>
+        <a href="https://epoch.ai/frontiermath" target="_blank" rel="noopener">Epoch AI</a>
+        <h4 class="footer-sub">Follow</h4>
+        <a href="https://x.com/erazindex" target="_blank" rel="noopener me">X · @erazindex</a>
+      </div>
+    </div>
+    <div class="wrap footer-base">
+      <span>© 2026 ERAZ Index · ranking licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener license">CC BY 4.0</a></span>
+      <span>Aggregated public data · best published configuration of each model · updated daily at 6:00 UTC</span>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <button class="icon-btn drawer-close" id="drawerClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="drawerBody"></div>
+  </aside>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="/data.js"></script>
+  <script src="/scores.js"></script>
+  <script src="/history.js"></script>
+  <script src="/scoring.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

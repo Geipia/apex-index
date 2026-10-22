@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About the ranking — ERAZ Index</title>
+  <meta name="description" content="How ERAZ points are calculated: score normalization, benchmark and category weights, coverage, and data sources.">
+  <meta name="keywords" content="AI leaderboard, best AI model, AI ranking, AI benchmarks, LLM leaderboard, LLM ranking, GPT, Claude, Gemini, Grok, DeepSeek, Humanity&#39;s Last Exam, ARC-AGI, FrontierMath, SWE-bench">
+  <link rel="canonical" href="https://eraz.ovh/en/about.html">
+  <link rel="alternate" hreflang="fr" href="https://eraz.ovh/a-propos.html">
+  <link rel="alternate" hreflang="en" href="https://eraz.ovh/en/about.html">
+  <link rel="alternate" hreflang="x-default" href="https://eraz.ovh/a-propos.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ERAZ Index">
+  <meta property="og:url" content="https://eraz.ovh/en/about.html">
+  <meta property="og:title" content="About the ranking — ERAZ Index">
+  <meta property="og:description" content="How ERAZ points are calculated: score normalization, benchmark and category weights, coverage, and data sources.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@erazindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/analytics.js" defer></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/en/" aria-label="ERAZ Index, home">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+        <span>ERAZ<em>Index</em></span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="/en/">Ranking</a>
+        <a href="/en/analyses.html">Analysis</a>
+        <a href="/en/matrix.html">Matrix</a>
+        <a href="/en/benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="top-tools">
+        <a class="lang-link" href="/a-propos.html" hreflang="fr" lang="fr" aria-label="Version française">FR</a>
+        <a class="icon-btn x-link" href="https://x.com/erazindex" target="_blank" rel="noopener me" aria-label="ERAZ Index on X"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z" fill="currentColor"/></svg></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="ticker" id="ticker" aria-label="Today's ranking and change since yesterday"></div>
+
+  <main id="top">
+    <section class="page-head wrap">
+      <p class="edition"><span id="edition">Edition</span><span class="sep" aria-hidden="true">·</span><span id="updated"></span><span class="sep" aria-hidden="true">·</span><span>Updated daily</span></p>
+      <h1>About the ranking</h1>
+      <p class="lede">How ERAZ points are calculated from published results, and where the data comes from.</p>
+    </section>
+    <section class="wrap section method">
+      <h2>How points are calculated</h2>
+      <div class="method-grid">
+        <article>
+          <span class="step">1</span>
+          <h3>Normalization</h3>
+          <p>For each benchmark, the score is scaled to 100: <code>(score − floor) / (best − floor)</code>. The floor is the random-guess level (25% for GPQA, 10% for MMMU-Pro, 1000 Elo for GDPval, 0 otherwise). The best tracked model gets 100.</p>
+        </article>
+        <article>
+          <span class="step">2</span>
+          <h3>Categories</h3>
+          <p>The 14 benchmarks are grouped into 7 categories. Within each, the average is weighted: the most discriminating tests (HLE, FrontierMath Tier 4, FrontierSWE, GDPval) weigh 1.5×, ARC-AGI-3 1.25×, saturated tests (GPQA) 0.5×, the others 1×.</p>
+        </article>
+        <article>
+          <span class="step">3</span>
+          <h3>Overall score</h3>
+          <p>Weighted average of the categories where the model has results. Default profile: Reasoning, Math, Code, Agents ×1; Knowledge ×0.75; Long context and Multimodal ×0.5.</p>
+        </article>
+        <article>
+          <span class="step">4</span>
+          <h3>Coverage</h3>
+          <p>A model that only publishes its best results should not win. Final points equal <code>score × (0.75 + 0.25 × coverage) × 10</code>, i.e. 1000 points at most.</p>
+        </article>
+      </div>
+      <div class="callout">
+        <strong>Why not SWE-bench Verified, MMLU or AIME?</strong>
+        These tests are saturated (over 95% for the best models) or contaminated: they no longer separate frontier models. The Artificial Analysis index is shown for reference but excluded from the calculation, since it already aggregates several of the benchmarks used here.
+      </div>
+    </section>
+    <section class="wrap section">
+      <h2>Categories in detail</h2>
+      <p class="muted">Each category score (Reasoning, Mathematics, Code…) is a weighted average of its benchmarks, scaled to 100. Here are, for each one, its benchmarks, their weight, their floor and the current best result.</p>
+      <div class="cat-detail" id="catDetail"></div>
+    </section>
+    <section class="wrap section">
+      <h2>A complete worked example</h2>
+      <p class="muted">The actual calculation of a model's points, with today's data. Pick a model:</p>
+      <select id="exampleModel" aria-label="Model for the example"></select>
+      <div class="example" id="example"></div>
+    </section>
+    <section class="wrap section" id="sources-section">
+      <h2>Sources</h2>
+      <p class="muted">Every score on a model page also links to its original source ("src" link).</p>
+      <ul class="sources" id="sources"></ul>
+      <p class="back"><a href="/en/">← Back to the ranking</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/en/" aria-label="ERAZ Index, home">
+          <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+          <span>ERAZ<em>Index</em></span>
+        </a>
+        <p>The reference ranking of artificial intelligence, recalculated every day from fourteen independent benchmarks.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site pages">
+        <h4>The index</h4>
+        <a href="/en/">Ranking</a>
+        <a href="/en/analyses.html">Analysis</a>
+        <a href="/en/matrix.html">Matrix</a>
+        <a href="/en/benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="footer-col">
+        <h4>Data</h4>
+        <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis</a>
+        <a href="https://benchlm.ai" target="_blank" rel="noopener">BenchLM</a>
+        <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC Prize</a>
+        <a href="https://epoch.ai/frontiermath" target="_blank" rel="noopener">Epoch AI</a>
+        <h4 class="footer-sub">Follow</h4>
+        <a href="https://x.com/erazindex" target="_blank" rel="noopener me">X · @erazindex</a>
+      </div>
+    </div>
+    <div class="wrap footer-base">
+      <span>© 2026 ERAZ Index · ranking licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener license">CC BY 4.0</a></span>
+      <span>Aggregated public data · best published configuration of each model · updated daily at 6:00 UTC</span>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <button class="icon-btn drawer-close" id="drawerClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="drawerBody"></div>
+  </aside>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="/data.js"></script>
+  <script src="/scores.js"></script>
+  <script src="/history.js"></script>
+  <script src="/scoring.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,10 +1,12 @@
 // Section « Analyses » : graphiques SVG dessinés à la largeur réelle de leur conteneur.
 // Appelé par app.js à chaque rendu (les graphiques suivent donc le profil de pondération).
 (() => {
+  const I = () => window.I18N;
+  const T = () => window.I18N.T;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const $ = (s) => document.querySelector(s);
-  const fmt = (v, d = 0) => v.toLocaleString("fr-FR", { maximumFractionDigits: d });
-  const price = (v) => "$" + (v < 1 ? v.toFixed(2).replace(/0$/, "") : fmt(v, 2));
+  const fmt = (v, d = 0) => v.toLocaleString(I().L, { maximumFractionDigits: d });
+  const price = (v) => I().price(v);
   const svg = (w, h, body, label) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}">${body}</svg>`;
   // Une info-bulle = un attribut data-tip (HTML déjà échappé), lu par le gestionnaire commun plus bas.
   const tip = (html) => `data-tip="${esc(html)}"`;
@@ -14,11 +16,12 @@
     const open = rows.filter((r) => r.m.open);
     const bestOpen = open[0];
     const budget = rows.filter((r) => r.m.priceOut != null && r.m.priceOut <= 5).sort((a, b) => b.points - a.points)[0];
+    const K = T().kpi;
     const tiles = [
-      ["N°1 du classement", best.points, `${best.m.name} · ${best.m.org}`],
-      ["Meilleur modèle open weights", bestOpen ? bestOpen.points : "—", bestOpen ? `${bestOpen.m.name} · ${bestOpen.m.org} · #${bestOpen.rank}` : ""],
-      ["Écart ouvert / propriétaire", bestOpen ? `−${best.points - bestOpen.points}` : "—", "points entre les deux meilleurs"],
-      ["Meilleur à moins de 5 $ / M (sortie)", budget ? budget.points : "—", budget ? `${budget.m.name} · ${price(budget.m.priceOut)} / M` : ""],
+      [K[0][0], best.points, `${best.m.name} · ${best.m.org}`],
+      [K[1][0], bestOpen ? bestOpen.points : "—", bestOpen ? `${bestOpen.m.name} · ${bestOpen.m.org} · #${bestOpen.rank}` : ""],
+      [K[2][0], bestOpen ? `−${best.points - bestOpen.points}` : "—", K[2][1]],
+      [K[3][0], budget ? budget.points : "—", budget ? `${budget.m.name} · ${price(budget.m.priceOut)} / M` : ""],
     ];
     $("#kpis").innerHTML = tiles.map(([l, v, s]) => `<div class="kpi"><span>${esc(l)}</span><b>${esc(v)}</b><small>${esc(s)}</small></div>`).join("");
   }
@@ -44,7 +47,7 @@
       if (Math.log10(v) < x0 || Math.log10(v) > x1) continue;
       g += `<text class="tick" x="${X(v)}" y="${H - m.b + 18}" text-anchor="middle">${price(v)}</text>`;
     }
-    g += `<text class="axis-title" x="${(m.l + W - m.r) / 2}" y="${H - 6}" text-anchor="middle">Prix par million de tokens en sortie (échelle logarithmique)</text>`;
+    g += `<text class="axis-title" x="${(m.l + W - m.r) / 2}" y="${H - 6}" text-anchor="middle">${T().axisPrice}</text>`;
 
     // Frontière qualité-prix : chaque modèle qu'aucun autre ne bat à prix égal ou inférieur.
     const byPrice = pts.slice().sort((a, b) => a.m.priceOut - b.m.priceOut || b.points - a.points);
@@ -58,7 +61,7 @@
     let labels = "";
     for (const r of pts) {
       const cx = X(r.m.priceOut), cy = Y(r.points);
-      const t = `<b>${esc(r.m.name)}</b> · ${esc(r.m.org)}<br>${r.points} points · #${r.rank}<br>${price(r.m.priceIn)} entrée · ${price(r.m.priceOut)} sortie / M`;
+      const t = `<b>${esc(r.m.name)}</b> · ${esc(r.m.org)}<br>${T().tipPoints(r.points, r.rank)}<br>${T().tipPrices(price(r.m.priceIn), price(r.m.priceOut))}`;
       g += `<g class="hit" ${tip(t)}><circle class="dot ${cls(r)}" cx="${cx}" cy="${cy}" r="6"/><circle cx="${cx}" cy="${cy}" r="14" fill="transparent"/></g>`;
       if (label.has(r.m.id) && (W >= 560 || r.rank <= 3)) {
         // Sous le point (la frontière part vers le haut à droite) ; au-dessus pour le n°1, déjà en haut du nuage.
@@ -67,8 +70,8 @@
       }
     }
     g += labels; // après tous les points, pour qu'aucun point ne recouvre une étiquette
-    el.innerHTML = svg(W, H, g, "Points ERAZ en fonction du prix en sortie");
-    $("#scatter-note").textContent = missing ? `${missing} modèle${missing > 1 ? "s" : ""} sans prix publié ne figure${missing > 1 ? "nt" : ""} pas sur ce graphique.` : "";
+    el.innerHTML = svg(W, H, g, T().aria.scatter);
+    $("#scatter-note").textContent = missing ? T().missingPrice(missing) : "";
   }
 
   // ---------- 2. Meilleur modèle par laboratoire (barres horizontales, une série) ----------
@@ -85,12 +88,12 @@
       const y = i * row + row / 2, w = Math.max(4, (r.points / 1000) * bw);
       g += `<text class="rlabel" x="0" y="${y - 6}" dominant-baseline="middle">${esc(r.m.org)}</text>`;
       g += `<text class="rsub" x="0" y="${y + 9}" dominant-baseline="middle">${esc(r.m.name)}</text>`;
-      g += `<g ${tip(`<b>${esc(r.m.org)}</b><br>${esc(r.m.name)} · ${r.points} points · #${r.rank}`)}>`;
+      g += `<g ${tip(`<b>${esc(r.m.org)}</b><br>${esc(r.m.name)} · ${T().tipPoints(r.points, r.rank)}`)}>`;
       g += `<rect class="track" x="${lw}" y="${y - 8}" width="${bw}" height="16" rx="4"/>`;
       g += `<path class="s1" d="M${lw},${y - 8}h${w - 4}a4,4 0 0 1 4,4v8a4,4 0 0 1 -4,4h${-(w - 4)}z"/></g>`;
       g += `<text class="val" x="${lw + bw + 8}" y="${y}" dominant-baseline="middle">${r.points}</text>`;
     });
-    el.innerHTML = svg(W, H, g, "Meilleur score ERAZ de chaque laboratoire");
+    el.innerHTML = svg(W, H, g, T().aria.labs);
   }
 
   // ---------- 3. Profil du podium par catégorie (dot plot, 3 séries) ----------
@@ -110,14 +113,14 @@
     }
     cats.forEach((c, i) => {
       const y = mt + i * row + row / 2;
-      g += `<text class="rlabel" x="0" y="${y}" dominant-baseline="middle">${esc(D.categories[c].label)}</text>`;
+      g += `<text class="rlabel" x="0" y="${y}" dominant-baseline="middle">${esc(I().cat(D, c))}</text>`;
       top.forEach((r, k) => {
         const v = r.cats[c];
         if (v == null) return;
-        g += `<g class="hit" ${tip(`<b>${esc(r.m.name)}</b><br>${esc(D.categories[c].label)} : ${Math.round(v)} / 100`)}><circle class="dot s${k + 1}" cx="${X(v)}" cy="${y}" r="6"/><circle cx="${X(v)}" cy="${y}" r="13" fill="transparent"/></g>`;
+        g += `<g class="hit" ${tip(`<b>${esc(r.m.name)}</b><br>${esc(I().cat(D, c))} : ${Math.round(v)} ${T().outOf100Short}`)}><circle class="dot s${k + 1}" cx="${X(v)}" cy="${y}" r="6"/><circle cx="${X(v)}" cy="${y}" r="13" fill="transparent"/></g>`;
       });
     });
-    el.innerHTML = svg(W, H, g, "Scores par catégorie des trois premiers");
+    el.innerHTML = svg(W, H, g, T().aria.podium);
     $("#podium-legend").innerHTML = top.map((r, k) => `<span><i class="sw s${k + 1}"></i>${esc(r.m.name)}</span>`).join("");
   }
 
@@ -133,18 +136,18 @@
     const X = (v) => lw + (v / 100) * (W - lw - vw - 6);
     let g = "";
     for (const v of [0, 50, 100]) {
-      g += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="0" y2="${H - 26}"/><text class="tick" x="${X(v)}" y="${H - 8}" text-anchor="middle">${v} %</text>`;
+      g += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="0" y2="${H - 26}"/><text class="tick" x="${X(v)}" y="${H - 8}" text-anchor="middle">${I().pct(v, 0)}</text>`;
     }
     benches.forEach((s, i) => {
       const y = i * row + row / 2;
-      const t = `<b>${esc(s.b.name)}</b><br>Meilleur : ${fmt(s.max, 1)} % · médiane : ${fmt(s.med, 1)} %<br>Plus faible : ${fmt(s.min, 1)} % · ${s.n} modèles`;
+      const t = `<b>${esc(s.b.name)}</b><br>${T().satTip(I().pct(s.max), I().pct(s.med), I().pct(s.min), s.n)}`;
       g += `<text class="rlabel" x="0" y="${y}" dominant-baseline="middle">${esc(s.b.short)}</text>`;
       g += `<g class="hit" ${tip(t)}><rect class="track" x="${X(s.min)}" y="${y - 3}" width="${Math.max(2, X(s.max) - X(s.min))}" height="6" rx="3"/>`;
       g += `<circle class="dot muted" cx="${X(s.med)}" cy="${y}" r="5"/><circle class="dot s1" cx="${X(s.max)}" cy="${y}" r="6"/>`;
       g += `<rect x="${lw}" y="${y - row / 2}" width="${W - lw}" height="${row}" fill="transparent"/></g>`;
-      g += `<text class="val" x="${W}" y="${y}" text-anchor="end" dominant-baseline="middle">${fmt(s.max, 0)} %</text>`;
+      g += `<text class="val" x="${W}" y="${y}" text-anchor="end" dominant-baseline="middle">${I().pct(s.max, 0)}</text>`;
     });
-    el.innerHTML = svg(W, H, g, "Meilleur score, médiane et plage de chaque benchmark");
+    el.innerHTML = svg(W, H, g, T().aria.sat);
   }
 
   // ---------- 5. Répartition des points (histogramme, une série) ----------
@@ -161,13 +164,13 @@
       const cx = m.l + slot * i + slot / 2;
       const h = (b.list.length / max) * (H - m.t - m.b);
       if (b.list.length) {
-        const t = `<b>${b.v}–${b.v + step - 1} points</b><br>${b.list.map((r) => esc(r.m.name)).join("<br>")}`;
+        const t = `<b>${T().histTip(b.v, b.v + step - 1)}</b><br>${b.list.map((r) => esc(r.m.name)).join("<br>")}`;
         g += `<g class="hit" ${tip(t)}><path class="s1" d="M${cx - bw / 2},${H - m.b}v${-(h - 4)}a4,4 0 0 1 4,-4h${bw - 8}a4,4 0 0 1 4,4v${h - 4}z"/><rect x="${cx - slot / 2}" y="${m.t}" width="${slot}" height="${H - m.t - m.b}" fill="transparent"/></g>`;
         g += `<text class="val" x="${cx}" y="${H - m.b - h - 6}" text-anchor="middle">${b.list.length}</text>`;
       }
       if (W >= 480 || i % 2 === 0) g += `<text class="tick" x="${cx}" y="${H - m.b + 18}" text-anchor="middle">${b.v}</text>`;
     });
-    el.innerHTML = svg(W, H, g, "Nombre de modèles par tranche de 50 points");
+    el.innerHTML = svg(W, H, g, T().aria.hist);
   }
 
   // ---------- 6. Évolution des points du top 5 (lignes, une par modèle) ----------
@@ -178,7 +181,7 @@
     const days = (history || []).filter((h) => top.some((r) => h.points[r.m.id] != null));
     $("#evo-legend").innerHTML = top.map((r, k) => `<span><i class="sw s${k + 1}"></i>${esc(r.m.name)}</span>`).join("");
     if (days.length < 2) {
-      el.innerHTML = `<p class="chart-empty">La courbe apparaîtra dès le deuxième jour d'historique.</p>`;
+      el.innerHTML = `<p class="chart-empty">${T().evoEmpty}</p>`;
       note.textContent = "";
       return;
     }
@@ -189,7 +192,7 @@
     const vals = days.flatMap((d) => top.map((r) => d.points[r.m.id])).filter((v) => v != null);
     const y0 = Math.floor((Math.min(...vals) - 10) / 50) * 50, y1 = Math.ceil((Math.max(...vals) + 10) / 50) * 50;
     const Y = (v) => H - m.b - ((v - y0) / (y1 - y0)) * (H - m.t - m.b);
-    const day = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+    const day = (d) => I().date(d, { day: "numeric", month: "short" });
 
     let g = "";
     const stepY = y1 - y0 > 200 ? 100 : 50;
@@ -224,8 +227,8 @@
       const lines = top.map((r) => (d.points[r.m.id] != null ? `${esc(r.m.name)} : ${d.points[r.m.id]}` : null)).filter(Boolean);
       g += `<g class="band" ${tip(`<b>${day(d.date)}</b><br>${lines.join("<br>")}`)}><line class="guide" x1="${x}" x2="${x}" y1="${m.t}" y2="${H - m.b}"/><rect x="${i ? a : m.l}" y="${m.t}" width="${(i < days.length - 1 ? b : W - m.r) - (i ? a : m.l)}" height="${H - m.t - m.b}" fill="transparent"/></g>`;
     });
-    el.innerHTML = svg(W, H, g, "Évolution des points ERAZ des cinq premiers");
-    note.textContent = `Historique enregistré depuis le ${day(days[0].date)} ${days[0].date.slice(0, 4)} : un point s'ajoute chaque jour.`;
+    el.innerHTML = svg(W, H, g, T().aria.evo);
+    note.textContent = T().evoNote(I().date(days[0].date, { day: "numeric", month: "long", year: "numeric" }));
   }
 
   window.renderCharts = (rows, D, history) => {

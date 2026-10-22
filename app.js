@@ -1,21 +1,10 @@
 (() => {
-  const D = window.APEX_DATA;
+  // Formule partagée (scoring.js) et textes de la langue de la page (i18n.js).
+  const Z = window.ERAZScore;
+  const I = window.I18N;
+  const T = I.T;
+  const D = Z.prepare(window.APEX_DATA, window.APEX_SCORES);
 
-  // Scores récupérés automatiquement (scripts/update-data.mjs) : ils priment sur les valeurs saisies à la main.
-  const S = window.APEX_SCORES;
-  if (S) {
-    D.updated = S.updated;
-    for (const m of D.models) {
-      const e = S.models[m.id];
-      if (!e) continue;
-      m.s = { ...m.s, ...e.s };
-      m.refs = e.refs || {};
-      if (e.aaii != null) m.aaii = e.aaii;
-      if (e.priceIn != null) m.priceIn = e.priceIn;
-      if (e.priceOut != null) m.priceOut = e.priceOut;
-      if (typeof e.open === "boolean") m.open = e.open;
-    }
-  }
   const $ = (s, r = document) => r.querySelector(s);
   // Le site a plusieurs pages : chaque bloc ne s'active que si ses éléments sont présents.
   const on = (sel, ev, fn) => { const el = document.querySelector(sel); if (el) el.addEventListener(ev, fn); };
@@ -23,17 +12,13 @@
 
   const CATS = Object.keys(D.categories);
   const SHOWN_CATS = ["reasoning", "math", "code", "agents"];
-  const PRESETS = {
-    "Équilibré":     { reasoning: 1, math: 1, code: 1, agents: 1, knowledge: 0.75, context: 0.5, vision: 0.5 },
-    "Raisonnement":  { reasoning: 3, math: 1.5, code: 0.5, agents: 0.5, knowledge: 1, context: 0.5, vision: 0.5 },
-    "Maths":         { reasoning: 1, math: 3, code: 0.5, agents: 0.25, knowledge: 0.5, context: 0.25, vision: 0.25 },
-    "Code":          { reasoning: 0.75, math: 0.5, code: 3, agents: 1.5, knowledge: 0.25, context: 0.75, vision: 0.25 },
-    "Agents":        { reasoning: 0.75, math: 0.25, code: 1.5, agents: 3, knowledge: 0.5, context: 1, vision: 0.75 },
-  };
+  const PRESETS = Z.PRESETS;
+  const DEFAULT_W = PRESETS.balanced;
+  const catLabel = (c) => I.cat(D, c);
 
   const state = {
-    preset: "Équilibré",
-    weights: { ...PRESETS["Équilibré"] },
+    preset: "balanced",
+    weights: { ...DEFAULT_W },
     sort: { key: "points", dir: -1 },
     query: "",
     org: "",
@@ -42,90 +27,28 @@
 
   // ---------- Scoring ----------
   const benchById = Object.fromEntries(D.benchmarks.map((b) => [b.id, b]));
-  // "best" est fixé sur l'ensemble des modèles suivis, indépendamment des filtres.
-  for (const b of D.benchmarks) {
-    const vals = D.models.map((m) => m.s[b.id]).filter((v) => v != null);
-    b.best = Math.max(...vals);
-    b.ranking = D.models.filter((m) => m.s[b.id] != null).sort((x, y) => y.s[b.id] - x.s[b.id]);
-  }
-  const norm = (b, v, best = b.best) => Math.max(0, Math.min(1, (v - b.floor) / (best - b.floor))) * 100;
-  const rankOf = (b, m) => b.ranking.findIndex((x) => x.id === m.id) + 1;
-
-  // s = scores bruts d'un modèle ; best = meilleur score par benchmark parmi les modèles comparés.
-  function scoreScores(s, weights, best) {
-    const cats = {};
-    let num = 0, den = 0, cov = 0, totalW = 0;
-    for (const c of CATS) {
-      const benches = D.benchmarks.filter((b) => b.cat === c);
-      const allW = benches.reduce((a, b) => a + b.weight, 0);
-      let n = 0, d = 0;
-      for (const b of benches) {
-        const v = s[b.id];
-        if (v == null) continue;
-        n += norm(b, v, best ? best[b.id] : b.best) * b.weight;
-        d += b.weight;
-      }
-      const W = weights[c] ?? 0;
-      totalW += W;
-      if (d > 0) {
-        cats[c] = n / d;
-        num += cats[c] * W;
-        den += W;
-        cov += W * (d / allW);
-      } else cats[c] = null;
-    }
-    const raw = den ? num / den : 0;
-    const coverage = totalW ? cov / totalW : 0;
-    const points = Math.round(raw * 10 * (0.75 + 0.25 * coverage));
-    return { cats, raw, coverage, points };
-  }
-
-  function score(m, weights) {
-    const wins = D.benchmarks.filter((b) => b.ranking[0] && b.ranking[0].id === m.id).length;
-    return { ...scoreScores(m.s, weights), wins };
-  }
-
-  // Points de chaque modèle pour chaque jour de l'historique, avec la même formule
-  // (le « meilleur » de chaque benchmark est celui du jour concerné).
-  function historyPoints(weights) {
-    return (window.ERAZ_HISTORY || []).map((snap) => {
-      const best = {};
-      for (const b of D.benchmarks) {
-        const vals = Object.values(snap.models).map((s) => s[b.id]).filter((v) => v != null);
-        if (vals.length) best[b.id] = Math.max(...vals);
-      }
-      const points = {};
-      for (const [id, s] of Object.entries(snap.models)) points[id] = scoreScores(s, weights, best).points;
-      return { date: snap.date, points };
-    });
-  }
-
-  function computeAll() {
-    return D.models
-      .map((m) => ({ m, ...score(m, state.weights) }))
-      .sort((a, b) => b.points - a.points)
-      .map((r, i) => ({ ...r, rank: i + 1 }));
-  }
+  const norm = Z.norm;
+  const rankOf = Z.rankOf;
+  const rowsWith = (weights) => Z.rank(D, weights);
+  const computeAll = () => rowsWith(state.weights);
+  const historyPoints = (weights) => Z.historyPoints(D, window.ERAZ_HISTORY, weights);
 
   // ---------- Formatting ----------
-  const fmtScore = (b, v) => (v == null ? "—" : b.unit === "Elo" ? Math.round(v) : (Math.round(v * 10) / 10).toLocaleString("fr-FR"));
+  const fmtScore = (b, v) => (v == null ? "—" : b.unit === "Elo" ? Math.round(v) : I.num(v, 1));
   const fmtCat = (v) => (v == null ? '<span class="dash">—</span>' : Math.round(v));
-  const fmtPrice = (v) => (v == null ? '<span class="dash">—</span>' : "$" + (v < 1 ? v.toFixed(2).replace(/0$/, "") : v.toFixed(2).replace(/\.00$/, "")));
-  const openBadge = (m) => (m.open ? '<span class="badge open">Open</span>' : m.open === false ? '<span class="badge">Propriétaire</span>' : "");
+  const fmtPrice = (v) => (v == null ? '<span class="dash">—</span>' : I.price(v));
+  const openBadge = (m) => (m.open ? `<span class="badge open">${T.open}</span>` : m.open === false ? `<span class="badge">${T.proprietary}</span>` : "");
+  const modelLink = (m) => T.modelPath(m.id);
 
   // ---------- Header / hero ----------
   // Ligne d'édition, comme une publication : numéro du jour depuis le lancement + date complète.
   const LAUNCH = "2026-10-21";
   const edition = Math.round((Date.parse(D.updated) - Date.parse(LAUNCH)) / 864e5) + 1;
-  if ($("#edition")) $("#edition").textContent = `Édition n° ${edition}`;
-  if ($("#updated")) $("#updated").textContent = new Date(D.updated + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  if ($("#edition")) $("#edition").textContent = T.edition(edition);
+  if ($("#updated")) $("#updated").textContent = I.date(D.updated, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const nScores = D.models.reduce((a, m) => a + Object.keys(m.s).length, 0);
-  if ($("#stats")) $("#stats").innerHTML = [
-    [D.models.length, "modèles classés"],
-    [D.benchmarks.length, "benchmarks"],
-    [nScores, "résultats vérifiés"],
-    [new Set(D.models.map((m) => m.org)).size, "laboratoires"],
-  ].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
+  if ($("#stats")) $("#stats").innerHTML = [D.models.length, D.benchmarks.length, nScores, new Set(D.models.map((m) => m.org)).size]
+    .map((n, i) => `<div class="stat"><b>${n}</b><span>${T.stats[i]}</span></div>`).join("");
 
   function renderPodium(rows) {
     if (!$("#podium")) return;
@@ -135,12 +58,12 @@
         <h3>${esc(r.m.name)}</h3>
         <div class="org">${esc(r.m.org)}</div>
         <div class="pts">${r.points}<small>/ 1000</small></div>
-        <div class="mini">${SHOWN_CATS.map((c) => `<div>${D.categories[c].label.split(" ")[0]}<b>${r.cats[c] == null ? "—" : Math.round(r.cats[c])}</b></div>`).join("")}</div>
+        <div class="mini">${SHOWN_CATS.map((c) => `<div>${catLabel(c).split(" ")[0]}<b>${r.cats[c] == null ? "—" : Math.round(r.cats[c])}</b></div>`).join("")}</div>
       </button>`).join("");
   }
 
   // ---------- Controls ----------
-  if ($("#presets")) $("#presets").innerHTML = Object.keys(PRESETS).map((p) => `<button class="chip" type="button" data-preset="${p}" aria-pressed="${p === state.preset}">${p}</button>`).join("");
+  if ($("#presets")) $("#presets").innerHTML = Object.keys(PRESETS).map((p) => `<button class="chip" type="button" data-preset="${p}" aria-pressed="${p === state.preset}">${T.presets[p]}</button>`).join("");
   on("#presets", "click", (e) => {
     const btn = e.target.closest("[data-preset]");
     if (!btn) return;
@@ -151,7 +74,7 @@
   });
 
   if ($("#weights")) $("#weights").innerHTML = CATS.map((c) => `
-    <label>${D.categories[c].label}
+    <label>${catLabel(c)}
       <input type="range" min="0" max="3" step="0.25" id="w-${c}" data-cat="${c}">
     </label>`).join("");
   function syncWeights() {
@@ -175,7 +98,7 @@
   });
 
   const orgs = [...new Set(D.models.map((m) => m.org))].sort();
-  if ($("#orgFilter")) $("#orgFilter").innerHTML = `<option value="">Tous les éditeurs</option>` + orgs.map((o) => `<option>${esc(o)}</option>`).join("");
+  if ($("#orgFilter")) $("#orgFilter").innerHTML = `<option value="">${T.allLabs}</option>` + orgs.map((o) => `<option>${esc(o)}</option>`).join("");
   on("#orgFilter", "change", (e) => { state.org = e.target.value; render(); });
   on("#search", "input", (e) => { state.query = e.target.value.trim().toLowerCase(); render(); });
   on("#openOnly", "change", (e) => { state.openOnly = e.target.checked; render(); });
@@ -218,7 +141,7 @@
 
     const tbody = $("#ranking tbody");
     if (!list.length) {
-      tbody.innerHTML = `<tr><td colspan="12" class="empty">Aucun modèle ne correspond à ces filtres.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="12" class="empty">${T.noMatch}</td></tr>`;
       return;
     }
     const max = Math.max(...rows.map((r) => r.points));
@@ -229,7 +152,7 @@
         <td class="c-points"><div class="points"><b>${r.points}</b><div class="bar"><i style="width:${(r.points / max) * 100}%"></i></div></div></td>
         ${SHOWN_CATS.map((c) => `<td class="c-cat">${fmtCat(r.cats[c])}</td>`).join("")}
         <td class="c-num">${r.wins || '<span class="dash">0</span>'}</td>
-        <td class="c-num">${Math.round(r.coverage * 100)} %</td>
+        <td class="c-num">${I.pct(r.coverage * 100, 0)}</td>
         <td class="c-num hide-sm">${r.m.aaii ?? '<span class="dash">—</span>'}</td>
         <td class="c-num hide-sm">${fmtPrice(r.m.priceIn)}</td>
         <td class="c-num hide-sm">${fmtPrice(r.m.priceOut)}</td>
@@ -261,9 +184,9 @@
   function renderMatrix(rows) {
     if (!$("#matrix")) return;
     const byCat = CATS.map((c) => ({ c, benches: D.benchmarks.filter((b) => b.cat === c) })).filter((g) => g.benches.length);
-    const head1 = `<tr><th></th>${byCat.map((g) => `<th class="cat-h" colspan="${g.benches.length}">${D.categories[g.c].label}</th>`).join("")}</tr>`;
+    const head1 = `<tr><th></th>${byCat.map((g) => `<th class="cat-h" colspan="${g.benches.length}">${catLabel(g.c)}</th>`).join("")}</tr>`;
     const head2 = `<tr><th></th>${byCat.flatMap((g) => g.benches).map((b) => `<th title="${esc(b.name)}">${esc(b.short)}</th>`).join("")}</tr>`;
-    const body = rows.map((r) => `<tr><th class="row-h" scope="row">${esc(r.m.name)}</th>${byCat.flatMap((g) => g.benches).map((b) => {
+    const body = rows.map((r) => `<tr><th class="row-h" scope="row"><a href="${modelLink(r.m)}">${esc(r.m.name)}</a></th>${byCat.flatMap((g) => g.benches).map((b) => {
       const v = r.m.s[b.id];
       if (v == null) return `<td class="na" data-m="${r.m.id}" data-b="${b.id}">—</td>`;
       const n = norm(b, v), col = cellColor(n);
@@ -279,8 +202,8 @@
     if (!td) { tip.hidden = true; return; }
     const b = benchById[td.dataset.b], m = D.models.find((x) => x.id === td.dataset.m), v = m.s[b.id];
     tip.innerHTML = v == null
-      ? `<b>${esc(m.name)}</b><br>${esc(b.name)} : non publié`
-      : `<b>${esc(m.name)}</b><br>${esc(b.name)} : ${fmtScore(b, v)} ${b.unit}<br>Normalisé : ${Math.round(norm(b, v))}/100 · rang ${rankOf(b, m)}/${b.ranking.length}`;
+      ? `<b>${esc(m.name)}</b><br>${esc(b.name)} : ${T.notPublished}`
+      : `<b>${esc(m.name)}</b><br>${esc(b.name)} : ${fmtScore(b, v)} ${b.unit}<br>${T.normalized} : ${Math.round(norm(b, v))}/100 · ${T.rank} ${rankOf(b, m)}/${b.ranking.length}`;
     tip.hidden = false;
     const x = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8);
     const y = e.clientY + 16 + tip.offsetHeight > innerHeight ? e.clientY - tip.offsetHeight - 12 : e.clientY + 16;
@@ -294,19 +217,18 @@
     $("#benchGrid").innerHTML = D.benchmarks.map((b) => {
       const top = b.ranking.slice(0, 5);
       return `<article class="bench">
-        <header><div><div class="cat">${D.categories[b.cat].label}</div><h3>${esc(b.name)}</h3></div></header>
-        <p>${esc(b.desc)}</p>
-        <ol>${top.map((m, i) => `<li><span class="r">${i + 1}</span><span class="nm">${esc(m.name)}</span><span class="v">${fmtScore(b, m.s[b.id])}${b.unit === "%" ? " %" : ""}</span><span class="track"><i style="width:${norm(b, m.s[b.id])}%"></i></span></li>`).join("")}</ol>
-        <footer><span>${b.ranking.length} modèles · source : ${esc(b.source)}</span><a href="${b.url}" target="_blank" rel="noopener">Site officiel ↗</a></footer>
+        <header><div><div class="cat">${catLabel(b.cat)}</div><h3>${esc(b.name)}</h3></div></header>
+        <p>${esc(I.desc(b))}</p>
+        <ol>${top.map((m, i) => `<li><span class="r">${i + 1}</span><span class="nm"><a href="${modelLink(m)}">${esc(m.name)}</a></span><span class="v">${b.unit === "%" ? I.pct(m.s[b.id]) : fmtScore(b, m.s[b.id])}</span><span class="track"><i style="width:${norm(b, m.s[b.id])}%"></i></span></li>`).join("")}</ol>
+        <footer><span>${T.benchFoot(b.ranking.length, esc(b.source))}</span><a href="${b.url}" target="_blank" rel="noopener">${T.officialSite}</a></footer>
       </article>`;
     }).join("");
   }
 
   // ---------- Page « À propos » : le calcul détaillé ----------
-  const n1 = (v) => (Math.round(v * 10) / 10).toLocaleString("fr-FR");
-  const n2 = (v) => (Math.round(v * 100) / 100).toLocaleString("fr-FR");
-  const n3 = (v) => (Math.round(v * 1000) / 1000).toLocaleString("fr-FR");
-  const DEFAULT_W = PRESETS["Équilibré"];
+  const n1 = (v) => I.num(v, 1);
+  const n2 = (v) => I.num(v, 2);
+  const n3 = (v) => I.num(v, 3);
 
   function renderCatDetail() {
     if (!$("#catDetail")) return;
@@ -315,13 +237,13 @@
       const sumW = benches.reduce((a, b) => a + b.weight, 0);
       const formula = benches.map((b) => `${n2(b.weight)} × ${esc(b.short)}`).join(" + ");
       return `<article class="cd-card">
-        <header><h3>${D.categories[c].label}</h3><span>poids ×${n2(DEFAULT_W[c])} dans le score global</span></header>
+        <header><h3>${catLabel(c)}</h3><span>${T.weightInGlobal(n2(DEFAULT_W[c]))}</span></header>
         <div class="table-scroll"><table class="cd-table">
-          <thead><tr><th>Benchmark</th><th class="r">Poids</th><th class="r">Plancher</th><th class="r">Meilleur score</th><th>Détenu par</th></tr></thead>
+          <thead><tr><th>${T.thBench}</th><th class="r">${T.thWeight}</th><th class="r">${T.thFloor}</th><th class="r">${T.thBest}</th><th>${T.thHeldBy}</th></tr></thead>
           <tbody>${benches.map((b) => `<tr><td>${esc(b.name)}</td><td class="r">×${n2(b.weight)}</td><td class="r">${n1(b.floor)} ${esc(b.unit)}</td><td class="r">${fmtScore(b, b.best)} ${esc(b.unit)}</td><td>${esc(b.ranking[0].name)}</td></tr>`).join("")}</tbody>
         </table></div>
-        <p class="cd-formula"><b>Score ${D.categories[c].label}</b> = (${formula}) ÷ ${n2(sumW)}</p>
-        <p class="cd-note">Chaque benchmark entre dans la formule <b>ramené sur 100</b>. Si un modèle n'a pas publié un résultat, ce benchmark est retiré du calcul et du diviseur : la moyenne porte sur les benchmarks disponibles.</p>
+        <p class="cd-formula"><b>${T.scoreOf(catLabel(c))}</b> = (${formula}) ÷ ${n2(sumW)}</p>
+        <p class="cd-note">${T.catNote}</p>
       </article>`;
     }).join("");
   }
@@ -334,16 +256,16 @@
     // Étape 1 : normalisation de chaque score publié.
     const step1 = D.benchmarks.map((b) => {
       const v = m.s[b.id];
-      if (v == null) return `<tr class="muted-row"><td>${esc(b.name)}</td><td class="r">—</td><td class="r">${n1(b.floor)}</td><td class="r">${fmtScore(b, b.best)}</td><td class="r">non publié</td></tr>`;
+      if (v == null) return `<tr class="muted-row"><td>${esc(b.name)}</td><td class="r">—</td><td class="r">${n1(b.floor)}</td><td class="r">${fmtScore(b, b.best)}</td><td class="r">${T.notPublished}</td></tr>`;
       return `<tr><td>${esc(b.name)}</td><td class="r">${fmtScore(b, v)}</td><td class="r">${n1(b.floor)}</td><td class="r">${fmtScore(b, b.best)}</td><td class="r">(${fmtScore(b, v)} − ${n1(b.floor)}) ÷ (${fmtScore(b, b.best)} − ${n1(b.floor)}) × 100 = <b>${n1(norm(b, v))}</b></td></tr>`;
     }).join("");
     // Étape 2 : moyenne pondérée dans chaque catégorie.
     const step2 = CATS.map((c) => {
       const benches = D.benchmarks.filter((b) => b.cat === c && m.s[b.id] != null);
-      if (!benches.length) return `<li><b>${D.categories[c].label}</b> : aucun résultat publié, la catégorie est ignorée.</li>`;
+      if (!benches.length) return `<li>${T.noResults(catLabel(c))}</li>`;
       const sumW = benches.reduce((a, b) => a + b.weight, 0);
       const terms = benches.map((b) => `${n2(b.weight)} × ${n1(norm(b, m.s[b.id]))}`).join(" + ");
-      return `<li><b>${D.categories[c].label}</b> = (${terms}) ÷ ${n2(sumW)} = <b>${n1(r.cats[c])}</b></li>`;
+      return `<li><b>${catLabel(c)}</b> = (${terms}) ÷ ${n2(sumW)} = <b>${n1(r.cats[c])}</b></li>`;
     }).join("");
     // Étapes 3 et 4 : score global, couverture, points.
     const present = CATS.filter((c) => r.cats[c] != null);
@@ -358,29 +280,22 @@
     });
     const factor = 0.75 + 0.25 * r.coverage;
     $("#example").innerHTML = `
-      <div class="ex-step"><span class="step">1</span><div><h3>Chaque score ramené sur 100</h3>
-        <p>Formule : (score − plancher) ÷ (meilleur − plancher) × 100, plafonné entre 0 et 100.</p>
-        <div class="table-scroll"><table class="cd-table"><thead><tr><th>Benchmark</th><th class="r">Score de ${esc(m.name)}</th><th class="r">Plancher</th><th class="r">Meilleur</th><th class="r">Calcul</th></tr></thead><tbody>${step1}</tbody></table></div></div></div>
-      <div class="ex-step"><span class="step">2</span><div><h3>Les scores de catégorie</h3>
-        <p>Moyenne des scores sur 100, pondérée par le poids de chaque benchmark.</p><ul class="ex-list">${step2}</ul></div></div>
-      <div class="ex-step"><span class="step">3</span><div><h3>Le score global</h3>
-        <p>Moyenne des catégories disponibles, pondérée par le poids de chaque catégorie.</p>
-        <p class="cd-formula">(${g}) ÷ ${n2(sumWc)} = <b>${n2(r.raw)}</b> sur 100</p></div></div>
-      <div class="ex-step"><span class="step">4</span><div><h3>La couverture</h3>
-        <p>Part pondérée des benchmarks publiés : pour chaque catégorie, son poids × (poids des benchmarks publiés ÷ poids de tous ses benchmarks), le tout divisé par la somme des poids des catégories (${n2(totalW)}).</p>
-        <ul class="ex-list">${covTerms.map((t) => `<li>${D.categories[t.c].label} : ${n2(DEFAULT_W[t.c])} × (${n2(t.pub)} ÷ ${n2(t.tot)}) = ${n2(t.part)}</li>`).join("")}</ul>
-        <p class="cd-formula">Couverture = ${n2(covTerms.reduce((a, t) => a + t.part, 0))} ÷ ${n2(totalW)} = <b>${n1(r.coverage * 100)} %</b></p></div></div>
-      <div class="ex-step"><span class="step">5</span><div><h3>Les points ERAZ</h3>
-        <p>Score global × 10, multiplié par un facteur de couverture compris entre 0,75 (aucun benchmark) et 1 (tous les benchmarks).</p>
-        <p class="cd-formula">${n2(r.raw)} × 10 × (0,75 + 0,25 × ${n3(r.coverage)}) = ${n2(r.raw)} × 10 × ${n3(factor)} = <b>${r.points} points</b> (arrondi)</p>
-        <p class="cd-note">${esc(m.name)} est donc ${r.rank === 1 ? "1er" : r.rank + "e"} du classement, avec le profil de pondération par défaut (Équilibré).</p></div></div>`;
-  }
-
-  function rowsWith(weights) {
-    return D.models
-      .map((m) => ({ m, ...score(m, weights) }))
-      .sort((a, b) => b.points - a.points)
-      .map((r, i) => ({ ...r, rank: i + 1 }));
+      <div class="ex-step"><span class="step">1</span><div><h3>${T.s1Title}</h3>
+        <p>${T.s1Text}</p>
+        <div class="table-scroll"><table class="cd-table"><thead><tr><th>${T.thBench}</th><th class="r">${T.thScoreOf(esc(m.name))}</th><th class="r">${T.thFloor}</th><th class="r">${T.thBestShort}</th><th class="r">${T.thCalc}</th></tr></thead><tbody>${step1}</tbody></table></div></div></div>
+      <div class="ex-step"><span class="step">2</span><div><h3>${T.s2Title}</h3>
+        <p>${T.s2Text}</p><ul class="ex-list">${step2}</ul></div></div>
+      <div class="ex-step"><span class="step">3</span><div><h3>${T.s3Title}</h3>
+        <p>${T.s3Text}</p>
+        <p class="cd-formula">(${g}) ÷ ${n2(sumWc)} = <b>${n2(r.raw)}</b> ${T.outOf100}</p></div></div>
+      <div class="ex-step"><span class="step">4</span><div><h3>${T.s4Title}</h3>
+        <p>${T.s4Text(n2(totalW))}</p>
+        <ul class="ex-list">${covTerms.map((t) => `<li>${catLabel(t.c)} : ${n2(DEFAULT_W[t.c])} × (${n2(t.pub)} ÷ ${n2(t.tot)}) = ${n2(t.part)}</li>`).join("")}</ul>
+        <p class="cd-formula">${T.coverageEq} = ${n2(covTerms.reduce((a, t) => a + t.part, 0))} ÷ ${n2(totalW)} = <b>${I.pct(r.coverage * 100)}</b></p></div></div>
+      <div class="ex-step"><span class="step">5</span><div><h3>${T.s5Title}</h3>
+        <p>${T.s5Text}</p>
+        <p class="cd-formula">${n2(r.raw)} × 10 × (${n2(0.75)} + ${n2(0.25)} × ${n3(r.coverage)}) = ${n2(r.raw)} × 10 × ${n3(factor)} = <b>${r.points} ${T.pointsWord}</b> ${T.rounded}</p>
+        <p class="cd-note">${T.conclusion(esc(m.name), r.rank)}</p></div></div>`;
   }
 
   if ($("#exampleModel")) {
@@ -400,26 +315,27 @@
     if (!r) return;
     const m = r.m;
     const catBlock = CATS.map((c) => `
-      <div class="d-row"><span class="lbl">${D.categories[c].label}</span>
+      <div class="d-row"><span class="lbl">${catLabel(c)}</span>
         <div class="bar"><i style="width:${r.cats[c] ?? 0}%"></i></div>
         <span class="val">${r.cats[c] == null ? "—" : Math.round(r.cats[c])}</span></div>`).join("");
     const benchBlock = D.benchmarks.map((b) => {
       const v = m.s[b.id];
       return `<div class="d-row"><span class="lbl"><a href="${b.url}" target="_blank" rel="noopener">${esc(b.name)}</a></span>
         <div class="bar"><i style="width:${v == null ? 0 : norm(b, v)}%"></i></div>
-        <span class="val">${v == null ? '<span class="dash">—</span>' : `${fmtScore(b, v)}<small>#${rankOf(b, m)} / ${b.ranking.length}${m.refs?.[b.id] ? ` · <a href="${esc(m.refs[b.id])}" target="_blank" rel="noopener" title="Source de ce score">src</a>` : ""}</small>`}</span></div>`;
+        <span class="val">${v == null ? '<span class="dash">—</span>' : `${fmtScore(b, v)}<small>#${rankOf(b, m)} / ${b.ranking.length}${m.refs?.[b.id] ? ` · <a href="${esc(m.refs[b.id])}" target="_blank" rel="noopener" title="${T.scoreSource}">src</a>` : ""}</small>`}</span></div>`;
     }).join("");
     $("#drawerBody").innerHTML = `
-      <div class="d-head"><div class="org">${esc(m.org)} ${openBadge(m)} · contexte ${esc(m.ctx)}</div><h2 id="drawerTitle">${esc(m.name)}</h2></div>
+      <div class="d-head"><div class="org">${esc(m.org)} ${openBadge(m)} · ${T.context} ${esc(m.ctx)}</div><h2 id="drawerTitle">${esc(m.name)}</h2></div>
       <div class="d-kpis">
-        <div><span>Rang ERAZ</span><b>#${r.rank}</b></div>
-        <div><span>Points</span><b>${r.points}</b></div>
-        <div><span>Couverture</span><b>${Math.round(r.coverage * 100)} %</b></div>
+        <div><span>${T.ercRank}</span><b>#${r.rank}</b></div>
+        <div><span>${T.points}</span><b>${r.points}</b></div>
+        <div><span>${T.coverage}</span><b>${I.pct(r.coverage * 100, 0)}</b></div>
       </div>
-      <div class="d-section"><h4>Scores par catégorie (sur 100)</h4>${catBlock}</div>
-      <div class="d-section"><h4>Résultats bruts</h4>${benchBlock}</div>
-      <p class="d-src">AA Intelligence Index : ${m.aaii ?? "—"} · Prix par million de tokens : ${m.priceIn == null ? "—" : `${fmtPrice(m.priceIn)} en entrée, ${fmtPrice(m.priceOut)} en sortie`}<br>
-      Source des scores : <a href="${m.src}" target="_blank" rel="noopener">fiche du modèle ↗</a> · <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis ↗</a></p>`;
+      <p class="d-full"><a href="${modelLink(m)}">${T.fullPage}</a></p>
+      <div class="d-section"><h4>${T.catScores}</h4>${catBlock}</div>
+      <div class="d-section"><h4>${T.rawResults}</h4>${benchBlock}</div>
+      <p class="d-src">AA Intelligence Index : ${m.aaii ?? "—"} · ${T.pricePerM} : ${m.priceIn == null ? "—" : `${I.price(m.priceIn)} ${T.input}, ${I.price(m.priceOut)} ${T.output}`}<br>
+      ${T.sourcesOf} : <a href="${m.src}" target="_blank" rel="noopener">${T.modelPage}</a> · <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis ↗</a></p>`;
     lastFocus = document.activeElement;
     backdrop.hidden = false;
     drawer.classList.add("open");
@@ -434,7 +350,7 @@
   }
   on("#drawerClose", "click", closeDrawer);
   on("#backdrop", "click", closeDrawer);
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer.classList.contains("open")) closeDrawer(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer && drawer.classList.contains("open")) closeDrawer(); });
 
   // ---------- Theme ----------
   try { const t = localStorage.getItem("apex-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -448,6 +364,20 @@
 
   // ---------- Sources ----------
   if ($("#sources")) $("#sources").innerHTML = D.sources.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a></li>`).join("");
+
+  // ---------- Fiche modèle : courbe d'évolution (le reste de la page est déjà écrit en HTML) ----------
+  function renderModelHistory() {
+    const el = $("#modelHistory");
+    if (!el) return;
+    const id = el.dataset.model;
+    const days = historyPoints(DEFAULT_W).filter((d) => d.points[id] != null);
+    el.innerHTML = days.slice(-30).reverse().map((d, i, arr) => {
+      const prev = arr[i + 1];
+      const dlt = prev ? d.points[id] - prev.points[id] : null;
+      const delta = dlt == null ? "" : dlt > 0 ? `<span class="d up">▲ ${dlt}</span>` : dlt < 0 ? `<span class="d down">▼ ${-dlt}</span>` : `<span class="d flat">= 0</span>`;
+      return `<tr><td>${I.date(d.date, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</td><td class="r">${d.points[id]}</td><td class="r">${delta}</td></tr>`;
+    }).join("");
+  }
 
   function render() {
     const rows = computeAll();
@@ -470,25 +400,38 @@
   function renderTicker() {
     const el = $("#ticker");
     if (!el) return;
-    const rows = D.models.map((m) => ({ m, ...score(m, PRESETS["Équilibré"]) })).sort((a, b) => b.points - a.points).slice(0, 12);
-    const hist = historyPoints(PRESETS["Équilibré"]);
+    const rows = rowsWith(DEFAULT_W).slice(0, 12);
+    const hist = historyPoints(DEFAULT_W);
     const prev = hist.length >= 2 ? hist[hist.length - 2].points : null;
-    const item = (r, i) => {
+    const item = (r) => {
       const before = prev ? prev[r.m.id] : null;
       const dlt = before == null ? null : r.points - before;
-      const delta = dlt == null ? '<span class="d new">nouveau</span>'
-        : dlt > 0 ? `<span class="d up" aria-label="en hausse de ${dlt}">▲ ${dlt}</span>`
-        : dlt < 0 ? `<span class="d down" aria-label="en baisse de ${-dlt}">▼ ${-dlt}</span>`
-        : '<span class="d flat" aria-label="stable">= 0</span>';
-      return `<span class="tk"><span class="tk-rank">${i + 1}</span>${esc(r.m.name)}<span class="tk-pts">${r.points}</span>${delta}</span>`;
+      const delta = dlt == null ? `<span class="d new">${T.tkNew}</span>`
+        : dlt > 0 ? `<span class="d up" aria-label="${T.tkUp(dlt)}">▲ ${dlt}</span>`
+        : dlt < 0 ? `<span class="d down" aria-label="${T.tkDown(-dlt)}">▼ ${-dlt}</span>`
+        : `<span class="d flat" aria-label="${T.tkFlat}">= 0</span>`;
+      return `<a class="tk" href="${modelLink(r.m)}"><span class="tk-rank">${r.rank}</span>${esc(r.m.name)}<span class="tk-pts">${r.points}</span>${delta}</a>`;
     };
     const list = rows.map(item).join("");
     // Contenu doublé pour une boucle sans à-coup ; la copie est masquée aux lecteurs d'écran.
     el.innerHTML = `<div class="ticker-track"><div class="ticker-list">${list}</div><div class="ticker-list" aria-hidden="true">${list}</div></div>`;
   }
 
+  // Bouton « Copier » des codes d'intégration du badge (fiches modèles).
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (!btn) return;
+    const src = document.getElementById(btn.dataset.copy);
+    navigator.clipboard.writeText(src.value || src.textContent).then(() => {
+      const old = btn.textContent;
+      btn.textContent = btn.dataset.done;
+      setTimeout(() => (btn.textContent = old), 1500);
+    });
+  });
+
   syncWeights();
   renderBenchmarks();
   renderTicker();
+  renderModelHistory();
   render();
 })();

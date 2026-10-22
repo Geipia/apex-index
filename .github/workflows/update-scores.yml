@@ -18,14 +18,24 @@ jobs:
           node-version: 22
       - name: Récupérer les scores
         run: node scripts/update-data.mjs
+      - name: Générer les pages, fiches modèles, badges et sitemap
+        run: node scripts/build.mjs
       - name: Publier s'il y a du nouveau
+        id: publish
         run: |
-          if [ -z "$(git status --porcelain -- scores.js history.js)" ]; then
+          git add -A
+          if git diff --cached --quiet; then
             echo "Aucun changement."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "eraz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scores.js sitemap.xml history.js
           git commit -m "Mise à jour des scores ($(date -u +%F))"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Prévenir les moteurs de recherche (IndexNow)
+        if: steps.publish.outputs.changed == 'true'
+        run: |
+          sleep 90 # laisse à GitHub Pages le temps de publier la nouvelle version
+          node scripts/indexnow.mjs
