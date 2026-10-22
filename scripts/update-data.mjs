@@ -221,6 +221,13 @@ async function main() {
   const js = `// Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.\nwindow.APEX_SCORES = ${JSON.stringify(out, null, 2)};\n`;
   await writeFile(path.join(ROOT, "scores.js"), js);
   console.log(`\nscores.js écrit (${out.updated}).`);
+
+  // Date de dernière modification pour les moteurs de recherche.
+  const sitemapPath = path.join(ROOT, "sitemap.xml");
+  try {
+    const sitemap = await readFile(sitemapPath, "utf8");
+    await writeFile(sitemapPath, sitemap.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${out.updated}</lastmod>`));
+  } catch { /* pas de sitemap : rien à faire */ }
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });
