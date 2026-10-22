@@ -123,14 +123,11 @@
   });
 
   $("#weights").innerHTML = CATS.map((c) => `
-    <label>${D.categories[c].label}<output id="w-${c}-out"></output>
+    <label>${D.categories[c].label}
       <input type="range" min="0" max="3" step="0.25" id="w-${c}" data-cat="${c}">
     </label>`).join("");
   function syncWeights() {
-    for (const c of CATS) {
-      $(`#w-${c}`).value = state.weights[c];
-      $(`#w-${c}-out`).textContent = "×" + state.weights[c].toLocaleString("fr-FR");
-    }
+    for (const c of CATS) $(`#w-${c}`).value = state.weights[c];
     document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.preset === state.preset));
   }
   $("#weights").addEventListener("input", (e) => {
@@ -140,6 +137,12 @@
     state.preset = "";
     syncWeights();
     render();
+  });
+
+  $("#advancedToggle").addEventListener("click", (e) => {
+    const panel = $("#advanced");
+    panel.hidden = !panel.hidden;
+    e.currentTarget.setAttribute("aria-expanded", String(!panel.hidden));
   });
 
   const orgs = [...new Set(D.models.map((m) => m.org))].sort();
@@ -258,7 +261,7 @@
     $("#benchGrid").innerHTML = D.benchmarks.map((b) => {
       const top = b.ranking.slice(0, 5);
       return `<article class="bench">
-        <header><div><div class="cat">${D.categories[b.cat].label}</div><h3>${esc(b.name)}</h3></div><span class="w">poids ×${b.weight.toLocaleString("fr-FR")}</span></header>
+        <header><div><div class="cat">${D.categories[b.cat].label}</div><h3>${esc(b.name)}</h3></div></header>
         <p>${esc(b.desc)}</p>
         <ol>${top.map((m, i) => `<li><span class="r">${i + 1}</span><span class="nm">${esc(m.name)}</span><span class="v">${fmtScore(b, m.s[b.id])}${b.unit === "%" ? " %" : ""}</span><span class="track"><i style="width:${norm(b, m.s[b.id])}%"></i></span></li>`).join("")}</ol>
         <footer><span>${b.ranking.length} modèles · source : ${esc(b.source)}</span><a href="${b.url}" target="_blank" rel="noopener">Site officiel ↗</a></footer>

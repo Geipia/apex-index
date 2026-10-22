@@ -44,7 +44,6 @@
         <a href="#classement">Classement</a>
         <a href="#matrice">Matrice</a>
         <a href="#benchmarks">Benchmarks</a>
-        <a href="#methode">Méthode</a>
       </nav>
       <button class="icon-btn" id="themeToggle" type="button" aria-label="Changer de thème">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
@@ -56,7 +55,7 @@
     <section class="hero wrap">
       <p class="eyebrow"><span class="dot"></span> Mis à jour le <span id="updated"></span></p>
       <h1>Le classement de référence<br>de l'intelligence artificielle.</h1>
-      <p class="lede">Les résultats des benchmarks les plus exigeants, réunis en un seul score. Chaque chiffre est sourcé, chaque point est expliqué.</p>
+      <p class="lede">Les résultats des benchmarks les plus exigeants, réunis en un seul score. Chaque chiffre est sourcé.</p>
       <div class="stats" id="stats"></div>
       <div class="podium" id="podium" aria-label="Podium"></div>
     </section>
@@ -70,7 +69,6 @@
       </div>
 
       <div class="controls">
-        <div class="presets" role="group" aria-label="Profil de pondération" id="presets"></div>
         <div class="filters">
           <label class="search">
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -80,11 +78,6 @@
           <label class="toggle"><input type="checkbox" id="openOnly"> <span>Open weights</span></label>
         </div>
       </div>
-
-      <details class="weights" id="weightsPanel">
-        <summary>Personnaliser les poids des catégories</summary>
-        <div class="weights-grid" id="weights"></div>
-      </details>
 
       <div class="table-wrap">
         <table class="ranking" id="ranking">
@@ -98,7 +91,7 @@
               <th class="c-cat" scope="col" data-sort="code">Code</th>
               <th class="c-cat" scope="col" data-sort="agents">Agents</th>
               <th class="c-num" scope="col" data-sort="wins" title="Nombre de benchmarks où le modèle est n°1">N°1</th>
-              <th class="c-num" scope="col" data-sort="coverage" title="Part pondérée des benchmarks publiés">Couv.</th>
+              <th class="c-num" scope="col" data-sort="coverage" title="Part des benchmarks publiés">Couv.</th>
               <th class="c-num hide-sm" scope="col" data-sort="aaii" title="Artificial Analysis Intelligence Index (référence externe)">AA Index</th>
               <th class="c-num hide-sm" scope="col" data-sort="cost" title="Coût moyen par tâche de l'index AA">Coût/tâche</th>
             </tr>
@@ -106,7 +99,11 @@
           <tbody></tbody>
         </table>
       </div>
-      <p class="footnote">« — » = résultat non publié ou non vérifié par une source indépendante. Les catégories Connaissances, Contexte long et Multimodal comptent dans les points mais ne sont affichées que dans la fiche du modèle.</p>
+      <p class="footnote">« — » = résultat non publié ou non vérifié par une source indépendante. <button class="link-btn" id="advancedToggle" type="button" aria-expanded="false" aria-controls="advanced">Vues avancées</button></p>
+      <div class="advanced" id="advanced" hidden>
+        <div class="presets" role="group" aria-label="Profil de classement" id="presets"></div>
+        <div class="weights-grid" id="weights"></div>
+      </div>
     </section>
 
     <section id="matrice" class="wrap section">
@@ -130,34 +127,9 @@
       <div class="bench-grid" id="benchGrid"></div>
     </section>
 
-    <section id="methode" class="wrap section method">
-      <h2>Comment sont calculés les points</h2>
-      <div class="method-grid">
-        <article>
-          <span class="step">1</span>
-          <h3>Normalisation</h3>
-          <p>Pour chaque benchmark, le score est ramené sur 100 : <code>(score − plancher) / (meilleur − plancher)</code>. Le plancher est le niveau du hasard (25 % pour GPQA, 1000 Elo pour GDPval, 0 sinon). Le meilleur modèle obtient 100.</p>
-        </article>
-        <article>
-          <span class="step">2</span>
-          <h3>Catégories</h3>
-          <p>Les benchmarks sont regroupés en 7 catégories. Dans chacune, la moyenne est pondérée : les épreuves les plus discriminantes (HLE, FrontierMath T4, FrontierSWE, GDPval) pèsent 1,5×, les tests saturés (GPQA) 0,5×.</p>
-        </article>
-        <article>
-          <span class="step">3</span>
-          <h3>Score global</h3>
-          <p>Moyenne pondérée des catégories disponibles. Par défaut : Raisonnement, Maths, Code, Agents ×1 ; Connaissances ×0,75 ; Contexte long et Multimodal ×0,5. Vous pouvez changer ces poids.</p>
-        </article>
-        <article>
-          <span class="step">4</span>
-          <h3>Couverture</h3>
-          <p>Un modèle qui ne publie que ses meilleurs résultats ne doit pas gagner. Les points finaux valent <code>score × (0,75 + 0,25 × couverture)</code> × 10, soit au plus 1000 points.</p>
-        </article>
-      </div>
-      <div class="callout">
-        <strong>Pourquoi pas SWE-bench Verified, MMLU ou AIME ?</strong>
-        Ces tests sont saturés (plus de 95 % pour les meilleurs modèles) ou contaminés : ils ne distinguent plus les modèles de pointe. L'indice AA est affiché à titre de référence mais exclu du calcul, puisqu'il agrège déjà plusieurs des benchmarks ci-dessus.
-      </div>
+    <section class="wrap section method">
+      <h2>À propos du classement</h2>
+      <p class="muted method-text">Les points ERAZ sont calculés par un modèle propriétaire à partir des résultats publiés sur les benchmarks ci-dessus. Les épreuves sont pondérées selon leur difficulté et leur fiabilité, et un modèle qui publie peu de résultats ne peut pas dominer le classement.</p>
       <h3 class="sources-title">Sources</h3>
       <ul class="sources" id="sources"></ul>
     </section>
