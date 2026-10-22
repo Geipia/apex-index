@@ -114,7 +114,11 @@
   const openBadge = (m) => (m.open ? '<span class="badge open">Open</span>' : m.open === false ? '<span class="badge">Propriétaire</span>' : "");
 
   // ---------- Header / hero ----------
-  if ($("#updated")) $("#updated").textContent = new Date(D.updated).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  // Ligne d'édition, comme une publication : numéro du jour depuis le lancement + date complète.
+  const LAUNCH = "2026-10-21";
+  const edition = Math.round((Date.parse(D.updated) - Date.parse(LAUNCH)) / 864e5) + 1;
+  if ($("#edition")) $("#edition").textContent = `Édition n° ${edition}`;
+  if ($("#updated")) $("#updated").textContent = new Date(D.updated + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const nScores = D.models.reduce((a, m) => a + Object.keys(m.s).length, 0);
   if ($("#stats")) $("#stats").innerHTML = [
     [D.models.length, "modèles classés"],
@@ -462,7 +466,29 @@
     resizeTimer = setTimeout(() => window.renderCharts && window.renderCharts(computeAll(), D, historyPoints(state.weights)), 150);
   });
 
+  // ---------- Bandeau de cotations : top 12 et variation depuis la veille (profil par défaut) ----------
+  function renderTicker() {
+    const el = $("#ticker");
+    if (!el) return;
+    const rows = D.models.map((m) => ({ m, ...score(m, PRESETS["Équilibré"]) })).sort((a, b) => b.points - a.points).slice(0, 12);
+    const hist = historyPoints(PRESETS["Équilibré"]);
+    const prev = hist.length >= 2 ? hist[hist.length - 2].points : null;
+    const item = (r, i) => {
+      const before = prev ? prev[r.m.id] : null;
+      const dlt = before == null ? null : r.points - before;
+      const delta = dlt == null ? '<span class="d new">nouveau</span>'
+        : dlt > 0 ? `<span class="d up" aria-label="en hausse de ${dlt}">▲ ${dlt}</span>`
+        : dlt < 0 ? `<span class="d down" aria-label="en baisse de ${-dlt}">▼ ${-dlt}</span>`
+        : '<span class="d flat" aria-label="stable">= 0</span>';
+      return `<span class="tk"><span class="tk-rank">${i + 1}</span>${esc(r.m.name)}<span class="tk-pts">${r.points}</span>${delta}</span>`;
+    };
+    const list = rows.map(item).join("");
+    // Contenu doublé pour une boucle sans à-coup ; la copie est masquée aux lecteurs d'écran.
+    el.innerHTML = `<div class="ticker-track"><div class="ticker-list">${list}</div><div class="ticker-list" aria-hidden="true">${list}</div></div>`;
+  }
+
   syncWeights();
   renderBenchmarks();
+  renderTicker();
   render();
 })();

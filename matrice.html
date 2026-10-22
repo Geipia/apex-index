@@ -16,7 +16,7 @@
   <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
 </head>
@@ -38,10 +38,11 @@
       </button>
     </div>
   </header>
+  <div class="ticker" id="ticker" aria-label="Classement du jour et variations depuis la veille"></div>
 
   <main id="top">
     <section class="page-head wrap">
-      <p class="eyebrow"><span class="dot"></span> Mis à jour le <span id="updated"></span></p>
+      <p class="edition"><span id="edition">Édition</span><span class="sep" aria-hidden="true">·</span><span id="updated"></span><span class="sep" aria-hidden="true">·</span><span>Mise à jour chaque jour</span></p>
       <h1>Matrice des résultats</h1>
       <p class="lede">Le score brut de chaque modèle sur chaque benchmark. Plus la case est intense, plus le modèle est proche du meilleur résultat.</p>
     </section>
@@ -54,7 +55,33 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap">ERAZ Index — données publiques agrégées, liens vers les sources originales. Les scores reflètent la meilleure configuration publiée de chaque modèle.</div>
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="./" aria-label="ERAZ Index, accueil">
+          <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+          <span>ERAZ<em>Index</em></span>
+        </a>
+        <p>Le classement de référence de l'intelligence artificielle, recalculé chaque jour à partir de quatorze benchmarks indépendants.</p>
+      </div>
+      <nav class="footer-col" aria-label="Pages du site">
+        <h4>L'index</h4>
+        <a href="./">Classement</a>
+        <a href="analyses.html">Analyses</a>
+        <a href="matrice.html">Matrice</a>
+        <a href="benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="footer-col">
+        <h4>Données</h4>
+        <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis</a>
+        <a href="https://benchlm.ai" target="_blank" rel="noopener">BenchLM</a>
+        <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC Prize</a>
+        <a href="https://epoch.ai/frontiermath" target="_blank" rel="noopener">Epoch AI</a>
+      </div>
+    </div>
+    <div class="wrap footer-base">
+      <span>© 2026 ERAZ Index</span>
+      <span>Données publiques agrégées · meilleure configuration publiée de chaque modèle · mise à jour quotidienne à 6 h UTC</span>
+    </div>
   </footer>
 
   <div class="drawer-backdrop" id="backdrop" hidden></div>
@@ -69,6 +96,7 @@
 
   <script src="data.js"></script>
   <script src="scores.js"></script>
+  <script src="history.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
