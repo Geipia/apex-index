@@ -334,7 +334,17 @@
     renderPodium(rows);
     renderTable(rows);
     renderMatrix(rows);
+    if (window.renderCharts) window.renderCharts(rows, D);
   }
+
+  // Les graphiques sont dessinés à la largeur de leur conteneur : on redessine quand elle change.
+  let lastWidth = innerWidth, resizeTimer = null;
+  addEventListener("resize", () => {
+    if (innerWidth === lastWidth) return;
+    lastWidth = innerWidth;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => window.renderCharts && window.renderCharts(computeAll(), D), 150);
+  });
 
   syncWeights();
   renderBenchmarks();

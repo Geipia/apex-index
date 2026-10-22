@@ -42,6 +42,7 @@
       </a>
       <nav class="nav" aria-label="Sections">
         <a href="#classement">Classement</a>
+        <a href="#analyses">Analyses</a>
         <a href="#matrice">Matrice</a>
         <a href="#benchmarks">Benchmarks</a>
       </nav>
@@ -104,6 +105,47 @@
       <div class="advanced" id="advanced" hidden>
         <div class="presets" role="group" aria-label="Profil de classement" id="presets"></div>
         <div class="weights-grid" id="weights"></div>
+      </div>
+    </section>
+
+    <section id="analyses" class="wrap section">
+      <div class="section-head">
+        <div>
+          <h2>Analyses</h2>
+          <p class="muted">Ce que disent les chiffres : performance, prix, laboratoires et état des benchmarks. Survolez un point ou une barre pour le détail.</p>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="charts">
+        <article class="chart-card wide">
+          <h3>Intelligence et prix</h3>
+          <p class="chart-sub">Points ERAZ selon le prix d'un million de tokens générés. La ligne relie les modèles qu'aucun autre ne bat à prix égal ou inférieur.</p>
+          <div class="legend"><span><i class="sw s1"></i>Propriétaire</span><span><i class="sw s2"></i>Open weights</span><span><i class="sw s3"></i>Licence non précisée</span><span><i class="line-key"></i>Frontière qualité-prix</span></div>
+          <div class="chart" id="chart-scatter"></div>
+          <p class="chart-note" id="scatter-note"></p>
+        </article>
+        <article class="chart-card">
+          <h3>Meilleur modèle par laboratoire</h3>
+          <p class="chart-sub">Points ERAZ du modèle le mieux classé de chaque éditeur.</p>
+          <div class="chart" id="chart-labs"></div>
+        </article>
+        <article class="chart-card">
+          <h3>Le podium, catégorie par catégorie</h3>
+          <p class="chart-sub">Score sur 100 des trois premiers dans chaque domaine.</p>
+          <div class="legend" id="podium-legend"></div>
+          <div class="chart" id="chart-podium"></div>
+        </article>
+        <article class="chart-card">
+          <h3>Saturation des benchmarks</h3>
+          <p class="chart-sub">Plage des scores, médiane et meilleur résultat. Un test dont le meilleur score frôle 100 % départage mal les modèles de pointe.</p>
+          <div class="legend"><span><i class="sw s1"></i>Meilleur</span><span><i class="sw muted"></i>Médiane</span><span><i class="range-key"></i>Plage des scores</span></div>
+          <div class="chart" id="chart-sat"></div>
+        </article>
+        <article class="chart-card">
+          <h3>Répartition des points</h3>
+          <p class="chart-sub">Nombre de modèles par tranche de 50 points ERAZ.</p>
+          <div class="chart" id="chart-hist"></div>
+        </article>
       </div>
     </section>
 
@@ -179,6 +221,7 @@
 
   <script src="data.js"></script>
   <script src="scores.js"></script>
+  <script src="charts.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
