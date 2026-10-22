@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr" data-no-count>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administration — ERAZ Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="analytics.js" defer></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./" aria-label="ERAZ Index, accueil">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+        <span>ERAZ<em>Index</em></span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="./">Classement</a>
+        <a href="analyses.html">Analyses</a>
+        <a href="matrice.html">Matrice</a>
+        <a href="benchmarks.html">Benchmarks</a>
+      </nav>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Changer de thème">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="ticker" id="ticker" aria-label="Classement du jour et variations depuis la veille"></div>
+
+  <main id="top">
+    <section class="page-head wrap">
+      <p class="edition"><span id="edition">Édition</span><span class="sep" aria-hidden="true">·</span><span id="updated"></span><span class="sep" aria-hidden="true">·</span><span>Administration</span></p>
+      <h1>Audience du site</h1>
+      <p class="lede">Visites de chaque page, mesurées sans cookie ni donnée personnelle.</p>
+    </section>
+    <section class="wrap section">
+      <div id="admin"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="./" aria-label="ERAZ Index, accueil">
+          <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+          <span>ERAZ<em>Index</em></span>
+        </a>
+        <p>Le classement de référence de l'intelligence artificielle, recalculé chaque jour à partir de quatorze benchmarks indépendants.</p>
+      </div>
+      <nav class="footer-col" aria-label="Pages du site">
+        <h4>L'index</h4>
+        <a href="./">Classement</a>
+        <a href="analyses.html">Analyses</a>
+        <a href="matrice.html">Matrice</a>
+        <a href="benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="footer-col">
+        <h4>Données</h4>
+        <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis</a>
+        <a href="https://benchlm.ai" target="_blank" rel="noopener">BenchLM</a>
+        <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC Prize</a>
+        <a href="https://epoch.ai/frontiermath" target="_blank" rel="noopener">Epoch AI</a>
+      </div>
+    </div>
+    <div class="wrap footer-base">
+      <span>© 2026 ERAZ Index</span>
+      <span>Données publiques agrégées · meilleure configuration publiée de chaque modèle · mise à jour quotidienne à 6 h UTC</span>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <button class="icon-btn drawer-close" id="drawerClose" type="button" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="drawerBody"></div>
+  </aside>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="scores.js"></script>
+  <script src="history.js"></script>
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
