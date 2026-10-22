@@ -1,5 +1,6 @@
 // Page admin : visites par page, lues sur les compteurs publics de GoatCounter.
-(() => {
+// analytics.js (qui porte le code du compte) est chargé en « defer » : on attend qu'il ait tourné.
+document.addEventListener("DOMContentLoaded", () => {
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const code = (window.ERAZ_ANALYTICS || {}).goatcounter;
@@ -58,4 +59,4 @@
         <p class="muted">Vérifiez que le code <code>${esc(code)}</code> est le bon, et que l'option <b>« Allow adding visitor counts on your website »</b> est cochée dans les Settings de GoatCounter.</p>
         <p class="cd-note"><a href="${base}" target="_blank" rel="noopener">Ouvrir le tableau de bord GoatCounter ↗</a></p></article>`;
     });
-})();
+});
