@@ -1,6 +1,6 @@
 // Mesure d'audience avec GoatCounter : sans cookie et sans donnée personnelle.
 // Renseignez ici le code de votre compte (https://VOTRE-CODE.goatcounter.com) ; vide = rien n'est compté.
-window.ERAZ_ANALYTICS = { goatcounter: "" };
+window.ERAZ_ANALYTICS = { goatcounter: "eraz" };
 
 (() => {
   const code = window.ERAZ_ANALYTICS.goatcounter;
