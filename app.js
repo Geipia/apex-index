@@ -417,6 +417,9 @@
     el.innerHTML = `<div class="ticker-track"><div class="ticker-list">${list}</div><div class="ticker-list" aria-hidden="true">${list}</div></div>`;
   }
 
+  // Le bouton EN/FR mémorise la langue choisie : elle prime ensuite sur la langue du navigateur.
+  on(".lang-link", "click", (e) => { try { localStorage.setItem("eraz-lang", e.currentTarget.getAttribute("hreflang")); } catch {} });
+
   // Bouton « Copier » des codes d'intégration du badge (fiches modèles).
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-copy]");

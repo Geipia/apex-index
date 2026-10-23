@@ -87,10 +87,15 @@ function layout({ lang, key, title, desc, url, alt, body, ld, noindex = false, n
   <link rel="alternate" hreflang="x-default" href="${SITE}${alt.fr}">` : "";
   const scripts = ["/data.js", "/scores.js", "/history.js", "/scoring.js", "/i18n.js", ...(charts ? ["/charts.js"] : []), "/app.js", ...(admin ? ["/admin.js"] : [])];
   const year = D.updated.slice(0, 4);
+  // Langue automatique : à la première visite, on suit la langue du navigateur (français → FR, sinon → EN) ;
+  // ensuite on respecte le choix mémorisé (bouton EN/FR). Les robots d'indexation ne sont jamais redirigés,
+  // pour que Google et Bing voient bien les deux versions. Placé en tête pour éviter un flash de la mauvaise langue.
+  const langScript = altUrl ? `
+  <script>(function(){try{if(/bot|crawl|spider|slurp|preview|lighthouse|headless/i.test(navigator.userAgent))return;var k="eraz-lang",here="${lang}",p=localStorage.getItem(k);if(!p){var l=((navigator.languages&&navigator.languages[0])||navigator.language||"").toLowerCase();p=l.indexOf("fr")===0?"fr":"en";localStorage.setItem(k,p);}if(p!==here)location.replace("${altUrl}"+location.hash);}catch(e){}})();</script>` : "";
   return `<!doctype html>
 <html lang="${t.htmlLang}"${noCount ? " data-no-count" : ""}>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8">${langScript}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)}</title>${noindex ? `
   <meta name="robots" content="noindex, nofollow">` : `
