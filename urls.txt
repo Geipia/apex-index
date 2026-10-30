@@ -52,11 +52,11 @@ https://eraz.ovh/modele/minimax-m3-1-flash.html
 https://eraz.ovh/en/model/minimax-m3-1-flash.html
 https://eraz.ovh/modele/mimo-v2-6-pro.html
 https://eraz.ovh/en/model/mimo-v2-6-pro.html
-https://eraz.ovh/modele/glm-5-3-flash.html
-https://eraz.ovh/en/model/glm-5-3-flash.html
 https://eraz.ovh/modele/mistral-large-4.html
 https://eraz.ovh/en/model/mistral-large-4.html
 https://eraz.ovh/modele/qwen3-8-max.html
 https://eraz.ovh/en/model/qwen3-8-max.html
+https://eraz.ovh/modele/glm-5-3-flash.html
+https://eraz.ovh/en/model/glm-5-3-flash.html
 https://eraz.ovh/modele/qwen3-8-2-4t-a95b.html
 https://eraz.ovh/en/model/qwen3-8-2-4t-a95b.html
