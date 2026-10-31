@@ -112,7 +112,7 @@ window.APEX_DATA = {
     { id: "gemini-3-8-flash", name: "Gemini 3.8 Flash", org: "Google", open: false, ctx: "1M", aaii: null,
       src: "https://benchlm.ai/models/gemini-3-8-flash",
       s: { hle: 47.8, arc2: 89.2, arc3: 10.4, fm13: 68.4, fm4: 22.0, fswe: 19.6, tb21: 81.3, osw: 59.0, gdpval: 1545, gpqa: 95.3, omni: 29.6, lcr: 81.3, mmmu: 85.6 } },
-    { id: "kimi-k3", name: "Kimi K3", org: "Moonshot AI", open: null, ctx: "1.05M", aaii: 44,
+    { id: "kimi-k3", name: "Kimi K3", org: "Moonshot AI", open: true, ctx: "1.05M", aaii: 44,
       src: "https://benchlm.ai/models/kimi-k3",
       s: { hle: 46.9, arc2: 60.4, fswe: 25.9, tb21: 80.9, gdpval: 1533, gpqa: 93.5, omni: 19.7, lcr: 88.7, mmmu: 80.5 } },
     { id: "mimo-v2-6-pro", name: "MiMo-V2.6-Pro", org: "Xiaomi", open: true, ctx: "1M", aaii: 46,
