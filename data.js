@@ -151,6 +151,10 @@ window.APEX_DATA = {
     { id: "qwen3-8-max", name: "Qwen3.8 Max", org: "Alibaba", open: true, ctx: "1M", aaii: 45,
       src: "https://benchlm.ai/models/qwen3-8-max",
       s: { fm13: 74.7, fm4: 46.3, swepro: 67.7, fswe: 15.8, tb21: 67.4, osw: 19.4 } },
+    // Ajouté le 31/10/2026 : résultats publiés sur BenchLM et Artificial Analysis (relevé du 29/10).
+    { id: "gemini-4-carbon", name: "Gemini 4 Carbon", org: "Google", open: false, ctx: "—", aaii: 59,
+      src: "https://benchlm.ai/models/gemini-4-carbon",
+      s: { hle: 60.4, fswe: 61.2, gdpval: 1733, omni: 53.5, lcr: 79.3 } },
   ],
 
   sources: [
