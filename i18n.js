@@ -31,7 +31,7 @@
       s4Title: "La couverture",
       s4Text: (w) => `Part pondérée des benchmarks publiés : pour chaque catégorie, son poids × (poids des benchmarks publiés ÷ poids de tous ses benchmarks), le tout divisé par la somme des poids des catégories (${w}).`,
       coverageEq: "Couverture",
-      s5Title: "Les points ERAZ", s5Text: "Score global × 10, multiplié par un facteur de couverture compris entre 0,75 (aucun benchmark) et 1 (tous les benchmarks).",
+      s5Title: "Les points ERAZ", s5Text: "Score global × 10, multiplié par un facteur de couverture compris entre 0,9 (aucun benchmark) et 1 (tous les benchmarks).",
       pointsWord: "points", rounded: "(arrondi)",
       conclusion: (n, r) => `${n} est donc ${r === 1 ? "1er" : r + "e"} du classement, avec le profil de pondération par défaut (Équilibré).`,
       // Graphiques
@@ -74,7 +74,7 @@
       s4Title: "Coverage",
       s4Text: (w) => `Weighted share of published benchmarks: for each category, its weight × (weight of published benchmarks ÷ weight of all its benchmarks), all divided by the sum of category weights (${w}).`,
       coverageEq: "Coverage",
-      s5Title: "ERAZ points", s5Text: "Overall score × 10, multiplied by a coverage factor between 0.75 (no benchmark) and 1 (every benchmark).",
+      s5Title: "ERAZ points", s5Text: "Overall score × 10, multiplied by a coverage factor between 0.9 (no benchmark) and 1 (every benchmark).",
       pointsWord: "points", rounded: "(rounded)",
       conclusion: (n, r) => `${n} therefore ranks #${r}, with the default weighting profile (Balanced).`,
       kpi: [["#1 in the ranking"], ["Best open-weights model"], ["Open vs proprietary gap", "points between the two best"], ["Best under $5 / M (output)"]],
