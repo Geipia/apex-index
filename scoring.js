@@ -62,7 +62,7 @@
     }
     const raw = den ? num / den : 0;
     const coverage = totalW ? cov / totalW : 0;
-    const points = Math.round(raw * 10 * (0.75 + 0.25 * coverage));
+    const points = Math.round(raw * 10 * (0.9 + 0.1 * coverage));
     return { cats, raw, coverage, points };
   }
 
