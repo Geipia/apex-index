@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-10-31",
+  "updated": "2026-11-01",
   "models": {
     "claude-opus-5-5": {
       "s": {
@@ -700,6 +700,28 @@ window.APEX_SCORES = {
       "priceOut": 6,
       "open": false,
       "aaConfig": "Qwen3.8 Max (0902)"
+    },
+    "gemini-4-carbon": {
+      "s": {
+        "hle": 60.4,
+        "fswe": 61.2,
+        "gdpval": 1733,
+        "omni": 53.5,
+        "lcr": 79.3
+      },
+      "refs": {
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "fswe": "https://www.frontierswe.com/",
+        "gdpval": "https://artificialanalysis.ai/evaluations/gdpval-aa",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
+      },
+      "benchlmUpdated": "October 29, 2026",
+      "aaii": 59.4,
+      "priceIn": 4,
+      "priceOut": 20,
+      "open": false,
+      "aaConfig": "Gemini 4 Carbon (high)"
     }
   }
 };
