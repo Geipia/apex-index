@@ -278,7 +278,7 @@
       const tot = all.reduce((a, b) => a + b.weight, 0);
       return { c, pub, tot, part: DEFAULT_W[c] * (pub / tot) };
     });
-    const factor = 0.75 + 0.25 * r.coverage;
+    const factor = 0.9 + 0.1 * r.coverage;
     $("#example").innerHTML = `
       <div class="ex-step"><span class="step">1</span><div><h3>${T.s1Title}</h3>
         <p>${T.s1Text}</p>
@@ -294,7 +294,7 @@
         <p class="cd-formula">${T.coverageEq} = ${n2(covTerms.reduce((a, t) => a + t.part, 0))} ÷ ${n2(totalW)} = <b>${I.pct(r.coverage * 100)}</b></p></div></div>
       <div class="ex-step"><span class="step">5</span><div><h3>${T.s5Title}</h3>
         <p>${T.s5Text}</p>
-        <p class="cd-formula">${n2(r.raw)} × 10 × (${n2(0.75)} + ${n2(0.25)} × ${n3(r.coverage)}) = ${n2(r.raw)} × 10 × ${n3(factor)} = <b>${r.points} ${T.pointsWord}</b> ${T.rounded}</p>
+        <p class="cd-formula">${n2(r.raw)} × 10 × (${n2(0.9)} + ${n2(0.1)} × ${n3(r.coverage)}) = ${n2(r.raw)} × 10 × ${n3(factor)} = <b>${r.points} ${T.pointsWord}</b> ${T.rounded}</p>
         <p class="cd-note">${T.conclusion(esc(m.name), r.rank)}</p></div></div>`;
   }
 
