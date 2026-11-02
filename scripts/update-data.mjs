@@ -183,6 +183,14 @@ async function main() {
   const models = {};
   const changes = [];
   const failures = [];
+  const kept = [];
+
+  // Dernière valeur connue de chaque score, jour après jour (history.js). Sert à ne jamais perdre
+  // un score parce qu'une source ne le renvoie plus un jour donné (modèle renommé, page en panne…).
+  const lastKnown = {};
+  for (const snap of await readHistory()) {
+    for (const [id, s] of Object.entries(snap.models)) Object.assign((lastKnown[id] ??= {}), s);
+  }
 
   for (const m of cfg.models) {
     const slug = m.benchlm === undefined ? m.id : m.benchlm;
@@ -212,6 +220,18 @@ async function main() {
       if (typeof rec.isOpenWeights === "boolean") entry.open = rec.isOpenWeights;
       entry.aaConfig = rec.shortName;
     }
+    // Un score déjà connu mais absent aujourd'hui est conservé (avec sa source) au lieu d'être supprimé.
+    const prev = previous[m.id] ?? {};
+    const known = { ...(lastKnown[m.id] ?? {}), ...(prev.s ?? {}) };
+    for (const [k, v] of Object.entries(known)) {
+      if (entry.s[k] != null || m.s[k] != null || v == null) continue;
+      entry.s[k] = v;
+      if (prev.refs?.[k]) entry.refs[k] = prev.refs[k];
+      kept.push(`${m.name} · ${k} = ${v}`);
+    }
+    for (const k of ["aaii", "priceIn", "priceOut", "open", "aaConfig"]) {
+      if (entry[k] == null && prev[k] != null) entry[k] = prev[k];
+    }
     console.log(`${Object.keys(entry.s).length} scores${rec ? ` · AA ${entry.aaii}` : ""}`);
 
     const before = previous[m.id]?.s ?? {};
@@ -235,6 +255,11 @@ async function main() {
 
   console.log(`\n${changes.length} score(s) modifié(s)`);
   for (const c of changes) console.log("  " + c);
+  if (kept.length) {
+    console.log(`
+${kept.length} score(s) absent(s) des sources aujourd'hui, dernière valeur connue conservée :`);
+    for (const k of kept) console.log("  " + k);
+  }
   if (failures.length) {
     console.log(`\n${failures.length} échec(s) :`);
     for (const f of failures) console.log("  " + f);

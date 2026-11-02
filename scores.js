@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-11-01",
+  "updated": "2026-11-02",
   "models": {
     "claude-opus-5-5": {
       "s": {
@@ -597,7 +597,10 @@ window.APEX_SCORES = {
         "fswe": 18.1,
         "tb21": 62.9,
         "gdpval": 1773,
-        "omni": 0.7
+        "omni": 0.7,
+        "hle": 39.9,
+        "gpqa": 91.2,
+        "lcr": 80
       },
       "refs": {
         "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
@@ -619,7 +622,8 @@ window.APEX_SCORES = {
         "hle": 39.4,
         "swepro": 68.7,
         "gdpval": 1673,
-        "lcr": 83
+        "lcr": 83,
+        "omni": 2.2
       },
       "refs": {
         "hle": "https://artificialanalysis.ai/models/ling-3-1-flash",
@@ -653,7 +657,12 @@ window.APEX_SCORES = {
       "benchlmUpdated": "October 29, 2026"
     },
     "qwen3-8-2-4t-a95b": {
-      "s": {},
+      "s": {
+        "hle": 42.4,
+        "gpqa": 93.5,
+        "lcr": 80.3,
+        "omni": 4.3
+      },
       "refs": {}
     },
     "mistral-large-4": {
@@ -682,7 +691,10 @@ window.APEX_SCORES = {
         "tb21": 67.4,
         "osw": 19.4,
         "gpqa": 92.6,
-        "omni": 10.5
+        "omni": 10.5,
+        "hle": 43.1,
+        "lcr": 80.3,
+        "mmmu": 82.8
       },
       "refs": {
         "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",

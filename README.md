@@ -32,7 +32,7 @@ node scripts/build.mjs                   # regénérer toutes les pages
 node scripts/indexnow.mjs                # prévenir Bing & co (après publication)
 ```
 
-Node 18 ou plus récent, aucune dépendance. Le script liste aussi les modèles bien classés
+Node 18 ou plus récent, aucune dépendance. Si une source ne renvoie plus un score déjà connu, le script garde la dernière valeur (prise dans `scores.js` ou `history.js`) et le signale, au lieu de la supprimer. Le script liste aussi les modèles bien classés
 qui ne sont pas encore suivis ; pour en ajouter un, créez son entrée dans `data.js`
 (`id` = slug de sa page `benchlm.ai/models/<slug>`, `aa` = son nom chez Artificial Analysis s'il diffère).
 
