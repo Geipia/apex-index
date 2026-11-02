@@ -450,3 +450,17 @@ a.tk:hover { color: var(--ink); text-decoration: none; background: var(--surface
 .embed-panel .chip { margin-top: 8px; }
 @media (max-width: 860px) { .model-grid { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .lang-link { height: 32px; } .top-tools .icon-btn { width: 32px; height: 32px; } }
+
+/* Bulle « Abonnez-vous sur X », sous l'icône X */
+.x-wrap { position: relative; display: inline-flex; }
+.x-bubble { position: absolute; top: calc(100% + 10px); right: -6px; z-index: 30; display: flex; align-items: center; gap: 6px;
+  padding: 7px 6px 7px 12px; background: var(--ink); color: var(--bg); border-radius: 8px; font-size: 13px; white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .18); opacity: 0; transform: translateY(-4px); transition: opacity .25s ease, transform .25s ease; }
+.x-bubble.show { opacity: 1; transform: none; }
+.x-bubble::before { content: ""; position: absolute; top: -5px; right: 17px; width: 10px; height: 10px; background: var(--ink); transform: rotate(45deg); border-radius: 2px; }
+.x-bubble a { color: var(--bg); }
+.x-bubble a:hover { text-decoration: underline; }
+.x-bubble b { font-weight: 600; }
+.x-bubble button { border: 0; background: none; color: var(--bg); opacity: .6; font-size: 17px; line-height: 1; padding: 2px 6px; cursor: pointer; border-radius: 4px; }
+.x-bubble button:hover { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .x-bubble { transition: none; } }

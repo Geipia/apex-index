@@ -417,6 +417,25 @@
     el.innerHTML = `<div class="ticker-track"><div class="ticker-list">${list}</div><div class="ticker-list" aria-hidden="true">${list}</div></div>`;
   }
 
+  // Petite bulle « Abonnez-vous sur X » sous l'icône X : apparaît peu après l'ouverture, ne bloque rien,
+  // et ne revient pas pendant 30 jours une fois fermée ou cliquée.
+  (() => {
+    const bubble = $("#xBubble");
+    if (!bubble) return;
+    const KEY = "eraz-x-bubble";
+    let hiddenUntil = 0;
+    try { hiddenUntil = Number(localStorage.getItem(KEY)) || 0; } catch {}
+    if (Date.now() < hiddenUntil) return;
+    const dismiss = () => {
+      bubble.classList.remove("show");
+      setTimeout(() => (bubble.hidden = true), 250);
+      try { localStorage.setItem(KEY, String(Date.now() + 30 * 864e5)); } catch {}
+    };
+    setTimeout(() => { bubble.hidden = false; requestAnimationFrame(() => bubble.classList.add("show")); }, 1500);
+    on("#xBubbleClose", "click", dismiss);
+    bubble.querySelector("a").addEventListener("click", dismiss);
+  })();
+
   // Le bouton EN/FR mémorise la langue choisie : elle prime ensuite sur la langue du navigateur.
   on(".lang-link", "click", (e) => { try { localStorage.setItem("eraz-lang", e.currentTarget.getAttribute("hreflang")); } catch {} });
 

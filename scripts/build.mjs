@@ -52,6 +52,7 @@ const TX = {
     keywords: "classement IA, meilleure IA, comparatif IA, benchmark IA, classement LLM, LLM leaderboard, GPT, Claude, Gemini, Grok, DeepSeek, Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench",
     nav: { home: "Classement", analyses: "Analyses", matrix: "Matrice", benchmarks: "Benchmarks" },
     homeAria: "ERAZ Index, accueil", theme: "Changer de thème", langSwitch: "EN", langAria: "English version", xAria: "ERAZ Index sur X",
+    xBubble: "Abonnez-vous à <b>@erazindex</b> sur X", xBubbleClose: "Masquer",
     ticker: "Classement du jour et variations depuis la veille",
     edition: "Édition", daily: "Mise à jour chaque jour", close: "Fermer",
     footAbout: "Le classement de référence de l'intelligence artificielle, recalculé chaque jour à partir de quatorze benchmarks indépendants.",
@@ -64,6 +65,7 @@ const TX = {
     keywords: "AI leaderboard, best AI model, AI ranking, AI benchmarks, LLM leaderboard, LLM ranking, GPT, Claude, Gemini, Grok, DeepSeek, Humanity's Last Exam, ARC-AGI, FrontierMath, SWE-bench",
     nav: { home: "Ranking", analyses: "Analysis", matrix: "Matrix", benchmarks: "Benchmarks" },
     homeAria: "ERAZ Index, home", theme: "Toggle theme", langSwitch: "FR", langAria: "Version française", xAria: "ERAZ Index on X",
+    xBubble: "Follow <b>@erazindex</b> on X", xBubbleClose: "Dismiss",
     ticker: "Today's ranking and change since yesterday",
     edition: "Edition", daily: "Updated daily", close: "Close",
     footAbout: "The reference ranking of artificial intelligence, recalculated every day from fourteen independent benchmarks.",
@@ -132,7 +134,13 @@ ${navKeys.map((k) => `        <a href="${PAGES[k][lang]}"${k === key ? ' aria-cu
       </nav>
       <div class="top-tools">${altUrl ? `
         <a class="lang-link" href="${altUrl}" hreflang="${t.other}" lang="${t.other}" aria-label="${t.langAria}">${t.langSwitch}</a>` : ""}
-        <a class="icon-btn x-link" href="${X_URL}" target="_blank" rel="noopener me" aria-label="${t.xAria}">${X_ICON}</a>
+        <div class="x-wrap">
+          <a class="icon-btn x-link" href="${X_URL}" target="_blank" rel="noopener me" aria-label="${t.xAria}">${X_ICON}</a>
+          <div class="x-bubble" id="xBubble" hidden>
+            <a href="${X_URL}" target="_blank" rel="noopener me">${t.xBubble}</a>
+            <button type="button" id="xBubbleClose" aria-label="${t.xBubbleClose}">×</button>
+          </div>
+        </div>
         <button class="icon-btn" id="themeToggle" type="button" aria-label="${t.theme}">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
         </button>
