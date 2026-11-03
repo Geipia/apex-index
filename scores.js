@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-11-02",
+  "updated": "2026-11-03",
   "models": {
     "claude-opus-5-5": {
       "s": {
@@ -314,11 +314,11 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
       "benchlmUpdated": "October 29, 2026",
-      "aaii": 35,
+      "aaii": 35.3,
       "priceIn": 2,
       "priceOut": 6,
       "open": false,
-      "aaConfig": "Grok 4.7 (high)"
+      "aaConfig": "Grok 4.7 (xhigh)"
     },
     "gemini-3-8-flash": {
       "s": {
