@@ -14,6 +14,8 @@ https://eraz.ovh/modele/gpt-6-astra.html
 https://eraz.ovh/en/model/gpt-6-astra.html
 https://eraz.ovh/modele/claude-opus-5-5.html
 https://eraz.ovh/en/model/claude-opus-5-5.html
+https://eraz.ovh/modele/gemini-4-carbon.html
+https://eraz.ovh/en/model/gemini-4-carbon.html
 https://eraz.ovh/modele/claude-fable-5-1.html
 https://eraz.ovh/en/model/claude-fable-5-1.html
 https://eraz.ovh/modele/claude-opus-5.html
@@ -22,8 +24,6 @@ https://eraz.ovh/modele/gpt-6-1-sol.html
 https://eraz.ovh/en/model/gpt-6-1-sol.html
 https://eraz.ovh/modele/gemini-4-argon.html
 https://eraz.ovh/en/model/gemini-4-argon.html
-https://eraz.ovh/modele/gemini-4-carbon.html
-https://eraz.ovh/en/model/gemini-4-carbon.html
 https://eraz.ovh/modele/claude-sonnet-5-5.html
 https://eraz.ovh/en/model/claude-sonnet-5-5.html
 https://eraz.ovh/modele/gpt-5-6-sol.html
