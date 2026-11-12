@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-11-11",
+  "updated": "2026-11-12",
   "models": {
     "claude-opus-5-5": {
       "s": {
@@ -684,7 +684,12 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
         "mmmu": "https://artificialanalysis.ai/models/qwen3-8-flash-next"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 11, 2026",
+      "aaii": 28.6,
+      "priceIn": 0.15,
+      "priceOut": 0.47,
+      "open": true,
+      "aaConfig": "Qwen3.8-Flash-Next"
     },
     "qwen3-8-2-4t-a95b": {
       "s": {
