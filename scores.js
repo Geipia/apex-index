@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-11-12",
+  "updated": "2026-11-13",
   "models": {
     "claude-opus-5-5": {
       "s": {
@@ -10,6 +10,7 @@ window.APEX_SCORES = {
         "fm4": 95,
         "swepro": 89.9,
         "fswe": 62.3,
+        "tb21": 87.6,
         "osw": 48.7,
         "gdpval": 1846,
         "omni": 48.1,
@@ -23,13 +24,14 @@ window.APEX_SCORES = {
         "fm4": "https://epoch.ai/benchmarks/frontiermath-tier-4-v2?view=graph&tab=leaderboard",
         "swepro": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
         "fswe": "https://www.frontierswe.com/",
+        "tb21": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
         "osw": "https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf",
         "gdpval": "https://www.anthropic.com/claude-opus-5-5",
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 59.1,
       "priceIn": 4,
       "priceOut": 20,
@@ -67,7 +69,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 56.9,
       "priceIn": 10,
       "priceOut": 50,
@@ -97,7 +99,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 54.6,
       "priceIn": 2,
       "priceOut": 10,
@@ -133,7 +135,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 50,
       "priceIn": 10,
       "priceOut": 50,
@@ -148,6 +150,7 @@ window.APEX_SCORES = {
         "fm13": 86,
         "fm4": 78,
         "fswe": 55,
+        "tb21": 57.7,
         "osw": 69.2,
         "omni": 46.1,
         "lcr": 79.7
@@ -159,14 +162,15 @@ window.APEX_SCORES = {
         "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
         "fm4": "https://epoch.ai/benchmarks/frontiermath-tier-4-v2?view=graph&tab=leaderboard",
         "fswe": "https://www.frontierswe.com/",
+        "tb21": "https://www.vals.ai/models/google_gemini-4-argon",
         "osw": "https://deepmind.google/models/evals-methodology/gemini-4-argon",
         "omni": "https://artificialanalysis.ai/models/gemini-4-argon",
         "lcr": "https://artificialanalysis.ai/models/gemini-4-argon"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 50.4,
-      "priceIn": 4,
-      "priceOut": 20,
+      "priceIn": 2,
+      "priceOut": 10,
       "open": false,
       "aaConfig": "Gemini 4 Argon (high)"
     },
@@ -177,6 +181,7 @@ window.APEX_SCORES = {
         "fm4": 80.5,
         "swepro": 81.3,
         "fswe": 61.9,
+        "tb21": 83.1,
         "gdpval": 1844,
         "omni": 30.5,
         "lcr": 82.7
@@ -187,11 +192,12 @@ window.APEX_SCORES = {
         "fm4": "https://epoch.ai/benchmarks/frontiermath-tier-4-v2?view=graph&tab=leaderboard",
         "swepro": "https://www-cdn.anthropic.com/870c8f525702625d2c62fc6dd04c857e3250bec1/Claude%20Sonnet%205.5%20System%20Card.pdf",
         "fswe": "https://www.frontierswe.com/",
+        "tb21": "https://www.vals.ai/models/anthropic_claude-sonnet-5-5",
         "gdpval": "https://www.anthropic.com/claude-sonnet-5-5",
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 54.5,
       "priceIn": 2,
       "priceOut": 10,
@@ -231,7 +237,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/models/claude-opus-5",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 13, 2026"
     },
     "gpt-5-6-sol": {
       "s": {
@@ -251,7 +257,7 @@ window.APEX_SCORES = {
         "mmmu": 83.4
       },
       "refs": {
-        "hle": "https://artificialanalysis.ai/models/gpt-5-6-sol",
+        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
         "arc2": "https://arcprize.org/results/openai-gpt-5-6-sol",
         "arc3": "https://arcprize.org/results/openai-gpt-5-6-sol",
         "fm13": "https://openai.com/index/gpt-5-6/",
@@ -266,7 +272,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/models/gpt-5-6-sol",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 13, 2026"
     },
     "muse-wonder": {
       "s": {
@@ -281,7 +287,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 43.6,
       "priceIn": 4,
       "priceOut": 20,
@@ -313,7 +319,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 35.5,
       "priceIn": 2,
       "priceOut": 6,
@@ -337,7 +343,7 @@ window.APEX_SCORES = {
         "mmmu": 85.6
       },
       "refs": {
-        "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "hle": "https://artificialanalysis.ai/models/gemini-3-8-flash",
         "arc2": "https://arcprize.org/results/google-gemini-3-8-flash",
         "arc3": "https://arcprize.org/results/google-gemini-3-8-flash",
         "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
@@ -347,11 +353,11 @@ window.APEX_SCORES = {
         "osw": "https://deepmind.google/models/model-cards/gemini-3-8-flash/",
         "gdpval": "https://deepmind.google/models/model-cards/gemini-3-8-flash/",
         "gpqa": "https://artificialanalysis.ai/evaluations/gpqa-diamond",
-        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
-        "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
+        "omni": "https://artificialanalysis.ai/models/gemini-3-8-flash",
+        "lcr": "https://artificialanalysis.ai/models/gemini-3-8-flash",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 30.8,
       "priceIn": 0.75,
       "priceOut": 3.75,
@@ -381,22 +387,24 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 13, 2026"
     },
     "mimo-v2-6-pro": {
       "s": {
         "hle": 49.4,
+        "tb21": 67.8,
         "gdpval": 1673,
         "omni": -4.5,
         "lcr": 86.3
       },
       "refs": {
         "hle": "https://artificialanalysis.ai/evaluations/humanitys-last-exam",
+        "tb21": "https://www.vals.ai/models/xiaomi_mimo-v2.6-pro",
         "gdpval": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL/blob/main/MiMo_V2_6_technical_report.pdf",
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 29.9,
       "priceIn": 0.435,
       "priceOut": 0.87,
@@ -426,7 +434,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 31.7,
       "priceIn": 1.4,
       "priceOut": 4.4,
@@ -456,7 +464,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 36.5,
       "priceIn": 0.1,
       "priceOut": 0.5,
@@ -484,7 +492,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/models/deepseek-v4-1-flash",
         "mmmu": "https://artificialanalysis.ai/models/deepseek-v4-1-flash"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 32.6,
       "priceIn": 0.3,
       "priceOut": 1.2,
@@ -504,7 +512,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 50.1,
       "open": false,
       "aaConfig": "Muse Wonder Full (max)"
@@ -526,7 +534,7 @@ window.APEX_SCORES = {
         "lcr": "https://www.stepfun.com/step-5-preview",
         "mmmu": "https://artificialanalysis.ai/models/step-5"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 28.5,
       "priceIn": 1,
       "priceOut": 2.7,
@@ -556,7 +564,7 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 64.6,
       "priceIn": 8,
       "priceOut": 40,
@@ -580,7 +588,7 @@ window.APEX_SCORES = {
         "mmmu": "https://artificialanalysis.ai/models/minimax-m3-1-flash",
         "gdpval": "https://artificialanalysis.ai/evaluations/gdpval-aa"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 29.1,
       "priceIn": 0.15,
       "priceOut": 0.6,
@@ -618,7 +626,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/models/gpt-5-6-terra",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 13, 2026"
     },
     "glm-5-3-flash": {
       "s": {
@@ -640,7 +648,7 @@ window.APEX_SCORES = {
         "gdpval": "https://z.ai/blog/glm-5.3-flash",
         "omni": "https://artificialanalysis.ai/leaderboards/models"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 27.8,
       "priceIn": 0.15,
       "priceOut": 0.5,
@@ -661,7 +669,7 @@ window.APEX_SCORES = {
         "gdpval": "https://huggingface.co/inclusionAI/Ling-3.1-flash/blob/7b864daa2cedb1404e12bc52899def2d151a9719/README.md",
         "lcr": "https://artificialanalysis.ai/models/ling-3-1-flash"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 13, 2026"
     },
     "qwen3-8-flash-next": {
       "s": {
@@ -672,7 +680,7 @@ window.APEX_SCORES = {
         "gpqa": 92.3,
         "omni": -12.2,
         "lcr": 79.7,
-        "mmmu": 79.8
+        "mmmu": 78.6
       },
       "refs": {
         "hle": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
@@ -684,7 +692,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/models/qwen3-8-flash-next",
         "mmmu": "https://artificialanalysis.ai/models/qwen3-8-flash-next"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 28.6,
       "priceIn": 0.15,
       "priceOut": 0.47,
@@ -715,7 +723,7 @@ window.APEX_SCORES = {
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning",
         "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
       },
-      "benchlmUpdated": "November 11, 2026"
+      "benchlmUpdated": "November 13, 2026"
     },
     "qwen3-8-max": {
       "s": {
@@ -741,7 +749,7 @@ window.APEX_SCORES = {
         "gpqa": "https://qwen.ai/blog?id=qwen3.8",
         "omni": "https://artificialanalysis.ai/leaderboards/models"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 33.7,
       "priceIn": 2,
       "priceOut": 6,
@@ -769,10 +777,10 @@ window.APEX_SCORES = {
         "omni": "https://artificialanalysis.ai/evaluations/omniscience",
         "lcr": "https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning"
       },
-      "benchlmUpdated": "November 11, 2026",
+      "benchlmUpdated": "November 13, 2026",
       "aaii": 60,
-      "priceIn": 4,
-      "priceOut": 20,
+      "priceIn": 2,
+      "priceOut": 10,
       "open": false,
       "aaConfig": "Gemini 4 Carbon (high)"
     }

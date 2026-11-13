@@ -42,6 +42,8 @@ https://eraz.ovh/modele/gemini-3-8-flash.html
 https://eraz.ovh/en/model/gemini-3-8-flash.html
 https://eraz.ovh/modele/deepseek-v4-1-flash.html
 https://eraz.ovh/en/model/deepseek-v4-1-flash.html
+https://eraz.ovh/modele/mimo-v2-6-pro.html
+https://eraz.ovh/en/model/mimo-v2-6-pro.html
 https://eraz.ovh/modele/glm-5-3.html
 https://eraz.ovh/en/model/glm-5-3.html
 https://eraz.ovh/modele/qwen3-8-flash-next.html
@@ -50,8 +52,6 @@ https://eraz.ovh/modele/ling-3-1-flash.html
 https://eraz.ovh/en/model/ling-3-1-flash.html
 https://eraz.ovh/modele/minimax-m3-1-flash.html
 https://eraz.ovh/en/model/minimax-m3-1-flash.html
-https://eraz.ovh/modele/mimo-v2-6-pro.html
-https://eraz.ovh/en/model/mimo-v2-6-pro.html
 https://eraz.ovh/modele/grok-4-7.html
 https://eraz.ovh/en/model/grok-4-7.html
 https://eraz.ovh/modele/claude-haiku-5-5.html
