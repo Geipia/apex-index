@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr" data-no-count>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atelier graphiques — ERAZ Index</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/analytics.js" defer></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3Z' fill='%233987e5'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="ERAZ Index, accueil">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+        <span>ERAZ<em>Index</em></span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="/">Classement</a>
+        <a href="/analyses.html">Analyses</a>
+        <a href="/matrice.html">Matrice</a>
+        <a href="/benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="top-tools">
+        <div class="x-wrap">
+          <a class="icon-btn x-link" href="https://x.com/erazindex" target="_blank" rel="noopener me" aria-label="ERAZ Index sur X"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z" fill="currentColor"/></svg></a>
+          <div class="x-bubble" id="xBubble" hidden>
+            <a href="https://x.com/erazindex" target="_blank" rel="noopener me">Abonnez-vous à <b>@erazindex</b> sur X</a>
+            <button type="button" id="xBubbleClose" aria-label="Masquer">×</button>
+          </div>
+        </div>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Changer de thème">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="ticker" id="ticker" aria-label="Classement du jour et variations depuis la veille"></div>
+
+  <main id="top">
+    <section class="page-head wrap">
+      <p class="edition"><span id="edition">Édition</span><span class="sep" aria-hidden="true">·</span><span id="updated"></span><span class="sep" aria-hidden="true">·</span><span>Administration</span></p>
+      <h1>Atelier graphiques</h1>
+      <p class="lede">Fabriquez une image à partir des données du jour du classement, puis téléchargez-la pour la publier sur X.</p>
+    </section>
+    <section class="wrap section studio">
+      <div class="studio-grid">
+        <form id="studioForm" class="cd-card studio-form" onsubmit="return false"></form>
+        <div class="studio-out">
+          <canvas id="chart" data-ready="0" aria-label="Graphique généré"></canvas>
+          <p id="studioErr" class="studio-err" hidden></p>
+          <div class="studio-actions">
+            <button type="button" class="btn" id="studioDownload">Télécharger l'image (PNG)</button>
+            <button type="button" class="btn ghost" id="studioCopy">Copier le lien</button>
+            <button type="button" class="btn ghost" id="studioReset">Tout remettre à zéro</button>
+          </div>
+          <label class="studio-link">Lien de ce graphique<input id="studioLink" readonly></label>
+          <article class="cd-card"><h3>Les chiffres du graphique</h3><div id="studioData" class="table-scroll"></div></article>
+        </div>
+      </div>
+      <article class="cd-card studio-help" id="aide-agent">
+        <h3>Mode d'emploi pour un agent</h3>
+        <p>Chaque réglage est un paramètre de l'adresse. Exemple : <code>/admin-graphiques.html?type=bars&amp;metric=bench:hle&amp;top=8&amp;highlight=claude-fable-5-2</code>.
+        Quand le graphique est dessiné, la balise <code>canvas#chart</code> porte <code>data-ready="1"</code> ; le bouton « Télécharger l'image (PNG) » enregistre l'image.
+        Depuis la console : <code>ERAZStudio.render({ type: "card", models: "claude-fable-5-2" })</code> dessine et renvoie les chiffres, <code>ERAZStudio.dataURL()</code> renvoie l'image en PNG (base64).</p>
+        <table class="cd-table">
+          <thead><tr><th>Paramètre</th><th>Valeurs</th></tr></thead>
+          <tbody>
+            <tr><td><code>type</code></td><td><code>bars</code> classement sur une mesure · <code>evolution</code> points jour par jour · <code>scatter</code> points contre prix · <code>labs</code> labos dans le top · <code>compare</code> 2 à 4 modèles par catégorie · <code>card</code> fiche d'un modèle</td></tr>
+            <tr><td><code>metric</code></td><td><code>points</code>, <code>coverage</code>, <code>wins</code>, <code>priceIn</code>, <code>priceOut</code>, <code>aaii</code>, <code>cat:&lt;catégorie&gt;</code>, <code>bench:&lt;benchmark&gt;</code> (type bars)</td></tr>
+            <tr><td><code>top</code></td><td>nombre de modèles (1 à 25 ; pour <code>labs</code> : taille du top)</td></tr>
+            <tr><td><code>sort</code></td><td><code>desc</code> ou <code>asc</code></td></tr>
+            <tr><td><code>models</code></td><td>identifiants séparés par des virgules : modèles affichés (compare, card, evolution, ou sélection pour bars et scatter)</td></tr>
+            <tr><td><code>highlight</code></td><td>identifiants mis en avant en orange (bars, scatter)</td></tr>
+            <tr><td><code>org</code>, <code>open</code></td><td>filtre par labo ; <code>open=1</code> seulement les open weights, <code>open=0</code> seulement les fermés</td></tr>
+            <tr><td><code>preset</code></td><td>pondération : <code>balanced</code>, <code>reasoning</code>, <code>math</code>, <code>code</code>, <code>agents</code></td></tr>
+            <tr><td><code>x</code></td><td>prix du nuage : <code>priceOut</code> ou <code>priceIn</code></td></tr>
+            <tr><td><code>from</code>, <code>to</code></td><td>dates AAAA-MM-JJ (evolution)</td></tr>
+            <tr><td><code>title</code>, <code>subtitle</code>, <code>source</code></td><td>textes de l'image ; vides = textes automatiques</td></tr>
+            <tr><td><code>format</code></td><td><code>x</code> 1600×900 · <code>square</code> 1080×1080 · <code>portrait</code> 1080×1350</td></tr>
+            <tr><td><code>theme</code></td><td><code>dark</code> ou <code>light</code></td></tr>
+          </tbody>
+        </table>
+        <div id="studioIds" class="studio-ids"></div>
+        <p class="cd-note">Vérifiez toujours les chiffres du tableau « Les chiffres du graphique » avant d'écrire le texte du post : ce sont exactement ceux de l'image.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/" aria-label="ERAZ Index, accueil">
+          <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M16 3 29 28H3Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 13 22 25H10Z" fill="var(--accent)"/></svg>
+          <span>ERAZ<em>Index</em></span>
+        </a>
+        <p>Le classement de référence de l'intelligence artificielle, recalculé chaque jour à partir de quatorze benchmarks indépendants.</p>
+      </div>
+      <nav class="footer-col" aria-label="Pages du site">
+        <h4>L'index</h4>
+        <a href="/">Classement</a>
+        <a href="/analyses.html">Analyses</a>
+        <a href="/matrice.html">Matrice</a>
+        <a href="/benchmarks.html">Benchmarks</a>
+      </nav>
+      <div class="footer-col">
+        <h4>Données</h4>
+        <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis</a>
+        <a href="https://benchlm.ai" target="_blank" rel="noopener">BenchLM</a>
+        <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC Prize</a>
+        <a href="https://epoch.ai/frontiermath" target="_blank" rel="noopener">Epoch AI</a>
+        <h4 class="footer-sub">Suivre</h4>
+        <a href="https://x.com/erazindex" target="_blank" rel="noopener me">X · @erazindex</a>
+      </div>
+    </div>
+    <div class="wrap footer-base">
+      <span>© 2026 ERAZ Index · classement sous licence <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener license">CC BY 4.0</a></span>
+      <span>Données publiques agrégées · meilleure configuration publiée de chaque modèle · mise à jour quotidienne à 6 h UTC</span>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog">
+    <button class="icon-btn drawer-close" id="drawerClose" type="button" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="drawerBody"></div>
+  </aside>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="/data.js"></script>
+  <script src="/scores.js"></script>
+  <script src="/history.js"></script>
+  <script src="/scoring.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/app.js"></script>
+  <script src="/studio.js"></script>
+</body>
+</html>

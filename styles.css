@@ -464,3 +464,21 @@ a.tk:hover { color: var(--ink); text-decoration: none; background: var(--surface
 .x-bubble button { border: 0; background: none; color: var(--bg); opacity: .6; font-size: 17px; line-height: 1; padding: 2px 6px; cursor: pointer; border-radius: 4px; }
 .x-bubble button:hover { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .x-bubble { transition: none; } }
+
+/* Atelier graphiques (admin) */
+.studio-grid { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.studio-form { display: grid; gap: 12px; }
+.studio-form label, .studio-link { display: grid; gap: 5px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.studio-form input, .studio-form select, .studio-link input { font: inherit; font-weight: 400; font-size: 14px; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--ink); min-width: 0; }
+.studio-form select[multiple] { padding: 4px; }
+.studio-out { display: grid; gap: 12px; min-width: 0; }
+#chart { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); }
+.studio-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.studio .btn { font: inherit; font-weight: 600; font-size: 14px; padding: 9px 14px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+.studio .btn.ghost { background: transparent; color: var(--ink); border-color: var(--border); }
+.studio-err { color: #d95926; margin: 0; }
+.studio-help { margin-top: 16px; }
+.studio-help p { line-height: 1.6; }
+.studio-help code, .studio-ids code { font: 500 12.5px var(--mono); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+.studio-ids p { font-size: 13px; line-height: 2; }
+@media (max-width: 860px) { .studio-grid { grid-template-columns: 1fr; } }

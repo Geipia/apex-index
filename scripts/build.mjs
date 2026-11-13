@@ -41,6 +41,7 @@ const PAGES = {
   benchmarks: { fr: "/benchmarks.html", en: "/en/benchmarks.html" },
   about:      { fr: "/a-propos.html",   en: "/en/about.html" },
   admin:      { fr: "/admin.html" },
+  studio:     { fr: "/admin-graphiques.html" },
 };
 const modelUrl = (lang, id) => (lang === "en" ? `/en/model/${id}.html` : `/modele/${id}.html`);
 const fileOf = (url) => path.join(ROOT, url.endsWith("/") ? url + "index.html" : url);
@@ -79,7 +80,7 @@ const MARK = (s) => `<svg viewBox="0 0 32 32" width="${s}" height="${s}" aria-hi
 const X_ICON = `<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z" fill="currentColor"/></svg>`;
 
 // ---------- Gabarit commun ----------
-function layout({ lang, key, title, desc, url, alt, body, ld, noindex = false, noCount = false, charts = false, admin = false }) {
+function layout({ lang, key, title, desc, url, alt, body, ld, noindex = false, noCount = false, charts = false, admin = false, studio = false }) {
   const t = TX[lang];
   const navKeys = ["home", "analyses", "matrix", "benchmarks"];
   const altUrl = alt ? alt[t.other] : null;
@@ -87,7 +88,7 @@ function layout({ lang, key, title, desc, url, alt, body, ld, noindex = false, n
   <link rel="alternate" hreflang="fr" href="${SITE}${alt.fr}">
   <link rel="alternate" hreflang="en" href="${SITE}${alt.en}">
   <link rel="alternate" hreflang="x-default" href="${SITE}${alt.fr}">` : "";
-  const scripts = ["/data.js", "/scores.js", "/history.js", "/scoring.js", "/i18n.js", ...(charts ? ["/charts.js"] : []), "/app.js", ...(admin ? ["/admin.js"] : [])];
+  const scripts = ["/data.js", "/scores.js", "/history.js", "/scoring.js", "/i18n.js", ...(charts ? ["/charts.js"] : []), "/app.js", ...(admin ? ["/admin.js"] : []), ...(studio ? ["/studio.js"] : [])];
   const year = D.updated.slice(0, 4);
   // Langue automatique : à la première visite, on suit la langue du navigateur (français → FR, sinon → EN) ;
   // ensuite on respecte le choix mémorisé (bouton EN/FR). Les robots d'indexation ne sont jamais redirigés,
@@ -460,6 +461,56 @@ const adminBody = () => `    <section class="page-head wrap">
     </section>
     <section class="wrap section">
       <div id="admin"></div>
+      <p class="cd-note"><a href="${PAGES.studio.fr}">Atelier graphiques : fabriquer des images pour X →</a></p>
+    </section>`;
+
+// Atelier graphiques : images pour X, réglables par le formulaire ou par l'adresse (pour un agent).
+const studioBody = () => `    <section class="page-head wrap">
+      ${editionLine("fr", "Administration")}
+      <h1>Atelier graphiques</h1>
+      <p class="lede">Fabriquez une image à partir des données du jour du classement, puis téléchargez-la pour la publier sur X.</p>
+    </section>
+    <section class="wrap section studio">
+      <div class="studio-grid">
+        <form id="studioForm" class="cd-card studio-form" onsubmit="return false"></form>
+        <div class="studio-out">
+          <canvas id="chart" data-ready="0" aria-label="Graphique généré"></canvas>
+          <p id="studioErr" class="studio-err" hidden></p>
+          <div class="studio-actions">
+            <button type="button" class="btn" id="studioDownload">Télécharger l'image (PNG)</button>
+            <button type="button" class="btn ghost" id="studioCopy">Copier le lien</button>
+            <button type="button" class="btn ghost" id="studioReset">Tout remettre à zéro</button>
+          </div>
+          <label class="studio-link">Lien de ce graphique<input id="studioLink" readonly></label>
+          <article class="cd-card"><h3>Les chiffres du graphique</h3><div id="studioData" class="table-scroll"></div></article>
+        </div>
+      </div>
+      <article class="cd-card studio-help" id="aide-agent">
+        <h3>Mode d'emploi pour un agent</h3>
+        <p>Chaque réglage est un paramètre de l'adresse. Exemple : <code>/admin-graphiques.html?type=bars&amp;metric=bench:hle&amp;top=8&amp;highlight=claude-fable-5-2</code>.
+        Quand le graphique est dessiné, la balise <code>canvas#chart</code> porte <code>data-ready="1"</code> ; le bouton « Télécharger l'image (PNG) » enregistre l'image.
+        Depuis la console : <code>ERAZStudio.render({ type: "card", models: "claude-fable-5-2" })</code> dessine et renvoie les chiffres, <code>ERAZStudio.dataURL()</code> renvoie l'image en PNG (base64).</p>
+        <table class="cd-table">
+          <thead><tr><th>Paramètre</th><th>Valeurs</th></tr></thead>
+          <tbody>
+            <tr><td><code>type</code></td><td><code>bars</code> classement sur une mesure · <code>evolution</code> points jour par jour · <code>scatter</code> points contre prix · <code>labs</code> labos dans le top · <code>compare</code> 2 à 4 modèles par catégorie · <code>card</code> fiche d'un modèle</td></tr>
+            <tr><td><code>metric</code></td><td><code>points</code>, <code>coverage</code>, <code>wins</code>, <code>priceIn</code>, <code>priceOut</code>, <code>aaii</code>, <code>cat:&lt;catégorie&gt;</code>, <code>bench:&lt;benchmark&gt;</code> (type bars)</td></tr>
+            <tr><td><code>top</code></td><td>nombre de modèles (1 à 25 ; pour <code>labs</code> : taille du top)</td></tr>
+            <tr><td><code>sort</code></td><td><code>desc</code> ou <code>asc</code></td></tr>
+            <tr><td><code>models</code></td><td>identifiants séparés par des virgules : modèles affichés (compare, card, evolution, ou sélection pour bars et scatter)</td></tr>
+            <tr><td><code>highlight</code></td><td>identifiants mis en avant en orange (bars, scatter)</td></tr>
+            <tr><td><code>org</code>, <code>open</code></td><td>filtre par labo ; <code>open=1</code> seulement les open weights, <code>open=0</code> seulement les fermés</td></tr>
+            <tr><td><code>preset</code></td><td>pondération : <code>balanced</code>, <code>reasoning</code>, <code>math</code>, <code>code</code>, <code>agents</code></td></tr>
+            <tr><td><code>x</code></td><td>prix du nuage : <code>priceOut</code> ou <code>priceIn</code></td></tr>
+            <tr><td><code>from</code>, <code>to</code></td><td>dates AAAA-MM-JJ (evolution)</td></tr>
+            <tr><td><code>title</code>, <code>subtitle</code>, <code>source</code></td><td>textes de l'image ; vides = textes automatiques</td></tr>
+            <tr><td><code>format</code></td><td><code>x</code> 1600×900 · <code>square</code> 1080×1080 · <code>portrait</code> 1080×1350</td></tr>
+            <tr><td><code>theme</code></td><td><code>dark</code> ou <code>light</code></td></tr>
+          </tbody>
+        </table>
+        <div id="studioIds" class="studio-ids"></div>
+        <p class="cd-note">Vérifiez toujours les chiffres du tableau « Les chiffres du graphique » avant d'écrire le texte du post : ce sont exactement ceux de l'image.</p>
+      </article>
     </section>`;
 
 // ---------- Fiches modèles ----------
@@ -654,6 +705,7 @@ for (const key of Object.keys(BODIES)) {
   }
 }
 await out(PAGES.admin.fr, layout({ lang: "fr", key: null, title: "Administration — ERAZ Index", url: PAGES.admin.fr, body: adminBody(), noindex: true, noCount: true, admin: true }));
+await out(PAGES.studio.fr, layout({ lang: "fr", key: null, title: "Atelier graphiques — ERAZ Index", url: PAGES.studio.fr, body: studioBody(), noindex: true, noCount: true, studio: true }));
 
 for (const r of ROWS) {
   const alt = { fr: modelUrl("fr", r.m.id), en: modelUrl("en", r.m.id) };
