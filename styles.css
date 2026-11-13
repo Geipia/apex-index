@@ -482,3 +482,11 @@ a.tk:hover { color: var(--ink); text-decoration: none; background: var(--surface
 .studio-help code, .studio-ids code { font: 500 12.5px var(--mono); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
 .studio-ids p { font-size: 13px; line-height: 2; }
 @media (max-width: 860px) { .studio-grid { grid-template-columns: 1fr; } }
+
+/* Correctifs mobile : atelier graphiques et bulle X */
+@media (max-width: 760px) {
+  /* Le tableau du mode d'emploi déborde de la carte : défilement horizontal dans la carte. */
+  .studio-help { overflow-x: auto; }
+  /* La bulle X recouvre le menu sur petit écran : texte sur plusieurs lignes, largeur limitée. */
+  .x-bubble { right: 0; max-width: min(260px, calc(100vw - 32px)); white-space: normal; }
+}
