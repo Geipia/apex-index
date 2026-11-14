@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-11-13",
+  "updated": "2026-11-14",
   "models": {
     "claude-opus-5-5": {
       "s": {
@@ -635,9 +635,9 @@ window.APEX_SCORES = {
         "fswe": 18.1,
         "tb21": 62.9,
         "gdpval": 1773,
-        "omni": 0.7,
         "hle": 39.9,
         "gpqa": 91.2,
+        "omni": 0.7,
         "lcr": 80
       },
       "refs": {
@@ -734,10 +734,10 @@ window.APEX_SCORES = {
         "tb21": 67.4,
         "osw": 19.4,
         "gpqa": 92.6,
-        "omni": 10.5,
         "hle": 43.1,
         "lcr": 80.3,
-        "mmmu": 82.8
+        "mmmu": 82.8,
+        "omni": 10.5
       },
       "refs": {
         "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
