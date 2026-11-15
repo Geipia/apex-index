@@ -1,6 +1,6 @@
 // Fichier généré par scripts/update-data.mjs — ne pas modifier à la main.
 window.APEX_SCORES = {
-  "updated": "2026-11-14",
+  "updated": "2026-11-15",
   "models": {
     "claude-opus-5-5": {
       "s": {
