@@ -104,6 +104,42 @@ window.APEX_SCORES = {
       "open": false,
       "aaConfig": "GPT-6.1 Sol (max)"
     },
+    "gpt-6-2-astra": {
+      "s": {
+        "arc2": 95.8,
+        "arc3": 70.3,
+        "fm13": 92.6,
+        "fm4": 100,
+        "gpqa": 97,
+        "omni": 50,
+        "mmmu": 89.5
+      },
+      "refs": {
+        "arc2": "https://arcprize.org/results/openai-gpt-6-2-astra",
+        "arc3": "https://arcprize.org/results/openai-gpt-6-2-astra",
+        "fm13": "https://epoch.ai/benchmarks/frontiermath-tiers-1-3-v2",
+        "fm4": "https://epoch.ai/benchmarks/frontiermath-tier-4-v2?view=graph&tab=leaderboard",
+        "gpqa": "https://deploymentsafety.openai.com/gpt-6-2-astra-sol",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience",
+        "mmmu": "https://artificialanalysis.ai/evaluations/mmmu-pro"
+      },
+      "benchlmUpdated": "November 19, 2026"
+    },
+    "gpt-6-2-sol": {
+      "s": {
+        "arc2": 85.8,
+        "arc3": 54.9,
+        "gpqa": 96,
+        "omni": 40.4
+      },
+      "refs": {
+        "arc2": "https://arcprize.org/results/openai-gpt-6-2-sol",
+        "arc3": "https://arcprize.org/results/openai-gpt-6-2-sol",
+        "gpqa": "https://deploymentsafety.openai.com/gpt-6-2-astra-sol",
+        "omni": "https://artificialanalysis.ai/evaluations/omniscience"
+      },
+      "benchlmUpdated": "November 19, 2026"
+    },
     "claude-fable-5-1": {
       "s": {
         "hle": 59.1,

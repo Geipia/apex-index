@@ -85,18 +85,18 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/claude-fable-5-2.html"/>
   </url>
   <url>
-    <loc>https://eraz.ovh/modele/gpt-6-astra.html</loc>
+    <loc>https://eraz.ovh/modele/gpt-6-2-astra.html</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>daily</changefreq>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-astra.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-astra.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-2-astra.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-2-astra.html"/>
   </url>
   <url>
-    <loc>https://eraz.ovh/en/model/gpt-6-astra.html</loc>
+    <loc>https://eraz.ovh/en/model/gpt-6-2-astra.html</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>daily</changefreq>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-astra.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-astra.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-2-astra.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-2-astra.html"/>
   </url>
   <url>
     <loc>https://eraz.ovh/modele/claude-opus-5-5.html</loc>
@@ -111,6 +111,20 @@
     <changefreq>daily</changefreq>
     <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/claude-opus-5-5.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/claude-opus-5-5.html"/>
+  </url>
+  <url>
+    <loc>https://eraz.ovh/modele/gpt-6-astra.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-astra.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-astra.html"/>
+  </url>
+  <url>
+    <loc>https://eraz.ovh/en/model/gpt-6-astra.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-astra.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-astra.html"/>
   </url>
   <url>
     <loc>https://eraz.ovh/modele/gemini-4-carbon.html</loc>
@@ -169,20 +183,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-1-sol.html"/>
   </url>
   <url>
-    <loc>https://eraz.ovh/modele/gemini-4-argon.html</loc>
-    <lastmod>2026-11-19</lastmod>
-    <changefreq>daily</changefreq>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gemini-4-argon.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gemini-4-argon.html"/>
-  </url>
-  <url>
-    <loc>https://eraz.ovh/en/model/gemini-4-argon.html</loc>
-    <lastmod>2026-11-19</lastmod>
-    <changefreq>daily</changefreq>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gemini-4-argon.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gemini-4-argon.html"/>
-  </url>
-  <url>
     <loc>https://eraz.ovh/modele/claude-sonnet-5-5.html</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>daily</changefreq>
@@ -197,6 +197,20 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/claude-sonnet-5-5.html"/>
   </url>
   <url>
+    <loc>https://eraz.ovh/modele/gemini-4-argon.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gemini-4-argon.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gemini-4-argon.html"/>
+  </url>
+  <url>
+    <loc>https://eraz.ovh/en/model/gemini-4-argon.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gemini-4-argon.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gemini-4-argon.html"/>
+  </url>
+  <url>
     <loc>https://eraz.ovh/modele/gpt-5-6-sol.html</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>daily</changefreq>
@@ -209,6 +223,20 @@
     <changefreq>daily</changefreq>
     <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-5-6-sol.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-5-6-sol.html"/>
+  </url>
+  <url>
+    <loc>https://eraz.ovh/modele/gpt-6-2-sol.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-2-sol.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-2-sol.html"/>
+  </url>
+  <url>
+    <loc>https://eraz.ovh/en/model/gpt-6-2-sol.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://eraz.ovh/modele/gpt-6-2-sol.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eraz.ovh/en/model/gpt-6-2-sol.html"/>
   </url>
   <url>
     <loc>https://eraz.ovh/modele/muse-wonder-full.html</loc>
