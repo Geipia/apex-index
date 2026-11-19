@@ -88,6 +88,13 @@ window.APEX_DATA = {
     { id: "gpt-6-1-sol", name: "GPT-6.1 Sol", org: "OpenAI", open: false, ctx: "1.05M", aaii: 52,
       src: "https://benchlm.ai/models/gpt-6-1-sol",
       s: { hle: 52.9, arc2: 94.2, arc3: 52.7, fm13: 93.7, fm4: 100, gdpval: 1594, omni: 41.5, lcr: 83.0, mmmu: 86.0 } },
+    // Ajoutés le 19/11/2026 : résultats publiés sur BenchLM et Artificial Analysis (relevé du 19/11).
+    { id: "gpt-6-2-astra", name: "GPT-6.2 Astra", org: "OpenAI", open: false, ctx: "1.05M", aaii: 62.1,
+      src: "https://benchlm.ai/models/gpt-6-2-astra",
+      s: { arc2: 95.8, arc3: 70.3, fm13: 92.6, fm4: 100, gpqa: 97.0, omni: 50.0, mmmu: 89.5 } },
+    { id: "gpt-6-2-sol", name: "GPT-6.2 Sol", org: "OpenAI", open: false, ctx: "1.05M", aaii: 57.3,
+      src: "https://benchlm.ai/models/gpt-6-2-sol",
+      s: { arc2: 85.8, arc3: 54.9, gpqa: 96.0, omni: 40.4 } },
     { id: "claude-fable-5-1", name: "Claude Fable 5.1", org: "Anthropic", open: false, ctx: "1M", aaii: 53,
       src: "https://benchlm.ai/models/claude-fable-5-1",
       s: { hle: 59.1, arc2: 90.0, fm13: 90.2, fm4: 87.8, swepro: 81.2, fswe: 56.3, tb21: 85.0, osw: 41.7, gdpval: 1754, gpqa: 93.7, omni: 43.5, lcr: 85.3 } },
