@@ -36,12 +36,12 @@ https://eraz.ovh/modele/muse-wonder-full.html
 https://eraz.ovh/en/model/muse-wonder-full.html
 https://eraz.ovh/modele/gpt-5-6-terra.html
 https://eraz.ovh/en/model/gpt-5-6-terra.html
-https://eraz.ovh/modele/muse-wonder.html
-https://eraz.ovh/en/model/muse-wonder.html
 https://eraz.ovh/modele/kimi-k3.html
 https://eraz.ovh/en/model/kimi-k3.html
 https://eraz.ovh/modele/step-5-preview.html
 https://eraz.ovh/en/model/step-5-preview.html
+https://eraz.ovh/modele/muse-wonder.html
+https://eraz.ovh/en/model/muse-wonder.html
 https://eraz.ovh/modele/gemini-3-8-flash.html
 https://eraz.ovh/en/model/gemini-3-8-flash.html
 https://eraz.ovh/modele/deepseek-v4-1-flash.html
